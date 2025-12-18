@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
+import TechStack from './components/TechStack';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -16,11 +17,7 @@ function App() {
           </div>
         );
       case 'stack':
-        return (
-          <div className="flex items-center justify-center min-h-[80vh] animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-4xl font-bold text-gray-500">[ SECTION: TECH_STACK ]</h2>
-          </div>
-        );
+        return <TechStack />;
       case 'projects':
         return (
           <div className="flex items-center justify-center min-h-[80vh] animate-in fade-in zoom-in-95 duration-500">
