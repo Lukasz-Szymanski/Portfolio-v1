@@ -2,6 +2,10 @@ import { useState } from 'react';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import TechStack from './components/TechStack';
+import Projects from './components/Projects';
+import About from './components/About';
+import Hobby from './components/Hobby';
+import Contact from './components/Contact';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -11,31 +15,15 @@ function App() {
       case 'home':
         return <Hero />;
       case 'about':
-        return (
-          <div className="flex items-center justify-center min-h-[80vh] animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-4xl font-bold text-gray-500">[ SECTION: ABOUT_ME ]</h2>
-          </div>
-        );
+        return <About />;
       case 'stack':
         return <TechStack />;
       case 'projects':
-        return (
-          <div className="flex items-center justify-center min-h-[80vh] animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-4xl font-bold text-gray-500">[ SECTION: PROJECTS ]</h2>
-          </div>
-        );
+        return <Projects />;
       case 'hobby':
-        return (
-           <div className="flex items-center justify-center min-h-[80vh] animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-4xl font-bold text-gray-500">[ SECTION: HOBBY ]</h2>
-          </div>
-        );
+        return <Hobby />;
       case 'contact':
-        return (
-           <div className="flex items-center justify-center min-h-[80vh] animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-4xl font-bold text-gray-500">[ SECTION: CONTACT ]</h2>
-          </div>
-        );
+        return <Contact />;
       default:
         return <Hero />;
     }
