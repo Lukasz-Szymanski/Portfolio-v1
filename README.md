@@ -1,34 +1,89 @@
-# Engineering Portfolio: Microservices Ecosystem (2025)
+# Portfolio v1.0: Microservices Architecture 🚀
 
-## 🏗 System Architecture
-Ten projekt to demonstracja architektury typu **Headless**, gdzie wiele wyspecjalizowanych mikroserwisów backendowych komunikuje się z jednym, nowoczesnym frontendem w React.
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+[![Docker](https://img.shields.io/badge/docker-compose-blue.svg)](https://www.docker.com/)
+[![Python](https://img.shields.io/badge/python-3.11-yellow.svg)](https://www.python.org/)
+[![React](https://img.shields.io/badge/react-18-blue.svg)](https://react.dev/)
 
-### Struktura Projektu (Monorepo)
-- `/frontend-landing` - React + Vite (Dashboard integrujący wszystkie moduły).
-- `/service-fintech` - Django Ninja + PostgreSQL (Symulator płatności, HMAC, Idempotency).
-- `/service-b2b-data` - FastAPI + Redis (Weryfikator firm, Caching Strategy).
-- `/service-price-monitor` - Python + Celery + Redis (Worker asynchroniczny, Scraping).
-- `docker-compose.yml` - Orkiestracja całego środowiska.
-- `nginx.conf` - Reverse Proxy (API Gateway).
+Profesjonalne portfolio Software Developera zbudowane w oparciu o architekturę mikroserwisów.
+Projekt demonstruje umiejętność łączenia nowoczesnego Frontendu (React/Vite) z wydajnym Backendem (FastAPI, Django Ninja) oraz infrastrukturą kontenerową (Docker, Nginx, Redis, PostgreSQL).
 
-## 🚀 Technologie & Standardy 2025
-Jako backend-heavy developer, kładę nacisk na jakość kodu i bezpieczeństwo:
-- **Code Quality:** `Ruff` (lint/format), `Mypy` (strict typing).
-- **Architecture:** Domain Driven Design (DDD) elements, Repository Pattern, Dependency Injection.
-- **Infrastructure:** Docker, Redis as Broker & Cache, PostgreSQL as Source of Truth.
-- **Frontend:** TypeScript, TanStack Query (Server State Management), Tailwind CSS.
+## 🎯 O Projekcie
 
-## 🛠 Jak uruchomić?
-Całość jest zdokeryzowana, co pozwala na uruchomienie ekosystemu jedną komendą:
+Ten projekt to moja osobista droga do zostania **Junior Python Developerem**. Zamiast tworzyć statyczną stronę "O mnie", postanowiłem zbudować pełnoprawny system mikroserwisowy, który pokazuje moje rzeczywiste umiejętności w zakresie:
+- Projektowania systemów (System Design).
+- Pracy z kontenerami (Docker).
+- Komunikacji między usługami (REST API, Redis).
+- Nowoczesnego frontendu (React SPA).
 
-```bash
-docker-compose up --build
-```
+To portfolio jest "żywym dokumentem" mojego rozwoju – każda linijka kodu została napisana z myślą o dobrych praktykach i skalowalności.
 
-Serwisy będą dostępne pod wspólnym portem przez Nginx Gateway:
-- Frontend: `http://localhost/`
-- Fintech API: `http://localhost/api/fintech/docs`
-- B2B Data API: `http://localhost/api/company/docs`
+## 🏗️ Architektura Systemu
+
+System składa się z niezależnych kontenerów orkiestrowanych przez Docker Compose:
+
+| Usługa | Technologia | Rola | Port (Wew.) |
+|--------|------------|------|-------------|
+| **Gateway** | Nginx | Reverse Proxy, Routing, SSL Termination | 80 |
+| **Frontend** | React + Vite + Tailwind | Interfejs użytkownika (SPA) | 5173 |
+| **B2B Service** | Python (FastAPI) | Weryfikacja NIP, Cache'owanie danych firm | 8001 |
+| **Fintech Core** | Python (Django Ninja) | Symulator transakcji, HMAC, Idempotency | 8000 |
+| **Price Monitor** | Python (Celery) | Asynchroniczne zadania w tle, Scraping | 8002 |
+| **Cache** | Redis | Szybki dostęp do danych, Broker wiadomości | 6379 |
+| **Database** | PostgreSQL | Główny magazyn danych relacyjnych | 5432 |
 
 ---
-*Dokumentacja techniczna poszczególnych modułów znajduje się w pliku `brief.md`.*
+
+## 🌟 Główne Funkcjonalności (Live Demo)
+
+### 1. B2B Company Verifier (Dostępny)
+Mikroserwis do weryfikacji danych kontrahenta na podstawie NIP.
+- **Cache Strategy:** Pierwsze zapytanie trwa 1.5s (symulacja GUS), kolejne są natychmiastowe (Redis).
+- **Endpoint:** `/api/v1/companies/{nip}`
+
+### 2. Fintech Simulator (W budowie) 🚧
+Symulacja systemu bankowego.
+- Podpisywanie requestów (HMAC SHA256).
+- Klucze idempotentności (zapobieganie podwójnym przelewom).
+
+---
+
+## 🛠️ Instrukcja Uruchomienia
+
+Wymagania: `Docker` oraz `Docker Compose`.
+
+1. **Sklonuj repozytorium:**
+   ```bash
+   git clone https://github.com/TwojNick/portfolio-v1.git
+   cd portfolio-v1
+   ```
+
+2. **Uruchom środowisko:**
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. **Dostęp do aplikacji:**
+   - **Frontend:** [http://localhost](http://localhost)
+   - **API Docs (B2B):** [http://localhost:8001/docs](http://localhost:8001/docs)
+
+---
+
+## 📂 Struktura Projektu
+
+```bash
+├── docker-compose.yml    # Orkiestracja całej infrastruktury
+├── nginx/                # Konfiguracja Gateway (Reverse Proxy)
+├── frontend-landing/     # Kod źródłowy SPA (React + TypeScript)
+├── service-b2b-data/     # Mikroserwis FastAPI (Redis Cache)
+└── docs/                 # Dokumentacja techniczna i plany rozwoju
+```
+
+## 👨‍💻 Autor
+
+**Łukasz** - *Aspiring Python Architect & Backend Developer*
+- Specjalizacja: Python, Docker, Cloud Architecture.
+- Kontakt: [Link do LinkedIn]
+
+---
+*Projekt stworzony w celach edukacyjnych i demonstracyjnych.*
