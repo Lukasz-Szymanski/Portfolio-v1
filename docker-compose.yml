@@ -61,6 +61,19 @@ services:
     networks:
       - portfolio_network
 
+  service-monitor:
+    build: ./service-price-monitor
+    container_name: monitor_service
+    volumes:
+      - ./service-price-monitor:/app
+    command: celery -A main worker --loglevel=info -B
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    networks:
+      - portfolio_network
+
   # --- FRONTEND (React + Vite) ---
   frontend:
     build: ./frontend-landing

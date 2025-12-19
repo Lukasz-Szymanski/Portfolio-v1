@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "service-price-monitor"
+version = "0.1.0"
+description = "Background worker for monitoring crypto prices using Celery"
+authors = ["Dyzio <dyzio@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+celery = "^5.3.6"
+redis = "^5.0.1"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

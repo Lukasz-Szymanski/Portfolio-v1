@@ -8,7 +8,18 @@ from .schemas import AccountCreateSchema, AccountSchema, TransferSchema
 import random
 import string
 
+from celery import Celery
+
+# Konfiguracja klienta do zlecania zadań
+celery_app = Celery("fintech_producer", broker="redis://redis:6379/0")
+
 router = Router()
+
+@router.get("/test-worker")
+def trigger_worker_task(request):
+    """Zleca zadanie do Workera (Celery)"""
+    celery_app.send_task("main.say_hello")
+    return {"status": "Zadanie wysłane do kolejki Redisa!"}
 
 def generate_account_number():
     """Generuje losowy 26-cyfrowy numer konta (symulacja IBAN)"""
