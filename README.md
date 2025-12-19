@@ -64,10 +64,12 @@ Wymagania: `Docker` oraz `Docker Compose`.
    docker compose up -d --build
    ```
 
-3. **Dostęp do aplikacji:**
-   - **Frontend:** [http://localhost](http://localhost)
-   - **API Docs (B2B):** [http://localhost:8001/docs](http://localhost:8001/docs)
-   - **API Docs (Fintech):** [http://localhost:8002/api/docs](http://localhost:8002/api/docs)
+3. **Dostęp do aplikacji (przez Gateway):**
+   - **Główny interfejs (Frontend):** [http://localhost](http://localhost)
+   - **API Fintech (Swagger przez Gateway):** [http://localhost/api/fintech/docs](http://localhost/api/fintech/docs)
+   - **API B2B (Bezpośrednio):** [http://localhost:8001/docs](http://localhost:8001/docs)
+
+*Uwaga: Fintech Service jest już w pełni zintegrowany z Reverse Proxy (Nginx). Zapytania pod `/api/fintech/` są automatycznie przekierowywane do kontenera Django Ninja.*
 
 ---
 
