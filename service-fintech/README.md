@@ -29,12 +29,21 @@ docker exec -it fintech_service python manage.py createsuperuser
 - **Swagger UI:** `http://localhost:8002/api/docs`
 - **Django Admin:** `http://localhost:8002/admin/`
 
-### Przykładowy test (Tworzenie konta)
-Wyślij `POST` na `/api/accounts/` z body:
+### Przelewy (Transfer)
+Endpoint: `POST /api/accounts/transfer`
+
+System wymaga dwóch różnych typów identyfikatorów:
+1. **sender_account_id**: Techniczny identyfikator `UUID` (pobierz go z `GET /api/accounts/{user_id}`).
+2. **receiver_account_number**: Publiczny, 26-cyfrowy numer konta odbiorcy.
+
+**Przykładowy JSON przelewu:**
 ```json
 {
-  "user_id": 1,
-  "currency": "PLN"
+  "sender_account_id": "031efd9d-0b1f-483b-a43a-fa42182bcb54",
+  "receiver_account_number": "92015913777843036158574985",
+  "amount": 100.00,
+  "description": "Czynsz za grudzień"
 }
 ```
-*Uwaga: Pole `currency` musi mieć dokładnie 3 znaki (np. PLN, USD, EUR). Przesłanie dłuższej wartości zwróci błąd 422.*
+
+*Logika przelewu jest atomowa (ACID) - jeśli odbiorca nie istnieje lub nadawca nie ma środków, żadne zmiany nie zostaną zapisane w bazie.*

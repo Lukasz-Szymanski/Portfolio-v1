@@ -1,8 +1,10 @@
 from typing import List
 from ninja import Router
+from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
-from .models import Account
-from .schemas import AccountCreateSchema, AccountSchema
+from django.db import transaction
+from .models import Account, Transaction
+from .schemas import AccountCreateSchema, AccountSchema, TransferSchema
 import random
 import string
 
@@ -11,6 +13,56 @@ router = Router()
 def generate_account_number():
     """Generuje losowy 26-cyfrowy numer konta (symulacja IBAN)"""
     return ''.join(random.choices(string.digits, k=26))
+
+@router.post("/transfer", response={200: dict, 400: dict, 404: dict})
+def make_transfer(request, payload: TransferSchema):
+    """
+    Wykonuje bezpieczny przelew środków między kontami (ACID).
+    """
+    # 1. Pobieramy konta (poza transakcją, żeby szybko odrzucić błędy)
+    sender = get_object_or_404(Account, id=payload.sender_account_id)
+    
+    try:
+        receiver = Account.objects.get(account_number=payload.receiver_account_number)
+    except Account.DoesNotExist:
+        return 404, {"message": "Konto odbiorcy nie istnieje"}
+
+    if sender.currency != receiver.currency:
+        return 400, {"message": "Przelewy międzywalutowe nie są jeszcze obsługiwane"}
+
+    # 2. Blok atomowy - wszystko albo nic
+    with transaction.atomic():
+        # Blokujemy rekord nadawcy do zapisu (select_for_update), aby uniknąć Race Condition
+        # (gdyby użytkownik kliknął przelew 2 razy w milisekundę)
+        sender = Account.objects.select_for_update().get(id=sender.id)
+        
+        if sender.balance < payload.amount:
+            return 400, {"message": "Niewystarczające środki na koncie"}
+
+        # Wykonujemy operacje
+        sender.balance -= payload.amount
+        sender.save()
+
+        receiver.balance += payload.amount
+        receiver.save()
+
+        # Tworzymy historię dla nadawcy
+        Transaction.objects.create(
+            account=sender,
+            amount=-payload.amount,
+            transaction_type='TRANSFER_OUT',
+            description=f"Do: {receiver.account_number} | {payload.description}"
+        )
+
+        # Tworzymy historię dla odbiorcy
+        Transaction.objects.create(
+            account=receiver,
+            amount=payload.amount,
+            transaction_type='TRANSFER_IN',
+            description=f"Od: {sender.account_number} | {payload.description}"
+        )
+
+    return 200, {"message": "Przelew wykonany pomyślnie", "new_balance": sender.balance}
 
 @router.post("/", response=AccountSchema)
 def create_account(request, payload: AccountCreateSchema):
