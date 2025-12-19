@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "service-fintech"
+version = "0.1.0"
+description = "Fintech simulator using Django Ninja and PostgreSQL"
+authors = ["Dyzio <dyzio@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0"
+django-ninja = "^1.1"
+psycopg = {extras = ["binary"], version = "^3.1.18"} # Nowoczesny sterownik Postgres z binarkami
+uvicorn = "^0.27.0"
+pydantic = "^2.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

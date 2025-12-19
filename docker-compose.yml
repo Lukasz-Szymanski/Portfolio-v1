@@ -40,6 +40,27 @@ services:
     networks:
       - portfolio_network
 
+  service-fintech:
+    build: ./service-fintech
+    container_name: fintech_service
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./service-fintech:/app
+    command: uvicorn core.asgi:application --host 0.0.0.0 --port 8002 --reload
+    environment:
+      - POSTGRES_DB=portfolio_main
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=postgres
+      - SECRET_KEY=dev_secret_key
+      - DEBUG=True
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - portfolio_network
+
   # --- FRONTEND (React + Vite) ---
   frontend:
     build: ./frontend-landing

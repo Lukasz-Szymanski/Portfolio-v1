@@ -27,8 +27,8 @@ System składa się z niezależnych kontenerów orkiestrowanych przez Docker Com
 | **Gateway** | Nginx | Reverse Proxy, Routing, SSL Termination | 80 |
 | **Frontend** | React + Vite + Tailwind | Interfejs użytkownika (SPA) | 5173 |
 | **B2B Service** | Python (FastAPI) | Weryfikacja NIP, Cache'owanie danych firm | 8001 |
-| **Fintech Core** | Python (Django Ninja) | Symulator transakcji, HMAC, Idempotency | 8000 |
-| **Price Monitor** | Python (Celery) | Asynchroniczne zadania w tle, Scraping | 8002 |
+| **Fintech Core** | Python (Django Ninja) | Symulator transakcji, HMAC, Idempotency | 8002 |
+| **Price Monitor** | Python (Celery) | Asynchroniczne zadania w tle, Scraping | - |
 | **Cache** | Redis | Szybki dostęp do danych, Broker wiadomości | 6379 |
 | **Database** | PostgreSQL | Główny magazyn danych relacyjnych | 5432 |
 
@@ -45,6 +45,7 @@ Mikroserwis do weryfikacji danych kontrahenta na podstawie NIP.
 Symulacja systemu bankowego.
 - Podpisywanie requestów (HMAC SHA256).
 - Klucze idempotentności (zapobieganie podwójnym przelewom).
+- **Endpoint:** `http://localhost:8002/api/docs`
 
 ---
 
@@ -66,6 +67,7 @@ Wymagania: `Docker` oraz `Docker Compose`.
 3. **Dostęp do aplikacji:**
    - **Frontend:** [http://localhost](http://localhost)
    - **API Docs (B2B):** [http://localhost:8001/docs](http://localhost:8001/docs)
+   - **API Docs (Fintech):** [http://localhost:8002/api/docs](http://localhost:8002/api/docs)
 
 ---
 
@@ -76,6 +78,7 @@ Wymagania: `Docker` oraz `Docker Compose`.
 ├── nginx/                # Konfiguracja Gateway (Reverse Proxy)
 ├── frontend-landing/     # Kod źródłowy SPA (React + TypeScript)
 ├── service-b2b-data/     # Mikroserwis FastAPI (Redis Cache)
+├── service-fintech/      # Mikroserwis Django Ninja (Fintech Core)
 └── docs/                 # Dokumentacja techniczna i plany rozwoju
 ```
 
