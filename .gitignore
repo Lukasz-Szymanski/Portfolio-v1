@@ -25,6 +25,7 @@ build/
 .cache/
 
 # Project specific
+NEXT_STEPS.md
 docs/
 
 # Docker

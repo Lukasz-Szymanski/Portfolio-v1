@@ -25,7 +25,7 @@ System składa się z niezależnych kontenerów orkiestrowanych przez Docker Com
 | Usługa | Technologia | Rola | Port (Wew.) |
 |--------|------------|------|-------------|
 | **Gateway** | Nginx | Reverse Proxy, Routing, SSL Termination | 80 |
-| **Frontend** | React + Vite + Tailwind | Interfejs użytkownika (SPA) | 5173 |
+| **Frontend** | React + Vite + Tailwind | Landing Page + Fintech Dashboard (SPA) | 5173 |
 | **B2B Service** | Python (FastAPI) | Weryfikacja NIP, Cache'owanie danych firm | 8001 |
 | **Fintech Core** | Python (Django Ninja) | Symulator transakcji, HMAC, Idempotency | 8002 |
 | **Price Monitor** | Python (Celery) | Asynchroniczne zadania w tle, Scraping | - |
