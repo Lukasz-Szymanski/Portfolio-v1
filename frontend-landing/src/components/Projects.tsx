@@ -31,7 +31,7 @@ const Projects: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto py-12 animate-in fade-in zoom-in-95 duration-700">
+    <div id="projects" className="max-w-7xl mx-auto py-12 animate-in fade-in zoom-in-95 duration-700">
       
       <div className="flex flex-col mb-12">
         <span className="text-blue-500 font-mono text-sm mb-2 tracking-wider uppercase">Architecture_Exhibits</span>

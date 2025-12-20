@@ -6,98 +6,85 @@ import TransferForm from '../components/dashboard/TransferForm';
 import TransactionHistory from '../components/dashboard/TransactionHistory';
 import CompanyVerifier from '../components/dashboard/CompanyVerifier';
 import CryptoTicker from '../components/dashboard/CryptoTicker';
-import { AlertCircle, LayoutDashboard, Shield, Search, BarChart3 } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 function DashboardPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentView = searchParams.get('view') || 'overview';
+  const [searchParams] = useSearchParams();
+  // Domyślnie otwieramy Fintech, jeśli nie podano widoku
+  const currentView = searchParams.get('view') || 'fintech';
   
   const userId = 1;
 
+  // Pobieramy dane kont tylko jeśli jesteśmy w widoku Fintech
   const { data: accounts, isLoading, isError } = useQuery({
     queryKey: ['accounts', userId],
     queryFn: () => fintechApi.getAccounts(userId),
-    enabled: currentView === 'overview' || currentView === 'fintech' // Pobieraj tylko gdy potrzebne
+    enabled: currentView === 'fintech'
   });
 
-  const tabs = [
-    { id: 'overview', label: 'Overview', icon: <LayoutDashboard size={18} /> },
-    { id: 'fintech', label: 'Fintech Core', icon: <Shield size={18} /> },
-    { id: 'b2b', label: 'B2B Verifier', icon: <Search size={18} /> },
-    { id: 'monitor', label: 'Price Monitor', icon: <BarChart3 size={18} /> },
-  ];
+  // Konfiguracja nagłówka w zależności od widoku
+  const getHeaderContent = () => {
+    switch (currentView) {
+      case 'fintech':
+        return {
+          title: 'Fintech Core Demo',
+          subtitle: 'Banking System Simulation (Django Ninja + PostgreSQL)',
+          gradient: 'from-blue-400 to-cyan-400'
+        };
+      case 'b2b':
+        return {
+          title: 'B2B Verifier Demo',
+          subtitle: 'Contractor Data Verification (FastAPI + Redis)',
+          gradient: 'from-emerald-400 to-teal-400'
+        };
+      case 'monitor':
+        return {
+          title: 'Price Monitor Demo',
+          subtitle: 'Background Workers & Real-time Data (Celery + Redis)',
+          gradient: 'from-purple-400 to-pink-400'
+        };
+      default:
+        return {
+          title: 'Project Demo',
+          subtitle: 'Select a project from the main page',
+          gradient: 'from-gray-400 to-white'
+        };
+    }
+  };
+
+  const header = getHeaderContent();
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-white p-8 font-sans">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
         
         {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4 border-b border-slate-800 pb-8">
           <div>
-             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                Fintech Dashboard
+             <h1 className={`text-3xl font-bold bg-gradient-to-r ${header.gradient} bg-clip-text text-transparent`}>
+                {header.title}
              </h1>
-             <p className="text-slate-400 text-sm mt-1">Microservices Control Center</p>
+             <p className="text-slate-400 text-sm mt-1 font-mono tracking-wide">{header.subtitle}</p>
           </div>
-          <Link to="/" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-            &larr; Return to Portfolio
-          </Link>
+          <div className="flex gap-4">
+             {/* Używamy zwykłego tagu <a> aby wymusić poprawne działanie kotwicy #projects */}
+             <a href="/#projects" className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition-colors text-sm font-medium border border-slate-700">
+               &larr; Back to Projects
+             </a>
+          </div>
         </header>
 
-        {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 mb-12 border-b border-slate-700/50 pb-1">
-            {tabs.map(tab => (
-                <button
-                    key={tab.id}
-                    onClick={() => setSearchParams({ view: tab.id })}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-colors text-sm font-medium ${
-                        currentView === tab.id 
-                        ? 'bg-slate-800 text-white border-b-2 border-blue-500' 
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                    }`}
-                >
-                    {tab.icon}
-                    {tab.label}
-                </button>
-            ))}
-        </div>
-
-        {/* Global Error */}
-        {isError && (currentView === 'fintech' || currentView === 'overview') && (
+        {/* Global Error (dla Fintechu) */}
+        {isError && currentView === 'fintech' && (
           <div className="bg-red-500/10 border border-red-500 text-red-400 p-4 rounded-lg flex items-center gap-2 mb-8">
             <AlertCircle size={20} />
             <span>Failed to connect to Fintech Service. Please ensure the backend containers are running.</span>
           </div>
         )}
 
-        {/* --- VIEW: OVERVIEW --- */}
-        {currentView === 'overview' && (
-            <div className="text-center py-20">
-                <h2 className="text-2xl text-slate-300 font-bold mb-4">Welcome to the Control Center</h2>
-                <p className="text-slate-500 max-w-lg mx-auto mb-8">
-                    Select a module from the tabs above or launch a specific demo from the portfolio page.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                    {/* Skróty */}
-                    <div onClick={() => setSearchParams({ view: 'fintech' })} className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 hover:border-blue-500 cursor-pointer transition-all">
-                        <Shield className="text-blue-400 mb-4" size={32} />
-                        <h3 className="font-bold text-white">Fintech Core</h3>
-                    </div>
-                    <div onClick={() => setSearchParams({ view: 'b2b' })} className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 hover:border-emerald-500 cursor-pointer transition-all">
-                        <Search className="text-emerald-400 mb-4" size={32} />
-                        <h3 className="font-bold text-white">B2B Verifier</h3>
-                    </div>
-                    <div onClick={() => setSearchParams({ view: 'monitor' })} className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 hover:border-purple-500 cursor-pointer transition-all">
-                        <BarChart3 className="text-purple-400 mb-4" size={32} />
-                        <h3 className="font-bold text-white">Price Monitor</h3>
-                    </div>
-                </div>
-            </div>
-        )}
-
         {/* --- VIEW: FINTECH --- */}
         {currentView === 'fintech' && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div>
                 {isLoading && <div className="text-gray-400 animate-pulse text-center py-12">Loading financial data...</div>}
                 
                 {accounts && (
@@ -131,13 +118,8 @@ function DashboardPage() {
 
         {/* --- VIEW: B2B --- */}
         {currentView === 'b2b' && (
-            <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="max-w-2xl mx-auto">
                 <section>
-                    <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-emerald-500 pl-3">Contractor Verification</h2>
-                    <p className="text-slate-400 mb-8">
-                        This module connects to the <strong>FastAPI Service</strong> via Redis Cache. 
-                        Enter a NIP number to verify company details instantly.
-                    </p>
                     <CompanyVerifier />
                 </section>
             </div>
@@ -145,23 +127,25 @@ function DashboardPage() {
 
         {/* --- VIEW: MONITOR --- */}
         {currentView === 'monitor' && (
-            <div className="max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="max-w-3xl mx-auto">
                 <section>
-                    <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-purple-500 pl-3">Real-time Price Monitor</h2>
-                    <p className="text-slate-400 mb-8">
-                        Data fetched by background <strong>Celery Workers</strong>, stored in Redis, and served via FastAPI.
-                        Updates automatically every 60 seconds.
-                    </p>
-                    <div className="transform scale-110 origin-top">
+                    <div className="transform scale-110 origin-top mb-12">
                         <CryptoTicker />
                     </div>
                     
-                    <div className="mt-12 bg-slate-900 rounded-lg p-6 border border-slate-800 font-mono text-xs text-slate-500">
-                        <p className="mb-2 text-purple-400 font-bold">// Worker Logs Simulation</p>
+                    <div className="bg-slate-900 rounded-lg p-6 border border-slate-800 font-mono text-xs text-slate-500 shadow-2xl">
+                        <div className="flex items-center gap-2 mb-4 pb-2 border-b border-slate-800">
+                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span className="ml-2 text-slate-400">worker_logs.log</span>
+                        </div>
+                        <p className="mb-2 text-purple-400 font-bold">// Worker Activity Simulation</p>
                         <p>[2025-12-20 14:00:01] INFO/Beat: Waking up...</p>
                         <p>[2025-12-20 14:00:01] INFO/MainProcess: Sending task 'fetch_crypto_prices'</p>
                         <p>[2025-12-20 14:00:02] INFO/Worker: Task received. Fetching from CoinGecko...</p>
-                        <p>[2025-12-20 14:00:02] INFO/Worker: Success. Data saved to Redis key 'crypto:btc'.</p>
+                        <p className="text-emerald-500">[2025-12-20 14:00:02] INFO/Worker: Success. Data saved to Redis key 'crypto:bitcoin'.</p>
+                        <p className="animate-pulse">_</p>
                     </div>
                 </section>
             </div>

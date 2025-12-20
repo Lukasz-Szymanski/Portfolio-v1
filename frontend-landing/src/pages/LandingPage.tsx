@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Navbar from '../components/Navbar';
 import TechStack from '../components/TechStack';
@@ -9,6 +10,22 @@ import Contact from '../components/Contact';
 
 function LandingPage() {
   const [activeSection, setActiveSection] = useState('home');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === '#projects') {
+      setActiveSection('projects');
+    }
+    
+    if (location.hash) {
+      const element = document.getElementById(location.hash.slice(1));
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   const renderSection = () => {
     switch (activeSection) {
