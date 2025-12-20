@@ -15,6 +15,7 @@ Mikroserwis odpowiedzialny za weryfikację danych kontrahentów na podstawie num
 ## API Endpointy
 - **Docs (Swagger):** `http://localhost:8001/docs`
 - **Weryfikacja:** `GET /api/v1/companies/{nip}`
+- **Crypto Data:** `GET /api/v1/crypto` (Proxy do danych z Redisa zapisanych przez Price Monitor)
 
 ## Dlaczego FastAPI?
 Wybraliśmy FastAPI ze względu na jego szybkość (podobnie jak Go czy Node.js) oraz natywne wsparcie dla programowania asynchronicznego (`async/await`), co jest idealne dla serwisów pełniących rolę "proxy" do innych API i baz danych.

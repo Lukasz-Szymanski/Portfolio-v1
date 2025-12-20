@@ -1,11 +1,16 @@
 import os
 import requests
+import redis
 from celery import Celery
 from celery.schedules import crontab
 
 # Pobieramy adres Redisa
 REDIS_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
 
+# Klient do zapisu danych (cen)
+redis_client = redis.Redis.from_url(REDIS_URL, decode_responses=True)
+
+# Klient Celery (do kolejki zadań)
 app = Celery("price_monitor", broker=REDIS_URL)
 
 @app.task
@@ -22,6 +27,10 @@ def fetch_crypto_prices():
         
         btc_pln = data['bitcoin']['pln']
         eth_pln = data['ethereum']['pln']
+        
+        # Zapisz do Redisa (żeby inne serwisy widziały)
+        redis_client.set("crypto:bitcoin", str(btc_pln))
+        redis_client.set("crypto:ethereum", str(eth_pln))
         
         print(f"--- CRYPTO UPDATE ---")
         print(f"Bitcoin: {btc_pln} PLN")

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Terminal, Menu, X, Play } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Terminal, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -51,14 +50,6 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => {
           ))}
           
           <div className="h-6 w-px bg-gray-800 mx-2"></div>
-
-          <Link 
-            to="/dashboard"
-            className="flex items-center gap-1.5 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
-          >
-            <Play size={14} fill="currentColor" />
-            Live Demo
-          </Link>
 
           <a 
             href="/cv.pdf" 

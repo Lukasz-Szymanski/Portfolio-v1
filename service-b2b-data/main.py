@@ -40,3 +40,14 @@ async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
     r.setex(f"company:{nip}", 60, str(mock_data))
 
     return {"source": "live_api", "data": mock_data}
+
+@app.get("/api/v1/crypto")
+async def get_crypto_prices(r: redis.Redis = Depends(get_redis)):
+    btc = r.get("crypto:bitcoin")
+    eth = r.get("crypto:ethereum")
+    
+    return {
+        "bitcoin": btc if btc else "unavailable",
+        "ethereum": eth if eth else "unavailable",
+        "currency": "PLN"
+    }

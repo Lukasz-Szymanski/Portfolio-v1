@@ -21,3 +21,6 @@ Aby dodać nową walutę:
 1. Zmodyfikuj listę `ids` w URL wewnątrz funkcji `fetch_crypto_prices`.
 2. Dodaj wypisywanie logów dla nowej waluty.
 3. Restartuj kontener: `docker compose restart monitor_service`.
+
+## Frontend Integration
+Ten serwis nie posiada własnego API HTTP. Dane o cenach są zapisywane w **Redisie** pod kluczami `crypto:bitcoin` i `crypto:ethereum`. Frontend pobiera je pośrednio, korzystając z endpointu `/api/v1/crypto` wystawionego przez serwis **B2B Data**.

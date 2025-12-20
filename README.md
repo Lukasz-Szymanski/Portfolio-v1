@@ -49,6 +49,12 @@ Symulacja systemu bankowego w pełni zintegrowana z interfejsem Dashboard.
 - **Interaktywny panel:** Zarządzanie kontami i przelewami w czasie rzeczywistym.
 - **Endpoint:** `http://localhost/api/fintech/docs`
 
+### 3. Price Monitor (Dostępny) ✅
+System zadań asynchronicznych działający w tle.
+- **Worker:** Celery + Redis.
+- **Funkcja:** Cykliczne pobieranie kursów walut (Beat).
+- **UI:** Widget "Market Watch" na Dashboardzie.
+
 ---
 
 ## 🛠️ Instrukcja Uruchomienia

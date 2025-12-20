@@ -15,7 +15,9 @@ Nowoczesny frontend SPA zbudowany w React, pełniący rolę wizytówki (Landing 
 2. **Interactive Transfers:** Wykonywanie przelewów z natychmiastowym odświeżeniem salda (Query Invalidation).
 3. **Clipboard Integration:** Łatwe kopiowanie numerów kont.
 4. **Error Handling:** Przyjazne komunikaty błędów przy braku środków lub problemach z połączeniem.
-5. **B2B Verification:** Sprawdzanie danych kontrahenta (FastAPI + Redis) bezpośrednio z panelu.
+5. **Modular Views:** System zakładek pozwalający skupić się na konkretnym mikroserwisie (Fintech / B2B / Monitor).
+6. **B2B Verification:** Dedykowany widok do sprawdzania danych kontrahenta (FastAPI + Redis).
+7. **Crypto Monitor:** Widget wyświetlający ceny BTC/ETH pobierane przez workera w tle (aktualizacja co 60s).
 
 ## Struktura Projektu
 - `src/api/` - Warstwa komunikacji z mikroserwisami.
