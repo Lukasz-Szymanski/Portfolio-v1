@@ -15,6 +15,7 @@ Nowoczesny frontend SPA zbudowany w React, pełniący rolę wizytówki (Landing 
 2. **Interactive Transfers:** Wykonywanie przelewów z natychmiastowym odświeżeniem salda (Query Invalidation).
 3. **Clipboard Integration:** Łatwe kopiowanie numerów kont.
 4. **Error Handling:** Przyjazne komunikaty błędów przy braku środków lub problemach z połączeniem.
+5. **B2B Verification:** Sprawdzanie danych kontrahenta (FastAPI + Redis) bezpośrednio z panelu.
 
 ## Struktura Projektu
 - `src/api/` - Warstwa komunikacji z mikroserwisami.

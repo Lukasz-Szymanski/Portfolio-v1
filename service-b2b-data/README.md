@@ -18,3 +18,9 @@ Mikroserwis odpowiedzialny za weryfikację danych kontrahentów na podstawie num
 
 ## Dlaczego FastAPI?
 Wybraliśmy FastAPI ze względu na jego szybkość (podobnie jak Go czy Node.js) oraz natywne wsparcie dla programowania asynchronicznego (`async/await`), co jest idealne dla serwisów pełniących rolę "proxy" do innych API i baz danych.
+
+## Jak testować
+Dla celów demonstracyjnych serwis posiada "zmockowany" NIP, który zawsze zwraca poprawne dane:
+- **NIP:** `1234567890`
+- **Odpowiedź:** ACME Corp, Warszawa.
+Każdy inny NIP spowoduje próbę połączenia z zewnętrznym API (lub błąd 404, jeśli API GUS nie jest skonfigurowane).

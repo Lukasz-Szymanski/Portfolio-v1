@@ -4,6 +4,7 @@ import { fintechApi } from '../api/fintech';
 import AccountList from '../components/dashboard/AccountList';
 import TransferForm from '../components/dashboard/TransferForm';
 import TransactionHistory from '../components/dashboard/TransactionHistory';
+import CompanyVerifier from '../components/dashboard/CompanyVerifier';
 import { AlertCircle } from 'lucide-react';
 
 function DashboardPage() {
@@ -59,14 +60,21 @@ function DashboardPage() {
                     </section>
                 </div>
 
-                {/* Prawa kolumna: Akcje (Formularz) */}
-                <div>
-                    <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-blue-500 pl-3">Quick Transfer</h2>
-                    {accounts.length > 0 ? (
-                        <TransferForm senderId={accounts[0].id} />
-                    ) : (
-                        <div className="text-slate-500">Open an account to make transfers.</div>
-                    )}
+                {/* Prawa kolumna: Akcje (Formularz i B2B) */}
+                <div className="space-y-8">
+                    <section>
+                        <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-blue-500 pl-3">Quick Transfer</h2>
+                        {accounts.length > 0 ? (
+                            <TransferForm senderId={accounts[0].id} />
+                        ) : (
+                            <div className="text-slate-500">Open an account to make transfers.</div>
+                        )}
+                    </section>
+
+                    <section>
+                        <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-emerald-500 pl-3">Contractor Verification</h2>
+                        <CompanyVerifier />
+                    </section>
                 </div>
             </div>
         )}

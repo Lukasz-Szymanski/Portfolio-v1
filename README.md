@@ -39,6 +39,7 @@ System składa się z niezależnych kontenerów orkiestrowanych przez Docker Com
 ### 1. B2B Company Verifier (Dostępny)
 Mikroserwis do weryfikacji danych kontrahenta na podstawie NIP.
 - **Cache Strategy:** Pierwsze zapytanie trwa 1.5s (symulacja GUS), kolejne są natychmiastowe (Redis).
+- **UI:** Zintegrowany moduł w panelu Dashboard.
 - **Endpoint:** `/api/v1/companies/{nip}`
 
 ### 2. Fintech Simulator (Dostępny) ✅
