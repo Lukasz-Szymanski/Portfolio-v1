@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fintechApi } from '../api/fintech';
 import AccountList from '../components/dashboard/AccountList';
 import TransferForm from '../components/dashboard/TransferForm';
+import TransactionHistory from '../components/dashboard/TransactionHistory';
 import { AlertCircle } from 'lucide-react';
 
 function DashboardPage() {
@@ -48,11 +49,14 @@ function DashboardPage() {
                         <AccountList accounts={accounts} />
                     </section>
 
-                    {/* Tu w przyszłości: Historia Transakcji */}
-                    <div className="bg-slate-800/30 p-6 rounded-2xl border border-slate-700/50">
-                        <h3 className="text-slate-400 mb-4 text-sm uppercase tracking-wider font-bold">Recent Activity</h3>
-                        <p className="text-slate-500 italic text-sm">Transaction history module not implemented yet.</p>
-                    </div>
+                    <section>
+                        <h3 className="text-xl font-semibold text-white mb-6 border-l-4 border-slate-500 pl-3">Recent Activity</h3>
+                        {accounts.length > 0 ? (
+                            <TransactionHistory accountId={accounts[0].id} />
+                        ) : (
+                            <div className="text-slate-500">No account selected.</div>
+                        )}
+                    </section>
                 </div>
 
                 {/* Prawa kolumna: Akcje (Formularz) */}

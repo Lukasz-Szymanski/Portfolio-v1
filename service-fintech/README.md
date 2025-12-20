@@ -29,6 +29,10 @@ docker exec -it fintech_service python manage.py createsuperuser
 - **Swagger UI:** `http://localhost:8002/api/docs`
 - **Django Admin:** `http://localhost:8002/admin/`
 
+### Kluczowe operacje
+- `POST /api/accounts/transfer` - Wykonanie przelewu (ACID).
+- `GET /api/accounts/transactions/{account_id}` - Pobranie historii transakcji.
+
 ### Przelewy (Transfer)
 Endpoint: `POST /api/accounts/transfer`
 

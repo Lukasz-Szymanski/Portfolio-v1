@@ -8,6 +8,14 @@ export interface Account {
   currency: string;
 }
 
+export interface Transaction {
+  id: string;
+  amount: string;
+  transaction_type: string;
+  description: string;
+  created_at: string;
+}
+
 export interface TransferRequest {
   sender_account_id: string;
   receiver_account_number: string;
@@ -31,6 +39,12 @@ export const fintechApi = {
   // Pobieranie szczegółów konta
   getAccountDetails: async (accountNumber: string): Promise<Account> => {
     const response = await apiClient.get<Account>(`/fintech/accounts/details/${accountNumber}`);
+    return response.data;
+  },
+
+  // Pobieranie historii transakcji
+  getTransactions: async (accountId: string): Promise<Transaction[]> => {
+    const response = await apiClient.get<Transaction[]>(`/fintech/accounts/transactions/${accountId}`);
     return response.data;
   }
 };

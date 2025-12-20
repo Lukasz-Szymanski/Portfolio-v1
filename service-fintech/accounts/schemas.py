@@ -1,6 +1,7 @@
 from ninja import Schema, Field
 from decimal import Decimal
 import uuid
+from datetime import datetime
 
 class AccountCreateSchema(Schema):
     user_id: int
@@ -18,3 +19,10 @@ class TransferSchema(Schema):
     receiver_account_number: str
     amount: Decimal = Field(..., gt=0.01, description="Kwota przelewu musi być dodatnia")
     description: str = "Przelew środków"
+
+class TransactionSchema(Schema):
+    id: uuid.UUID
+    amount: Decimal
+    transaction_type: str
+    description: str
+    created_at: datetime

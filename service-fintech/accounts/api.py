@@ -4,10 +4,10 @@ from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from .models import Account, Transaction
-from .schemas import AccountCreateSchema, AccountSchema, TransferSchema
+from .schemas import AccountCreateSchema, AccountSchema, TransferSchema, TransactionSchema
 import random
 import string
-
+import uuid
 from celery import Celery
 
 # Konfiguracja klienta do zlecania zadań
@@ -20,6 +20,11 @@ def trigger_worker_task(request):
     """Zleca zadanie do Workera (Celery)"""
     celery_app.send_task("main.say_hello")
     return {"status": "Zadanie wysłane do kolejki Redisa!"}
+
+@router.get("/transactions/{account_id}", response=List[TransactionSchema])
+def list_transactions(request, account_id: uuid.UUID):
+    """Pobiera historię transakcji dla danego konta"""
+    return Transaction.objects.filter(account_id=account_id).order_by('-created_at')
 
 def generate_account_number():
     """Generuje losowy 26-cyfrowy numer konta (symulacja IBAN)"""

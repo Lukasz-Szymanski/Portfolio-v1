@@ -24,8 +24,9 @@ const TransferForm = ({ senderId }: { senderId: string }) => {
       setErrorMsg('');
       setFormData({ ...formData, amount: '' }); // Czyścimy tylko kwotę
       
-      // Magia React Query: Odśwież listę kont automatycznie
+      // Magia React Query: Odśwież listę kont i transakcje automatycznie
       queryClient.invalidateQueries({ queryKey: ['accounts'] });
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
 
       // Ukryj komunikat po 3s
       setTimeout(() => setSuccessMsg(''), 3000);
