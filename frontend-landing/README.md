@@ -5,9 +5,16 @@ Nowoczesny frontend SPA zbudowany w React, pełniący rolę wizytówki (Landing 
 ## Technologia
 - **Framework:** React 19 (Vite)
 - **Routing:** React Router DOM
+- **State Management:** TanStack Query (React Query)
+- **API Client:** Axios
 - **Styling:** Tailwind CSS + Framer Motion
-- **API Client:** Axios + TanStack Query
-- **Język:** TypeScript
+- **Icons:** Lucide React
+
+## Funkcjonalności Dashboardu
+1. **Real-time Accounts Overview:** Automatyczne pobieranie i wyświetlanie sald z mikroserwisu Fintech.
+2. **Interactive Transfers:** Wykonywanie przelewów z natychmiastowym odświeżeniem salda (Query Invalidation).
+3. **Clipboard Integration:** Łatwe kopiowanie numerów kont.
+4. **Error Handling:** Przyjazne komunikaty błędów przy braku środków lub problemach z połączeniem.
 
 ## Struktura Projektu
 - `src/api/` - Warstwa komunikacji z mikroserwisami.
