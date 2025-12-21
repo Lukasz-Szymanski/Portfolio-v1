@@ -5,7 +5,7 @@ const AiMentoring: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto py-24 animate-in fade-in slide-in-from-bottom-8 duration-700">
       
-      {/* Nagłówek Sekcji */}
+      {/* ... istniejący kod ... */}
       <div className="flex flex-col items-center text-center mb-16">
         <span className="text-purple-500 font-mono text-sm mb-2 tracking-wider uppercase flex items-center gap-2">
           <Sparkles size={14} /> AI-Assisted Development
@@ -21,7 +21,7 @@ const AiMentoring: React.FC = () => {
 
       {/* Grid Kart */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-        
+        {/* ... karty ... */}
         {/* Karta 1: Architektura */}
         <div className="bg-[#111] border border-purple-500/20 p-8 rounded-2xl relative overflow-hidden group hover:border-purple-500/50 transition-colors">
           <div className="absolute top-0 right-0 p-32 bg-purple-600/5 blur-3xl rounded-full -mr-16 -mt-16 pointer-events-none"></div>
@@ -78,13 +78,12 @@ const AiMentoring: React.FC = () => {
             <li className="flex items-center gap-2"><span className="text-blue-500">✓</span> Dokumentacja techniczna w Markdown</li>
           </ul>
         </div>
-
       </div>
 
       {/* Stopka sekcji */}
       <div className="mt-16 text-center">
-        <p className="text-gray-500 text-sm font-mono">
-          GENERATED_BY: Gemini 1.5 Pro | ROLE: Software Engineer Assistant
+        <p className="text-gray-500 text-sm font-mono uppercase tracking-widest">
+          GENERATED_BY: Gemini 2.0 Pro | ROLE: Software Engineer Assistant
         </p>
       </div>
     </div>
