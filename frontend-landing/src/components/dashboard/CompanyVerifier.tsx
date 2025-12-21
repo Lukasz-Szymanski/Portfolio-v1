@@ -7,12 +7,15 @@ const CompanyVerifier = () => {
   const [nip, setNip] = useState('');
   const [searchNip, setSearchNip] = useState('');
 
-  const { data: company, isLoading, isError, isFetching } = useQuery({
+  const { data: result, isLoading, isError, isFetching } = useQuery({
     queryKey: ['company', searchNip],
     queryFn: () => b2bApi.getCompany(searchNip),
     enabled: searchNip.length === 10, // Szukaj tylko gdy NIP ma 10 znaków
     retry: false
   });
+
+  const company = result?.data;
+  const source = result?.source;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +50,7 @@ const CompanyVerifier = () => {
             {isFetching ? <Loader2 className="animate-spin" size={16} /> : 'Sprawdź'}
           </button>
         </div>
-        <p className="text-xs text-slate-500 mt-2 italic">Testuj NIP: 1234567890 (mockowany w FastAPI)</p>
+        <p className="text-xs text-slate-500 mt-2 italic">Testuj NIP: 1234567890 (mock) lub 5252344078 (Google PL)</p>
       </form>
 
       {/* Wyniki */}
@@ -67,7 +70,7 @@ const CompanyVerifier = () => {
                         <h4 className="text-white font-bold text-lg leading-tight">{company.name}</h4>
                         <div className="flex items-center gap-1 text-emerald-500 text-xs font-bold mt-1">
                             <ShieldCheck size={12} />
-                            <span>STATUS: ACTIVE</span>
+                            <span>STATUS: {company.is_active ? 'ACTIVE' : 'INACTIVE'}</span>
                         </div>
                     </div>
                 </div>
@@ -75,7 +78,7 @@ const CompanyVerifier = () => {
                 <div className="grid grid-cols-1 gap-3 pt-2">
                     <div className="flex items-center gap-2 text-slate-400 text-sm">
                         <MapPin size={16} />
-                        <span>{company.address}</span>
+                        <span className="break-words">{company.address}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-400 text-sm">
                         <Hash size={16} />
@@ -88,7 +91,7 @@ const CompanyVerifier = () => {
                 </div>
                 
                 <div className="bg-emerald-500/5 border border-emerald-500/20 p-2 rounded text-[10px] text-emerald-500/60 text-center uppercase tracking-widest font-bold">
-                    Verified via FastAPI B2B Service
+                    Source: {source === 'live_gov_api' ? 'Ministry of Finance API' : source}
                 </div>
             </div>
         ) : isError ? (

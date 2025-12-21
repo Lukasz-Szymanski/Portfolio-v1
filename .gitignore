@@ -17,6 +17,10 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+celerybeat-schedule
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
 
 # Node / Frontend
 node_modules/
