@@ -62,7 +62,7 @@ Po uruchomieniu aplikacja jest dostępna pod adresem:
 Projekt posiada wbudowany tryb demonstracyjny. Nie musisz się rejestrować!
 1. Wejdź na Dashboard.
 2. Kliknij **"Uruchom Demo (Jako Gość)"**.
-3. System automatycznie utworzy dla Ciebie wirtualne konto, historię transakcji oraz zdefiniuje odbiorców testowych.
+3. **NOWOŚĆ! 🛡️ Architecture X-Ray Mode:** Włącz przełącznik "DEV_MODE" w nagłówku, aby zobaczyć architekturę systemu "na żywo". Aplikacja podświetli mikroserwisy, punkty końcowe API oraz wzorce projektowe użyte w każdym komponencie.
 4. Możesz wykonywać przelewy, pobierać potwierdzenia PDF i sprawdzać firmy po NIP.
 
 ---
@@ -72,6 +72,7 @@ Projekt posiada wbudowany tryb demonstracyjny. Nie musisz się rejestrować!
 W katalogu `docs/` znajdują się szczegółowe opisy decyzji architektonicznych:
 
 * [Hybrid Architecture (Django + FastAPI)](docs/learning_hybrid_architecture.md) - Dlaczego użyłem dwóch różnych frameworków?
+* [Architecture X-Ray Mode](docs/learning_architecture_xray.md) - Jak pokazać architekturę systemu "na żywo"?
 * [PDF Generation Strategy](docs/learning_pdf_generation.md) - Dlaczego generuję PDF na backendzie?
 * [Guest Session Management](docs/learning_guest_auth.md) - Jak działa logowanie bez hasła?
 * [Redis Advanced Usage](docs/learning_redis_advanced.md) - Rola Redisa jako brokera i cache.

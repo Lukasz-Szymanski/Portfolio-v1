@@ -8,13 +8,18 @@ import TransactionHistory from '../components/dashboard/TransactionHistory';
 import CompanyVerifier from '../components/dashboard/CompanyVerifier';
 import CryptoTicker from '../components/dashboard/CryptoTicker';
 import Overview from '../components/dashboard/Overview';
-import { AlertCircle, LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity } from 'lucide-react';
+import { AlertCircle, LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity, Glasses } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useDevMode } from '../context/DevModeContext';
+import XRayWrapper from '../components/shared/XRayWrapper';
 
 function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  // Domyślny widok to Overview
   const currentView = searchParams.get('view') || 'overview';
   
+  const { isDevMode, toggleDevMode } = useDevMode();
+
   const [userId, setUserId] = useState<number | null>(() => {
     const saved = localStorage.getItem('demo_user_id');
     return saved ? parseInt(saved) : null;
@@ -139,7 +144,7 @@ function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-8 font-sans">
+    <div className="min-h-screen bg-[#0f172a] text-white p-8 font-sans transition-colors duration-500">
       <div className="max-w-6xl mx-auto">
         
         {/* Header */}
@@ -156,6 +161,22 @@ function DashboardPage() {
              <p className="text-slate-400 text-sm mt-1 font-mono tracking-wide">{header.subtitle}</p>
           </div>
           <div className="flex gap-4 items-center">
+             {/* DEV MODE TOGGLE */}
+             <button 
+                onClick={toggleDevMode} 
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-mono font-bold tracking-wider ${
+                    isDevMode 
+                        ? 'bg-purple-500/10 border-purple-500 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)]' 
+                        : 'bg-slate-800 border-slate-700 text-slate-500 hover:text-slate-300'
+                }`}
+                title="Toggle Architecture X-Ray Mode"
+             >
+                <Glasses size={14} />
+                {isDevMode ? 'DEV_MODE: ON' : 'DEV_MODE: OFF'}
+             </button>
+
+             <div className="h-6 w-px bg-slate-800 mx-2"></div>
+
              <button onClick={handleLogout} className="text-slate-500 hover:text-red-400 transition-colors" title="Wyloguj">
                 <LogOut size={20} />
              </button>
@@ -202,7 +223,9 @@ function DashboardPage() {
             >
                 {/* --- VIEW: OVERVIEW --- */}
                 {currentView === 'overview' && (
-                    <Overview userId={userId} />
+                    <XRayWrapper label="Data Aggregator" tech="Redis" endpoint="GET /api/b2b/system-status" description="Agregacja danych z mikroserwisów">
+                        <Overview userId={userId} />
+                    </XRayWrapper>
                 )}
 
                 {/* --- VIEW: FINTECH --- */}
@@ -221,12 +244,16 @@ function DashboardPage() {
                                 <div className="lg:col-span-2 space-y-8">
                                     <section>
                                         <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-blue-500 pl-3">Your Accounts</h2>
-                                        <AccountList accounts={accounts} />
+                                        <XRayWrapper label="Relational Data" tech="Postgres" description="Dane kont via Django ORM">
+                                            <AccountList accounts={accounts} />
+                                        </XRayWrapper>
                                     </section>
                                     <section>
                                         <h3 className="text-xl font-semibold text-white mb-6 border-l-4 border-slate-500 pl-3">Recent Activity</h3>
                                         {accounts.length > 0 ? (
-                                            <TransactionHistory accountId={accounts[0].id} />
+                                            <XRayWrapper label="Transaction Log" tech="Django" endpoint="GET /api/transactions" description="Generowanie PDF (ReportLab)">
+                                                <TransactionHistory accountId={accounts[0].id} />
+                                            </XRayWrapper>
                                         ) : (
                                             <div className="text-slate-500">No account selected.</div>
                                         )}
@@ -235,7 +262,9 @@ function DashboardPage() {
                                 <div>
                                     <h2 className="text-xl font-semibold text-white mb-6 border-l-4 border-blue-500 pl-3">Quick Transfer</h2>
                                     {accounts.length > 0 ? (
-                                        <TransferForm senderId={accounts[0].id} />
+                                        <XRayWrapper label="Atomic Action" tech="Django" endpoint="POST /api/transfer" description="Transakcja ACID (@transaction.atomic)">
+                                            <TransferForm senderId={accounts[0].id} />
+                                        </XRayWrapper>
                                     ) : (
                                         <div className="text-slate-500">Open an account to make transfers.</div>
                                     )}
@@ -247,9 +276,11 @@ function DashboardPage() {
 
                 {/* --- VIEW: B2B --- */}
                 {currentView === 'b2b' && (
-                    <div className="max-w-2xl mx-auto">
+                    <div className="max-w-2xl mx-auto py-8">
                         <section>
-                            <CompanyVerifier />
+                            <XRayWrapper label="Data Proxy" tech="FastAPI" endpoint="GET /api/b2b/companies/{nip}" description="Redis Cache-Aside Pattern">
+                                <CompanyVerifier />
+                            </XRayWrapper>
                         </section>
                     </div>
                 )}
@@ -259,7 +290,9 @@ function DashboardPage() {
                     <div className="max-w-3xl mx-auto">
                         <section>
                             <div className="transform scale-110 origin-top mb-12">
-                                <CryptoTicker />
+                                <XRayWrapper label="Live Feed" tech="Redis" endpoint="GET /api/crypto" description="Wartości zapisywane przez Worker Celery">
+                                    <CryptoTicker />
+                                </XRayWrapper>
                             </div>
                             
                             <div className="bg-slate-900 rounded-lg p-6 border border-slate-800 font-mono text-xs text-slate-500 shadow-2xl">
@@ -267,19 +300,14 @@ function DashboardPage() {
                                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
                                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                    <span className="ml-2 text-slate-400">worker_live_stream.log</span>
+                                    <span className="ml-2 text-slate-400">worker_logs.log</span>
                                 </div>
-                                <p className="mb-2 text-purple-400 font-bold">// Real-time Celery Worker Logs</p>
+                                <p className="mb-2 text-purple-400 font-bold">// Worker Activity Simulation</p>
                                 <p>[{new Date().toISOString().split('T')[0]} {new Date().toLocaleTimeString()}] INFO/Beat: Scheduler waking up...</p>
-                                <p>[{new Date().toISOString().split('T')[0]} {new Date().toLocaleTimeString()}] INFO/MainProcess: Sending task 'fetch_crypto_prices' sent to queue.</p>
+                                <p>[{new Date().toISOString().split('T')[0]} {new Date().toLocaleTimeString()}] INFO/MainProcess: Task 'fetch_crypto_prices' sent to queue.</p>
                                 <p>[{new Date().toISOString().split('T')[0]} {new Date().toLocaleTimeString()}] INFO/Worker: Task received. Connecting to CoinGecko...</p>
                                 <p className="text-emerald-500">[{new Date().toISOString().split('T')[0]} {new Date().toLocaleTimeString()}] INFO/Worker: Success. Redis keys 'crypto:bitcoin' updated.</p>
                                 <p className="animate-pulse">_</p>
-                            </div>
-                            
-                            <div className="mt-8 p-4 bg-blue-500/5 border border-blue-500/20 rounded-lg text-sm text-slate-400">
-                                <p className="font-bold text-blue-400 mb-2">Jak to działa?</p>
-                                <p>Kontener <code className="text-blue-300">monitor_service</code> uruchamia proces Celery Beat, który co 60 sekund wysyła zadanie do Workera. Worker pobiera dane przez API i zapisuje je w bazie Redis, skąd są pobierane przez ten Dashboard.</p>
                             </div>
                         </section>
                     </div>
