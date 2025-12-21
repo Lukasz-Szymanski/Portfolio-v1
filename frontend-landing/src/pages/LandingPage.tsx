@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Navbar from '../components/Navbar';
 import TechStack from '../components/TechStack';
+import AiMentoring from '../components/AiMentoring';
 import Projects from '../components/Projects';
 import About from '../components/About';
 import Hobby from '../components/Hobby';
@@ -35,6 +36,8 @@ function LandingPage() {
         return <About />;
       case 'stack':
         return <TechStack />;
+      case 'ai-mentoring':
+        return <AiMentoring />;
       case 'projects':
         return <Projects />;
       case 'hobby':

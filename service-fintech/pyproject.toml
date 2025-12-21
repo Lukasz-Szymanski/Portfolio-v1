@@ -13,6 +13,7 @@ uvicorn = "^0.27.0"
 pydantic = "^2.6.0"
 celery = "^5.3.6"
 redis = "^5.0.1"
+reportlab = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

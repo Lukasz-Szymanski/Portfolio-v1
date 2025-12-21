@@ -3,8 +3,10 @@ from ninja import Router
 from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
 from django.db import transaction
+from django.http import HttpResponse
 from .models import Account, Transaction
 from .schemas import AccountCreateSchema, AccountSchema, TransferSchema, TransactionSchema
+from .pdf_generator import generate_pdf_confirmation
 import random
 import string
 import uuid
@@ -14,6 +16,18 @@ from celery import Celery
 celery_app = Celery("fintech_producer", broker="redis://redis:6379/0")
 
 router = Router()
+
+@router.get("/transactions/{transaction_id}/pdf")
+def get_transaction_pdf(request, transaction_id: uuid.UUID):
+    """Generuje PDF z potwierdzeniem transakcji"""
+    # W prawdziwym systemie: sprawdzić czy user jest właścicielem konta!
+    tx = get_object_or_404(Transaction, id=transaction_id)
+    
+    pdf_content = generate_pdf_confirmation(tx)
+    
+    response = HttpResponse(pdf_content, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="confirmation_{tx.id}.pdf"'
+    return response
 
 @router.get("/test-worker")
 def trigger_worker_task(request):
@@ -107,4 +121,32 @@ def list_accounts(request, user_id: int):
 def get_account_balance(request, account_number: str):
     """Pobiera szczegóły konta po jego numerze"""
     account = get_object_or_404(Account, account_number=account_number)
+    return account
+
+@router.post("/init-demo/{user_id}", response=AccountSchema)
+def init_demo_account(request, user_id: int):
+    """
+    Inicjalizuje konto demo dla nowego użytkownika z gotową historią transakcji.
+    """
+    if Account.objects.filter(user_id=user_id).exists():
+        return Account.objects.filter(user_id=user_id).first()
+
+    with transaction.atomic():
+        account = Account.objects.create(
+            user_id=user_id,
+            currency="PLN",
+            account_number=generate_account_number(),
+            balance=10000.00
+        )
+        
+        # Generujemy fejkowe transakcje
+        Transaction.objects.create(account=account, amount=12000.00, transaction_type='DEPOSIT', description="Initial Seed Capital")
+        Transaction.objects.create(account=account, amount=-2500.00, transaction_type='TRANSFER_OUT', description="Apartment Rent (Downtown)")
+        Transaction.objects.create(account=account, amount=-400.00, transaction_type='TRANSFER_OUT', description="Grocery Shopping")
+        Transaction.objects.create(account=account, amount=900.00, transaction_type='TRANSFER_IN', description="Freelance Gig Payment")
+
+        # Aktualizacja salda po transakcjach?
+        # W tym modelu 'balance' jest stanem bieżącym, a transakcje to historia.
+        # Przy tworzeniu ustawiliśmy 10000. Wg transakcji: 12000 - 2500 - 400 + 900 = 10000.
+    
     return account

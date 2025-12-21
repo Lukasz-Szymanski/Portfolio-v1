@@ -46,5 +46,13 @@ export const fintechApi = {
   getTransactions: async (accountId: string): Promise<Transaction[]> => {
     const response = await apiClient.get<Transaction[]>(`/fintech/accounts/transactions/${accountId}`);
     return response.data;
+  },
+
+  // Pobieranie PDF
+  getTransactionPdf: async (transactionId: string) => {
+    const response = await apiClient.get(`/fintech/accounts/transactions/${transactionId}/pdf`, {
+        responseType: 'blob' // Ważne dla plików binarnych
+    });
+    return response.data;
   }
 };

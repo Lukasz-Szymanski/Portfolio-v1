@@ -13,6 +13,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate }) => {
     { id: 'home', label: 'Start' },
     { id: 'about', label: 'O mnie' },
     { id: 'stack', label: 'Tech Stack' },
+    { id: 'ai-mentoring', label: 'AI Workflow' },
     { id: 'projects', label: 'Projekty' },
     { id: 'hobby', label: 'Hobby' },
   ];
