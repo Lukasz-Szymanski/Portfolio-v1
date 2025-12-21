@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreditCard, Wallet, Check } from 'lucide-react';
+import { CreditCard, Wallet, Check, Code2 } from 'lucide-react';
 import type { Account } from '../../api/fintech';
 
 interface AccountListProps {
@@ -16,7 +16,7 @@ const AccountList = ({ accounts }: AccountListProps) => {
   };
 
   if (!accounts || accounts.length === 0) {
-    return <div className="text-gray-400">No active accounts found.</div>;
+    return <div className="text-slate-500 font-mono italic text-left p-4">No active accounts found in vault...</div>;
   }
 
   return (
@@ -24,36 +24,32 @@ const AccountList = ({ accounts }: AccountListProps) => {
       {accounts.map((account) => (
         <div 
           key={account.id} 
-          className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition-colors group relative overflow-hidden"
+          className="glass-card p-8 rounded-3xl group relative overflow-hidden transition-all text-left"
         >
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <CreditCard size={64} />
+          <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+            <CreditCard size={80} />
           </div>
           
-          <div className="flex items-center gap-2 text-slate-400 mb-4">
-            <Wallet size={18} />
-            <span className="text-sm font-medium">Main Account</span>
+          <div className="flex items-center gap-3 text-slate-500 mb-6 font-mono text-[10px] uppercase tracking-widest text-left">
+            <Wallet size={16} className="text-blue-500" />
+            <span>Operational Account</span>
           </div>
 
-          <div className="mb-4">
-            <p className="text-3xl font-mono font-bold text-white tracking-tight">
-              {account.balance} <span className="text-lg text-emerald-400">{account.currency}</span>
+          <div className="mb-8 text-left">
+            <p className="text-4xl font-mono font-bold text-white tracking-tighter text-left">
+              {account.balance} <span className="text-lg text-emerald-400 ml-1">{account.currency}</span>
             </p>
           </div>
 
-          <div className="bg-slate-900/50 p-2 rounded flex items-center justify-between">
-             <span className="text-xs text-slate-500 font-mono break-all">{account.account_number}</span>
+          <div className="bg-black/40 border border-white/5 p-3 rounded-2xl flex items-center justify-between backdrop-blur-sm group-hover:border-blue-500/30 transition-colors">
+             <span className="text-[10px] text-slate-500 font-mono break-all tracking-tight">{account.account_number}</span>
              <button 
-               className={`text-xs flex items-center gap-1 transition-colors ${
-                 copiedId === account.id ? 'text-emerald-400' : 'text-blue-400 hover:text-blue-300'
+               className={`text-xs p-2 rounded-lg transition-all ${
+                 copiedId === account.id ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/5 text-blue-400 hover:bg-blue-500/20'
                }`}
                onClick={() => copyToClipboard(account.account_number, account.id)}
              >
-               {copiedId === account.id ? (
-                 <><Check size={12} /> Copied!</>
-               ) : (
-                 'Copy'
-               )}
+               {copiedId === account.id ? <Check size={14} /> : <Code2 size={14} />}
              </button>
           </div>
         </div>

@@ -50,7 +50,8 @@ function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#0a0a0a] text-white font-sans overflow-hidden">
+    <div className="min-h-screen w-full bg-[#050811] text-white font-sans overflow-hidden selection:bg-blue-500/30">
+      <div className="mesh-background" />
       <Navbar activeSection={activeSection} onNavigate={setActiveSection} />
       
       <main className="pt-20 px-4 md:px-16 lg:px-24">

@@ -9,7 +9,7 @@ import CompanyVerifier from '../components/dashboard/CompanyVerifier';
 import CryptoTicker from '../components/dashboard/CryptoTicker';
 import Overview from '../components/dashboard/Overview';
 import ArchitectureDiagram from '../components/dashboard/ArchitectureDiagram';
-import { AlertCircle, LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity, Glasses, Network, X } from 'lucide-react';
+import { AlertCircle, LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity, Glasses, Network, X, Loader2, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
@@ -60,31 +60,49 @@ function DashboardPage() {
   };
 
   if (!userId) {
+    // --- LOGIN SCREEN (NEON GLASS REFACTOR) ---
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-4">
+        <div className="min-h-screen bg-[#050811] text-white flex items-center justify-center p-6 relative overflow-hidden">
+            <div className="mesh-background" />
+            
             <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="max-w-md w-full bg-slate-800/50 p-8 rounded-2xl border border-slate-700 text-center"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="max-w-xl w-full glass-card p-12 rounded-[3rem] text-center relative z-10"
             >
-                <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
-                    <ShieldCheck size={32} />
+                <div className="w-24 h-24 bg-blue-600/10 rounded-[2rem] flex items-center justify-center mx-auto mb-10 border border-blue-500/20 shadow-[0_0_50px_rgba(37,99,235,0.1)]">
+                    <ShieldCheck size={48} className="text-blue-500" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2">Witaj w Panelu Demo</h2>
-                <p className="text-slate-400 mb-8">
-                    To jest symulator systemu bankowego. Nie musisz zakładać konta.
-                    Wygenerujemy dla Ciebie profil gościa z wirtualną gotówką.
+                
+                <h2 className="text-4xl font-bold font-display mb-4 tracking-tight uppercase">Security Vault</h2>
+                <p className="text-slate-400 mb-12 text-lg font-light leading-relaxed">
+                    Wchodzisz do środowiska symulacyjnego. <br/>
+                    System wygeneruje dla Ciebie <span className="text-blue-400 font-mono">Tymczasowy Klucz Dostępu</span> oraz wirtualne saldo konta.
                 </p>
                 
-                <button 
-                    onClick={handleLogin}
-                    disabled={isInitializing}
-                    className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {isInitializing ? "Przygotowywanie..." : <><PlayCircle size={20} /> Uruchom Demo (Jako Gość)</>}
-                </button>
-                <div className="mt-6">
-                    <a href="/" className="text-slate-500 hover:text-white text-sm">&larr; Wróć do strony głównej</a>
+                <div className="space-y-6">
+                    <button 
+                        onClick={handleLogin}
+                        disabled={isInitializing}
+                        className="w-full py-6 bg-white text-black hover:bg-blue-50 rounded-2xl font-bold font-display text-lg flex items-center justify-center gap-3 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                    >
+                        {isInitializing ? (
+                            <><Loader2 className="animate-spin" size={24} /> INITIALIZING_CORE...</>
+                        ) : (
+                            <><PlayCircle size={24} /> URUCHOM PANEL GOŚCIA</>
+                        )}
+                    </button>
+                    
+                    <Link to="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-sm font-mono tracking-widest uppercase">
+                        &larr; Abort Mission
+                    </Link>
+                </div>
+
+                <div className="mt-16 pt-8 border-t border-white/5 flex justify-center gap-8 opacity-20 grayscale">
+                    <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest"><Database size={12}/> PostgreSQL</div>
+                    <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest"><Activity size={12}/> Redis_7</div>
+                    <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest"><Server size={12}/> Python_3.11</div>
                 </div>
             </motion.div>
         </div>
@@ -110,36 +128,37 @@ function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white p-8 font-sans transition-colors duration-500">
+    <div className="min-h-screen bg-[#050811] text-white p-8 font-sans transition-colors duration-500 selection:bg-blue-500/30">
+      <div className="mesh-background" />
       <div className="max-w-6xl mx-auto flex flex-col min-h-[calc(100vh-4rem)]">
         
         {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-slate-800 pb-8">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-white/5 pb-8">
           <div>
-             <motion.h1 key={header.title} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className={`text-3xl font-bold bg-gradient-to-r ${header.gradient} bg-clip-text text-transparent`}>
+             <motion.h1 key={header.title} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className={`text-4xl font-bold font-display bg-gradient-to-r ${header.gradient} bg-clip-text text-transparent`}>
                 {header.title}
              </motion.h1>
-             <p className="text-slate-400 text-sm mt-1 font-mono tracking-wide">{header.subtitle}</p>
+             <p className="text-slate-400 text-sm mt-1 font-mono tracking-wide uppercase">{header.subtitle}</p>
           </div>
           <div className="flex gap-4 items-center">
-             <button onClick={() => setShowArchitecture(true)} className="flex items-center gap-2 px-3 py-1.5 rounded-full border bg-slate-800 border-slate-700 text-slate-400 hover:text-white transition-all text-xs font-mono font-bold tracking-wider">
+             <button onClick={() => setShowArchitecture(true)} className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all text-xs font-mono font-bold tracking-wider backdrop-blur-sm">
                 <Network size={14} /> SYSTEM_MAP
              </button>
-             <button onClick={toggleDevMode} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-mono font-bold tracking-wider ${isDevMode ? 'bg-purple-500/10 border-purple-500 text-purple-400' : 'bg-slate-800 border-slate-700 text-slate-500'}`}>
+             <button onClick={toggleDevMode} className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all text-xs font-mono font-bold tracking-wider backdrop-blur-sm ${isDevMode ? 'bg-purple-500/20 border-purple-500/50 text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.2)]' : 'bg-white/5 border-white/10 text-slate-500 hover:text-slate-300'}`}>
                 <Glasses size={14} /> {isDevMode ? 'DEV_MODE: ON' : 'DEV_MODE: OFF'}
              </button>
-             <div className="h-6 w-px bg-slate-800 mx-2"></div>
-             <button onClick={handleLogout} className="text-slate-500 hover:text-red-400 transition-colors"><LogOut size={20} /></button>
-             <a href="/#projects" className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition-colors text-sm font-medium border border-slate-700">&larr; Exit</a>
+             <div className="h-6 w-px bg-white/5 mx-2"></div>
+             <button onClick={handleLogout} className="p-2 text-slate-500 hover:text-red-400 transition-colors bg-white/5 rounded-full border border-white/5"><LogOut size={20} /></button>
+             <a href="/#projects" className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all text-sm font-medium border border-white/10 backdrop-blur-sm">&larr; Exit</a>
           </div>
         </header>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar">
             {tabs.map(tab => (
-                <button key={tab.id} onClick={() => setView(tab.id)} className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all relative ${currentView === tab.id ? 'text-white' : 'text-slate-400 hover:bg-slate-800'}`}>
-                    {currentView === tab.id && <motion.div layoutId="activeTab" className="absolute inset-0 bg-slate-700 rounded-lg shadow-lg" />}
-                    <span className="relative z-10 flex items-center gap-2"><tab.icon size={18} /> {tab.label}</span>
+                <button key={tab.id} onClick={() => setView(tab.id)} className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all relative ${currentView === tab.id ? 'text-white' : 'text-slate-400 hover:bg-white/5'}`}>
+                    {currentView === tab.id && <motion.div layoutId="activeTab" className="absolute inset-0 bg-blue-600/20 border border-blue-500/30 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.1)]" />}
+                    <span className="relative z-10 flex items-center gap-2 font-display uppercase tracking-wider text-sm"><tab.icon size={18} /> {tab.label}</span>
                 </button>
             ))}
         </div>

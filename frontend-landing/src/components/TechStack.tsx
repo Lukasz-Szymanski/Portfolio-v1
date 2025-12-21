@@ -1,71 +1,49 @@
 import React from 'react';
-import { Database, Server, Layout, Cpu, Code2, Layers } from 'lucide-react';
+import { Server, Database, Code2 } from 'lucide-react';
 
 const TechStack: React.FC = () => {
-  const categories = [
+  const stack = [
     {
-      title: "Backend Core",
-      icon: <Server className="text-blue-500" size={28} />,
-      skills: ["Python 3.11", "FastAPI", "Django Ninja", "RESTful APIs", "Celery"]
+      category: "Backend Core",
+      icon: <Server className="text-blue-400" size={24} />,
+      tools: ["Python 3.11", "Django 5.0", "FastAPI", "Celery"]
     },
     {
-      title: "Data & Caching",
-      icon: <Database className="text-emerald-500" size={28} />,
-      skills: ["PostgreSQL", "Redis", "SQLAlchemy", "System Design"]
+      category: "Infrastructure",
+      icon: <Database className="text-emerald-400" size={24} />,
+      tools: ["Docker / Compose", "PostgreSQL", "Redis", "Nginx"]
     },
     {
-      title: "DevOps & Infra",
-      icon: <Cpu className="text-purple-500" size={28} />,
-      skills: ["Docker", "Docker Compose", "Nginx", "Linux/Bash", "Git"]
-    },
-    {
-      title: "Frontend Lite",
-      icon: <Layout className="text-yellow-500" size={28} />,
-      skills: ["React", "TypeScript", "Tailwind CSS", "Vite"]
+      category: "Frontend",
+      icon: <Code2 className="text-purple-400" size={24} />,
+      tools: ["React 18", "TypeScript", "Tailwind CSS", "Framer Motion"]
     }
   ];
 
   return (
-    <div className="max-w-6xl mx-auto py-12 animate-in fade-in zoom-in-95 duration-700">
-      <div className="flex flex-col mb-16 items-center text-center">
-        <h2 className="text-5xl font-bold mb-4 text-white">My Tech Stack</h2>
-        <p className="text-gray-400 max-w-xl text-lg leading-relaxed">
-          Narzędzia i technologie, których używam do budowania skalowalnych systemów mikroserwisowych.
-        </p>
+    <div className="max-w-6xl mx-auto py-24 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <div className="flex flex-col mb-16 items-start">
+        <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4 text-left">Engineering_Arsenal</span>
+        <h2 className="text-5xl font-bold text-white font-display text-left">Tech Stack</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {categories.map((cat, idx) => (
-          <div key={idx} className="bg-[#111] border border-gray-800 p-8 rounded-2xl hover:border-blue-500/50 transition-all group">
-            <div className="mb-6 group-hover:scale-110 transition-transform duration-300">
-              {cat.icon}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {stack.map((item, idx) => (
+          <div key={idx} className="glass-card p-10 rounded-[2rem] hover:border-blue-500/30 transition-all group text-left">
+            <div className="mb-8 p-4 bg-white/5 border border-white/10 rounded-2xl w-fit group-hover:bg-blue-500/10 group-hover:text-blue-400 transition-all">
+              {item.icon}
             </div>
-            <h3 className="text-xl font-bold mb-6 text-white">{cat.title}</h3>
-            <ul className="space-y-3">
-              {cat.skills.map(skill => (
-                <li key={skill} className="flex items-center gap-2 text-gray-400 font-mono text-sm group-hover:text-gray-200 transition-colors">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full opacity-50"></div>
-                  {skill}
-                </li>
+            <h3 className="text-xl font-bold text-white font-display mb-6 tracking-tight text-left">{item.category}</h3>
+            <div className="flex flex-col gap-3">
+              {item.tools.map(tool => (
+                <div key={tool} className="flex items-center gap-3 text-slate-400 font-mono text-xs uppercase tracking-widest">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500/40"></div>
+                  {tool}
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         ))}
-      </div>
-
-      {/* Status systemowy na dole */}
-      <div className="mt-20 p-6 bg-blue-500/5 border border-blue-500/10 rounded-xl flex items-center justify-between font-mono text-xs text-blue-400">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-2">
-            <Code2 size={14} /> LANGUAGE: PYTHON_3.11
-          </span>
-          <span className="flex items-center gap-2">
-            <Layers size={14} /> ARCH: MICROSERVICES
-          </span>
-        </div>
-        <div className="hidden md:block uppercase tracking-widest">
-          ready_to_deploy: true
-        </div>
       </div>
     </div>
   );

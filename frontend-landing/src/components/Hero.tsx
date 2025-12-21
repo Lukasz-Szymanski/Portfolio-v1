@@ -3,43 +3,41 @@ import { Terminal, Github, Linkedin, ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
-    <header className="w-full min-h-[70vh] flex flex-col justify-center px-4 md:px-16 lg:px-24 mb-20 mt-10 animate-in fade-in slide-in-from-top-4 duration-700">
+    <header className="w-full h-[calc(100vh-80px)] flex flex-col justify-center px-4 md:px-16 lg:px-24 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-1000">
       {/* Mały nagłówek "systemowy" */}
-      <div className="flex items-center gap-2 mb-8 text-emerald-500 font-mono text-sm bg-emerald-500/5 w-fit px-4 py-1.5 rounded-full border border-emerald-500/20">
+      <div className="flex items-center gap-2 mb-10 text-blue-400 font-mono text-[10px] uppercase tracking-[0.4em] bg-blue-500/5 w-fit px-4 py-2 rounded-full border border-blue-500/20 backdrop-blur-md">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
         </span>
-        OPEN TO WORK
+        Systems Architecture 2025
       </div>
       
-      <div className="space-y-6">
-        <h1 className="text-7xl font-bold tracking-tight leading-none text-white">
-          Cześć, jestem <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Łukasz</span>.
+      <div className="space-y-10">
+        <h1 className="text-7xl md:text-9xl font-bold font-display tracking-tight leading-[0.85] text-white">
+          Building the <br/>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-500 drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">Future of Fintech</span>
         </h1>
         
-        <h2 className="text-4xl text-gray-400 font-light flex items-center gap-3">
-          <Terminal className="text-blue-500" size={36} />
-          Junior Python Developer
-        </h2>
-
-        <p className="text-xl text-gray-400 max-w-2xl leading-relaxed pt-4">
-          Szukam pierwszego komercyjnego wyzwania. Zamiast tylko uczyć się teorii, buduję działające mikroserwisy. 
-          Poniżej znajdziesz moje projekty wdrożone na produkcji.
-        </p>
+        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
+            <h2 className="text-2xl md:text-3xl text-slate-400 font-light flex items-center gap-4">
+                <Terminal className="text-blue-500" size={32} />
+                <span>Junior <span className="text-white font-medium">Backend Engineer</span></span>
+            </h2>
+            <div className="h-px md:h-12 w-12 md:w-px bg-white/10 hidden md:block"></div>
+            <p className="text-lg text-slate-500 max-w-xl leading-relaxed font-light">
+                Projektuję skalowalne mikroserwisy i systemy transakcyjne z wykorzystaniem <span className="text-blue-400 font-mono">X-Ray Mode</span>.
+            </p>
+        </div>
 
         {/* Przyciski CTA */}
-        <div className="flex flex-wrap gap-4 pt-8">
-          <a href="#projects" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all hover:scale-105">
-            Zobacz Projekty <ArrowRight size={18} />
+        <div className="flex flex-wrap gap-6 pt-6">
+          <a href="#projects" className="group relative flex items-center gap-3 bg-white text-black px-10 py-5 rounded-full font-bold text-base transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+            Explore Stack <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </a>
           
-          <a href="https://github.com/TwojNick" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#161616] hover:bg-[#202020] border border-gray-800 text-white px-6 py-3 rounded-lg font-medium transition-all hover:border-gray-600">
-            <Github size={20} /> GitHub
-          </a>
-
-          <a href="https://linkedin.com/in/TwojProfil" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#161616] hover:bg-[#202020] border border-gray-800 text-white px-6 py-3 rounded-lg font-medium transition-all hover:border-gray-600">
-            <Linkedin size={20} /> LinkedIn
+          <a href="https://github.com/TwojNick" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-10 py-5 rounded-full font-bold text-base transition-all backdrop-blur-md">
+            <Github size={20} /> Repository
           </a>
         </div>
       </div>

@@ -3,93 +3,84 @@ import { User, Code2, Coffee, GraduationCap, MapPin, Calendar } from 'lucide-rea
 
 const About: React.FC = () => {
   return (
-    <div className="max-w-6xl mx-auto py-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-6xl mx-auto py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
-      <div className="flex flex-col mb-12">
-        <span className="text-blue-500 font-mono text-sm mb-2 tracking-wider">USER_PROFILE</span>
-        <h2 className="text-4xl font-bold text-white">O Mnie</h2>
+      <div className="flex flex-col mb-16">
+        <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4">Core_Intelligence</span>
+        <h2 className="text-5xl font-bold text-white font-display">System Engineer</h2>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
         
         {/* Lewa kolumna: Tekstowa historia */}
-        <div className="space-y-6">
-          <p className="text-2xl text-white font-medium leading-relaxed">
-            Jestem aspirującym <span className="text-blue-500">Python Developerem</span>, który nie boi się wyzwań infrastrukturalnych.
+        <div className="glass-card p-10 rounded-3xl space-y-8 flex flex-col justify-center text-left">
+          <p className="text-3xl text-white font-display font-medium leading-tight text-left">
+            Projektuję systemy, które <span className="text-blue-500 text-left">wytrzymują próbę czasu</span> i obciążenia.
           </p>
           
-          <div className="space-y-4 text-gray-400 leading-relaxed text-lg">
-            <p>
-              Moja przygoda z programowaniem zaczęła się od chęci zrozumienia, jak działają systemy, z których korzystamy na co dzień. 
-              Zamiast uczyć się tylko składni języka, skupiam się na budowaniu systemów – od bazy danych, przez API, aż po konteneryzację.
+          <div className="space-y-6 text-slate-400 leading-relaxed text-lg font-light text-left">
+            <p className="text-left">
+              Moje podejście łączy czystą logikę Pythona z wydajnością infrastruktury opartej o Docker i Redis. 
+              Nie interesuje mnie tylko "działający kod" – szukam optymalnych rozwiązań architektonicznych.
             </p>
-            <p>
-              W moich projektach stawiam na <span className="text-white">wydajność i czysty kod</span>. 
-              Dzięki pracy z Dockerem i mikroserwisami, potrafię myśleć o aplikacji jako o większym ekosystemie, a nie tylko pojedynczym pliku.
+            <p className="text-left">
+              W portfolio demonstruję pełną integrację mikroserwisów, transakcyjność ACID oraz nowoczesne wzorce asynchroniczne.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 pt-6">
-            <div className="bg-[#111] p-4 rounded-xl border border-gray-800">
-              <Coffee className="text-orange-500 mb-2" size={20} />
-              <h4 className="text-white font-bold">Zawsze z kawą</h4>
-              <p className="text-gray-500 text-xs">Paliwo do debugowania kodu.</p>
+          <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/5">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400"><Code2 size={20} /></div>
+              <span className="text-sm font-mono text-slate-300">Clean Code</span>
             </div>
-            <div className="bg-[#111] p-4 rounded-xl border border-gray-800">
-              <Code2 className="text-blue-500 mb-2" size={20} />
-              <h4 className="text-white font-bold">Fan Clean Code</h4>
-              <p className="text-gray-500 text-xs">Pythonic way is the only way.</p>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400"><Coffee size={20} /></div>
+              <span className="text-sm font-mono text-slate-300">Performance</span>
             </div>
           </div>
         </div>
 
         {/* Prawa kolumna: Fakty i statystyki */}
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-8 space-y-8">
-          <h3 className="text-xl font-bold text-white flex items-center gap-2">
-            <User size={20} className="text-blue-500" /> Szybkie Informacje
+        <div className="glass-card rounded-3xl p-10 space-y-10">
+          <h3 className="text-xl font-bold text-white font-display flex items-center gap-3">
+            <div className="w-8 h-px bg-blue-500"></div> Szybki Profil
           </h3>
           
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="p-2 bg-blue-500/10 rounded-lg text-blue-500">
-                <MapPin size={20} />
+          <div className="space-y-8">
+            <div className="flex items-start gap-6 group">
+              <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-2xl text-blue-400 group-hover:bg-blue-500/10 transition-colors">
+                <MapPin size={24} />
               </div>
-              <div>
-                <p className="text-gray-500 text-xs uppercase font-mono">Lokalizacja</p>
-                <p className="text-white font-medium text-lg">Warszawa, Polska</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500">
-                <GraduationCap size={20} />
-              </div>
-              <div>
-                <p className="text-gray-500 text-xs uppercase font-mono">Edukacja</p>
-                <p className="text-white font-medium text-lg">Samouk / Projekty Własne</p>
+              <div className="text-left">
+                <p className="text-slate-500 text-[10px] uppercase font-mono tracking-widest mb-1 text-left">Lokalizacja</p>
+                <p className="text-white font-medium text-xl text-left">Warszawa, PL</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="p-2 bg-purple-500/10 rounded-lg text-purple-500">
-                <Calendar size={20} />
+            <div className="flex items-start gap-6 group">
+              <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl text-emerald-400 group-hover:bg-emerald-500/10 transition-colors">
+                <GraduationCap size={24} />
               </div>
-              <div>
-                <p className="text-gray-500 text-xs uppercase font-mono">Status</p>
-                <p className="text-white font-medium text-lg">Dostępny od zaraz</p>
+              <div className="text-left">
+                <p className="text-slate-500 text-[10px] uppercase font-mono tracking-widest mb-1 text-left">Specjalizacja</p>
+                <p className="text-white font-medium text-xl text-left">Backend / Cloud</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-6 group">
+              <div className="p-4 bg-purple-500/5 border border-purple-500/20 rounded-2xl text-purple-400 group-hover:bg-purple-500/10 transition-colors">
+                <Calendar size={24} />
+              </div>
+              <div className="text-left">
+                <p className="text-slate-500 text-[10px] uppercase font-mono tracking-widest mb-1 text-left">Status</p>
+                <p className="text-white font-medium text-xl text-left">Available Now</p>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-gray-800 text-[10px] font-mono text-gray-500 space-y-2">
-             <div className="flex justify-between">
-                <span>SYSTEM_VERSION:</span>
-                <span>v1.0.4-stable</span>
-             </div>
-             <div className="flex justify-between">
-                <span>LAST_UPDATE:</span>
-                <span>{new Date().toLocaleDateString()}</span>
-             </div>
+          <div className="pt-8 border-t border-white/5 font-mono text-[10px] text-slate-600 flex justify-between">
+             <span>SYS_VER: 2.0.1-PRO</span>
+             <span>UPTIME: 99.9%</span>
           </div>
         </div>
 

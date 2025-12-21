@@ -12,31 +12,31 @@ const CryptoTicker = () => {
   if (isLoading || !prices) return null;
 
   return (
-    <div className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 border border-indigo-500/30 rounded-xl p-4 flex items-center justify-between animate-in fade-in slide-in-from-top-4">
-      <div className="flex items-center gap-3">
-        <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
-          <Activity size={20} />
+    <div className="glass-card border-blue-500/20 rounded-3xl p-6 flex items-center justify-between shadow-[0_0_50px_rgba(59,130,246,0.1)]">
+      <div className="flex items-center gap-4">
+        <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-400 border border-blue-500/20">
+          <Activity size={24} />
         </div>
-        <div>
-          <p className="text-xs text-indigo-300 font-bold tracking-wider uppercase">Market Watch</p>
-          <p className="text-xs text-slate-400">Live from Celery Worker</p>
+        <div className="text-left">
+          <p className="text-[10px] text-blue-400 font-mono font-bold tracking-[0.3em] uppercase text-left">Market Pulse</p>
+          <p className="text-xs text-slate-500 font-mono italic text-left">Source: Celery Network</p>
         </div>
       </div>
 
-      <div className="flex gap-6">
-        <div className="text-right">
-          <p className="text-xs text-slate-400 uppercase font-bold flex items-center justify-end gap-1">
-            BTC <Bitcoin size={12} />
+      <div className="flex gap-10">
+        <div className="text-right group">
+          <p className="text-[10px] text-slate-500 uppercase font-mono tracking-widest flex items-center justify-end gap-2 mb-1">
+            Bitcoin <Bitcoin size={14} className="text-orange-500" />
           </p>
-          <p className="text-white font-mono font-bold">
+          <p className="text-2xl text-white font-mono font-bold tracking-tighter group-hover:text-blue-400 transition-colors">
             {prices.bitcoin !== 'unavailable' ? `${prices.bitcoin} PLN` : '---'}
           </p>
         </div>
-        <div className="text-right">
-          <p className="text-xs text-slate-400 uppercase font-bold flex items-center justify-end gap-1">
-            ETH <TrendingUp size={12} />
+        <div className="text-right group">
+          <p className="text-[10px] text-slate-500 uppercase font-mono tracking-widest flex items-center justify-end gap-2 mb-1">
+            Ethereum <TrendingUp size={14} className="text-blue-400" />
           </p>
-          <p className="text-white font-mono font-bold">
+          <p className="text-2xl text-white font-mono font-bold tracking-tighter group-hover:text-emerald-400 transition-colors">
             {prices.ethereum !== 'unavailable' ? `${prices.ethereum} PLN` : '---'}
           </p>
         </div>
