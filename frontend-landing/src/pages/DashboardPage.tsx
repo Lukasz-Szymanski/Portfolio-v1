@@ -1,34 +1,100 @@
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { fintechApi } from '../api/fintech';
 import AccountList from '../components/dashboard/AccountList';
 import TransferForm from '../components/dashboard/TransferForm';
 import TransactionHistory from '../components/dashboard/TransactionHistory';
 import CompanyVerifier from '../components/dashboard/CompanyVerifier';
 import CryptoTicker from '../components/dashboard/CryptoTicker';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, LogOut, PlayCircle, ShieldCheck } from 'lucide-react';
 
 function DashboardPage() {
   const [searchParams] = useSearchParams();
-  // Domyślnie otwieramy Fintech, jeśli nie podano widoku
   const currentView = searchParams.get('view') || 'fintech';
   
-  const userId = 1;
-
-  // Pobieramy dane kont tylko jeśli jesteśmy w widoku Fintech
-  const { data: accounts, isLoading, isError } = useQuery({
-    queryKey: ['accounts', userId],
-    queryFn: () => fintechApi.getAccounts(userId),
-    enabled: currentView === 'fintech'
+  // State dla użytkownika demo
+  const [userId, setUserId] = useState<number | null>(() => {
+    const saved = localStorage.getItem('demo_user_id');
+    return saved ? parseInt(saved) : null;
   });
 
-  // Konfiguracja nagłówka w zależności od widoku
+  const [isInitializing, setIsInitializing] = useState(false);
+
+  // Pobieramy dane kont tylko jeśli mamy usera i jesteśmy w widoku Fintech
+  const { data: accounts, isLoading, isError, refetch } = useQuery({
+    queryKey: ['accounts', userId],
+    queryFn: () => fintechApi.getAccounts(userId!),
+    enabled: !!userId && currentView === 'fintech'
+  });
+
+  const handleLogin = async () => {
+    setIsInitializing(true);
+    // Generujemy losowe ID dla gościa
+    const newId = Math.floor(Math.random() * 9000) + 1000;
+    
+    try {
+        await fintechApi.initDemoAccount(newId);
+        localStorage.setItem('demo_user_id', newId.toString());
+        setUserId(newId);
+        window.location.reload(); // Prosty reload, aby odświeżyć wszystkie query
+    } catch (e) {
+        console.error("Failed to init demo", e);
+        alert("Błąd inicjalizacji demo. Sprawdź czy kontenery działają.");
+    } finally {
+        setIsInitializing(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('demo_user_id');
+    setUserId(null);
+  };
+
+  // --- LOGIN SCREEN ---
+  if (!userId) {
+    return (
+        <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-4">
+            <div className="max-w-md w-full bg-slate-800/50 p-8 rounded-2xl border border-slate-700 text-center animate-in fade-in zoom-in-95">
+                <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
+                    <ShieldCheck size={32} />
+                </div>
+                <h2 className="text-2xl font-bold mb-2">Witaj w Panelu Demo</h2>
+                <p className="text-slate-400 mb-8">
+                    To jest symulator systemu bankowego. Nie musisz zakładać konta.
+                    Wygenerujemy dla Ciebie profil gościa z wirtualną gotówką.
+                </p>
+                
+                <button 
+                    onClick={handleLogin}
+                    disabled={isInitializing}
+                    className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {isInitializing ? (
+                        "Przygotowywanie środowiska..."
+                    ) : (
+                        <>
+                            <PlayCircle size={20} /> Uruchom Demo (Jako Gość)
+                        </>
+                    )}
+                </button>
+                <div className="mt-6">
+                    <a href="/" className="text-slate-500 hover:text-white text-sm">
+                        &larr; Wróć do strony głównej
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+  }
+
+  // --- MAIN DASHBOARD ---
   const getHeaderContent = () => {
     switch (currentView) {
       case 'fintech':
         return {
           title: 'Fintech Core Demo',
-          subtitle: 'Banking System Simulation (Django Ninja + PostgreSQL)',
+          subtitle: `Logged as Guest_ID: ${userId}`,
           gradient: 'from-blue-400 to-cyan-400'
         };
       case 'b2b':
@@ -66,8 +132,10 @@ function DashboardPage() {
              </h1>
              <p className="text-slate-400 text-sm mt-1 font-mono tracking-wide">{header.subtitle}</p>
           </div>
-          <div className="flex gap-4">
-             {/* Używamy zwykłego tagu <a> aby wymusić poprawne działanie kotwicy #projects */}
+          <div className="flex gap-4 items-center">
+             <button onClick={handleLogout} className="text-slate-500 hover:text-red-400 transition-colors" title="Wyloguj (Usuń sesję)">
+                <LogOut size={20} />
+             </button>
              <a href="/#projects" className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition-colors text-sm font-medium border border-slate-700">
                &larr; Back to Projects
              </a>

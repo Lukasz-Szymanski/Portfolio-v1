@@ -127,7 +127,27 @@ def get_account_balance(request, account_number: str):
 def init_demo_account(request, user_id: int):
     """
     Inicjalizuje konto demo dla nowego użytkownika z gotową historią transakcji.
+    Oraz upewnia się, że istnieją konta 'systemowe' do testowania przelewów.
     """
+    # 0. Upewnij się, że istnieją odbiorcy testowi (Landlord, Sklep)
+    # Robimy to w trybie "get_or_create"
+    if not Account.objects.filter(account_number="10000000000000000000000001").exists():
+        Account.objects.create(
+            user_id=99991, 
+            currency="PLN", 
+            account_number="10000000000000000000000001", 
+            balance=50000.00
+        )
+    
+    if not Account.objects.filter(account_number="20000000000000000000000002").exists():
+        Account.objects.create(
+            user_id=99992, 
+            currency="PLN", 
+            account_number="20000000000000000000000002", 
+            balance=5000.00
+        )
+
+    # 1. Sprawdź czy user ma już konto
     if Account.objects.filter(user_id=user_id).exists():
         return Account.objects.filter(user_id=user_id).first()
 
@@ -144,9 +164,5 @@ def init_demo_account(request, user_id: int):
         Transaction.objects.create(account=account, amount=-2500.00, transaction_type='TRANSFER_OUT', description="Apartment Rent (Downtown)")
         Transaction.objects.create(account=account, amount=-400.00, transaction_type='TRANSFER_OUT', description="Grocery Shopping")
         Transaction.objects.create(account=account, amount=900.00, transaction_type='TRANSFER_IN', description="Freelance Gig Payment")
-
-        # Aktualizacja salda po transakcjach?
-        # W tym modelu 'balance' jest stanem bieżącym, a transakcje to historia.
-        # Przy tworzeniu ustawiliśmy 10000. Wg transakcji: 12000 - 2500 - 400 + 900 = 10000.
     
     return account

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fintechApi } from '../../api/fintech';
 import type { TransferRequest } from '../../api/fintech';
-import { Send, CheckCircle, AlertOctagon } from 'lucide-react';
+import { Send, CheckCircle, AlertOctagon, User, Store } from 'lucide-react';
 
 const TransferForm = ({ senderId }: { senderId: string }) => {
   const queryClient = useQueryClient();
@@ -15,6 +15,14 @@ const TransferForm = ({ senderId }: { senderId: string }) => {
   
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  const fillRecipient = (acc: string, desc: string, amount: string) => {
+    setFormData({
+        receiver_account_number: acc,
+        description: desc,
+        amount: amount
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: (data: TransferRequest) => fintechApi.makeTransfer(data),
@@ -69,13 +77,44 @@ const TransferForm = ({ senderId }: { senderId: string }) => {
           <input 
             type="text" 
             placeholder="26 cyfr..."
-            className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-blue-500 outline-none font-mono"
+            className="w-full bg-slate-900 border border-slate-700 rounded p-3 text-white focus:border-blue-500 outline-none font-mono text-sm"
             value={formData.receiver_account_number}
             onChange={(e) => setFormData({...formData, receiver_account_number: e.target.value})}
             required
             minLength={26}
             maxLength={26}
           />
+        </div>
+
+        {/* Szybcy odbiorcy */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+             <button 
+                type="button"
+                onClick={() => fillRecipient("10000000000000000000000001", "Czynsz za mieszkanie", "2500")}
+                className="flex items-center gap-2 p-2 bg-slate-700/50 hover:bg-slate-700 rounded border border-slate-600 hover:border-blue-400 transition-all text-left group"
+             >
+                <div className="p-2 bg-blue-500/10 rounded-full text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                    <User size={16} />
+                </div>
+                <div>
+                    <p className="text-xs font-bold text-slate-300">Właściciel</p>
+                    <p className="text-[10px] text-slate-500 font-mono">...0001</p>
+                </div>
+             </button>
+
+             <button 
+                type="button"
+                onClick={() => fillRecipient("20000000000000000000000002", "Zakupy spożywcze", "150")}
+                className="flex items-center gap-2 p-2 bg-slate-700/50 hover:bg-slate-700 rounded border border-slate-600 hover:border-emerald-400 transition-all text-left group"
+             >
+                <div className="p-2 bg-emerald-500/10 rounded-full text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                    <Store size={16} />
+                </div>
+                <div>
+                    <p className="text-xs font-bold text-slate-300">Sklep Lokalny</p>
+                    <p className="text-[10px] text-slate-500 font-mono">...0002</p>
+                </div>
+             </button>
         </div>
 
         {/* Kwota i Tytuł */}
@@ -106,12 +145,12 @@ const TransferForm = ({ senderId }: { senderId: string }) => {
 
         {/* Komunikaty */}
         {successMsg && (
-          <div className="bg-green-500/10 text-green-400 p-3 rounded flex items-center gap-2 text-sm">
+          <div className="bg-green-500/10 text-green-400 p-3 rounded flex items-center gap-2 text-sm animate-in slide-in-from-top-2">
             <CheckCircle size={16} /> {successMsg}
           </div>
         )}
         {errorMsg && (
-          <div className="bg-red-500/10 text-red-400 p-3 rounded flex items-center gap-2 text-sm">
+          <div className="bg-red-500/10 text-red-400 p-3 rounded flex items-center gap-2 text-sm animate-in slide-in-from-top-2">
             <AlertOctagon size={16} /> {errorMsg}
           </div>
         )}

@@ -54,5 +54,11 @@ export const fintechApi = {
         responseType: 'blob' // Ważne dla plików binarnych
     });
     return response.data;
+  },
+
+  // Inicjalizacja Demo
+  initDemoAccount: async (userId: number): Promise<Account> => {
+    const response = await apiClient.post<Account>(`/fintech/accounts/init-demo/${userId}`);
+    return response.data;
   }
 };

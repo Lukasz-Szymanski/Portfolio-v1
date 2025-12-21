@@ -1,102 +1,92 @@
-# Portfolio v1.0: Microservices Architecture 🚀
+# Portfolio: Microservices Architecture Demo
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![Docker](https://img.shields.io/badge/docker-compose-blue.svg)](https://www.docker.com/)
-[![Python](https://img.shields.io/badge/python-3.11-yellow.svg)](https://www.python.org/)
-[![React](https://img.shields.io/badge/react-18-blue.svg)](https://react.dev/)
+![Status](https://img.shields.io/badge/Status-MVP_Ready-success)
+![Stack](https://img.shields.io/badge/Stack-Python_|_React_|_Docker-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Profesjonalne portfolio Software Developera zbudowane w oparciu o architekturę mikroserwisów.
-Projekt demonstruje umiejętność łączenia nowoczesnego Frontendu (React/Vite) z wydajnym Backendem (FastAPI, Django Ninja) oraz infrastrukturą kontenerową (Docker, Nginx, Redis, PostgreSQL).
-
-## 🎯 O Projekcie
-
-Ten projekt to moja osobista droga do zostania **Junior Python Developerem**. Zamiast tworzyć statyczną stronę "O mnie", postanowiłem zbudować pełnoprawny system mikroserwisowy, który pokazuje moje rzeczywiste umiejętności w zakresie:
-- Projektowania systemów (System Design).
-- Pracy z kontenerami (Docker).
-- Komunikacji między usługami (REST API, Redis).
-- Nowoczesnego frontendu (React SPA).
-
-To portfolio jest "żywym dokumentem" mojego rozwoju – każda linijka kodu została napisana z myślą o dobrych praktykach i skalowalności.
-
-## 🏗️ Architektura Systemu
-
-System składa się z niezależnych kontenerów orkiestrowanych przez Docker Compose:
-
-| Usługa | Technologia | Rola | Port (Wew.) |
-|--------|------------|------|-------------|
-| **Gateway** | Nginx | Reverse Proxy, Routing, SSL Termination | 80 |
-| **Frontend** | React + Vite + Tailwind | Landing Page + Fintech Dashboard (SPA) | 5173 |
-| **B2B Service** | Python (FastAPI) | Weryfikacja NIP, Cache'owanie danych firm | 8001 |
-| **Fintech Core** | Python (Django Ninja) | Symulator transakcji, HMAC, Idempotency | 8002 |
-| **Price Monitor** | Python (Celery) | Asynchroniczne zadania w tle, Scraping | - |
-| **Cache** | Redis | Szybki dostęp do danych, Broker wiadomości | 6379 |
-| **Database** | PostgreSQL | Główny magazyn danych relacyjnych | 5432 |
+Kompletny system mikroserwisów symulujący środowisko **Fintech** oraz **B2B**. Projekt został stworzony w celu demonstracji umiejętności z zakresu architektury systemów rozproszonych, asynchroniczności oraz nowoczesnego frontendu.
 
 ---
 
-## 🌟 Główne Funkcjonalności (Live Demo)
+## 🏗 Architektura
 
-### 1. B2B Company Verifier (Dostępny)
-Mikroserwis do weryfikacji danych kontrahenta na podstawie NIP.
-- **Cache Strategy:** Pierwsze zapytanie trwa 1.5s (symulacja GUS), kolejne są natychmiastowe (Redis).
-- **UI:** Zintegrowany moduł w panelu Dashboard.
-- **Endpoint:** `/api/v1/companies/{nip}`
+System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gateway), uruchamianych w kontenerach Docker.
 
-### 2. Fintech Simulator (Dostępny) ✅
-Symulacja systemu bankowego w pełni zintegrowana z interfejsem Dashboard.
-- Podpisywanie requestów (HMAC SHA256).
-- Klucze idempotentności (zapobieganie podwójnym przelewom).
-- **Interaktywny panel:** Zarządzanie kontami i przelewami w czasie rzeczywistym.
-- **Endpoint:** `http://localhost/api/fintech/docs`
+### 1. Service Fintech (Core Banking)
+- **Technologia:** Django 5.0 + Django Ninja (Fast API-like for Django)
+- **Baza Danych:** PostgreSQL
+- **Rola:** Główny system transakcyjny. Obsługuje konta użytkowników, historię operacji oraz bezpieczne przelewy (ACID Transactions). Generuje potwierdzenia PDF.
 
-### 3. Price Monitor (Dostępny) ✅
-System zadań asynchronicznych działający w tle.
-- **Worker:** Celery + Redis.
-- **Funkcja:** Cykliczne pobieranie kursów walut (Beat).
-- **UI:** Widget "Market Watch" na Dashboardzie.
+### 2. Service B2B Data (High Performance Proxy)
+- **Technologia:** FastAPI
+- **Cache:** Redis
+- **Rola:** Szybki serwer proxy do weryfikacji danych kontrahentów (NIP/REGON) oraz pobierania kursów walut. Wykorzystuje wzorzec Cache-Aside do minimalizacji opóźnień.
 
----
+### 3. Service Price Monitor (Background Worker)
+- **Technologia:** Celery + Redis (Broker)
+- **Rola:** System zadań asynchronicznych działających w tle. Cyklicznie (co 60s) pobiera aktualne kursy kryptowalut z zewnętrznych API i aktualizuje współdzielony stan w Redis.
 
-## 🛠️ Instrukcja Uruchomienia
-
-Wymagania: `Docker` oraz `Docker Compose`.
-
-1. **Sklonuj repozytorium:**
-   ```bash
-   git clone https://github.com/TwojNick/portfolio-v1.git
-   cd portfolio-v1
-   ```
-
-2. **Uruchom środowisko:**
-   ```bash
-   docker compose up -d --build
-   ```
-
-3. **Dostęp do aplikacji (przez Gateway):**
-   - **Główny interfejs (Frontend):** [http://localhost](http://localhost)
-   - **API Fintech (Swagger przez Gateway):** [http://localhost/api/fintech/docs](http://localhost/api/fintech/docs)
-   - **API B2B (Bezpośrednio):** [http://localhost:8001/docs](http://localhost:8001/docs)
-
-*Uwaga: Fintech Service jest już w pełni zintegrowany z Reverse Proxy (Nginx). Zapytania pod `/api/fintech/` są automatycznie przekierowywane do kontenera Django Ninja.*
+### 4. Frontend (Dashboard)
+- **Technologia:** React + Vite + TypeScript + Tailwind CSS
+- **Rola:** Nowoczesne SPA (Single Page Application) komunikujące się z mikroserwisami poprzez Nginx Gateway. Posiada tryb "Guest Demo" dla rekruterów.
 
 ---
 
-## 📂 Struktura Projektu
+## 🚀 Jak uruchomić (Quick Start)
+
+Wymagany Docker oraz Docker Compose.
 
 ```bash
-├── docker-compose.yml    # Orkiestracja całej infrastruktury
-├── nginx/                # Konfiguracja Gateway (Reverse Proxy)
-├── frontend-landing/     # Kod źródłowy SPA (React + TypeScript)
-├── service-b2b-data/     # Mikroserwis FastAPI (Redis Cache)
-├── service-fintech/      # Mikroserwis Django Ninja (Fintech Core)
-└── docs/                 # Dokumentacja techniczna i plany rozwoju
+# 1. Sklonuj repozytorium
+git clone https://github.com/TwojNick/portfolio-microservices.git
+cd portfolio-microservices
+
+# 2. Uruchom środowisko (to zbuduje obrazy i postawi kontenery)
+docker compose up --build
 ```
 
-## 👨‍💻 Autor
+Po uruchomieniu aplikacja jest dostępna pod adresem:
+👉 **http://localhost**
 
-**Łukasz** - *Aspiring Python Architect & Backend Developer*
-- Specjalizacja: Python, Docker, Cloud Architecture.
-- Kontakt: [Link do LinkedIn]
+### Dostępne Usługi:
+| Usługa | URL Wewnętrzny | Opis |
+|--------|---------------|------|
+| **Frontend** | `http://localhost:80` | Główny interfejs użytkownika |
+| **Fintech API** | `http://localhost:8002/api/docs` | Swagger UI dla systemu bankowego |
+| **B2B API** | `http://localhost:8001/docs` | Swagger UI dla serwisu danych |
 
 ---
-*Projekt stworzony w celach edukacyjnych i demonstracyjnych.*
+
+## 💡 Funkcjonalności Demo
+
+Projekt posiada wbudowany tryb demonstracyjny. Nie musisz się rejestrować!
+1. Wejdź na Dashboard.
+2. Kliknij **"Uruchom Demo (Jako Gość)"**.
+3. System automatycznie utworzy dla Ciebie wirtualne konto, historię transakcji oraz zdefiniuje odbiorców testowych.
+4. Możesz wykonywać przelewy, pobierać potwierdzenia PDF i sprawdzać firmy po NIP.
+
+---
+
+## 📚 Baza Wiedzy (ADR & Learning)
+
+W katalogu `docs/` znajdują się szczegółowe opisy decyzji architektonicznych:
+
+* [Hybrid Architecture (Django + FastAPI)](docs/learning_hybrid_architecture.md) - Dlaczego użyłem dwóch różnych frameworków?
+* [PDF Generation Strategy](docs/learning_pdf_generation.md) - Dlaczego generuję PDF na backendzie?
+* [Guest Session Management](docs/learning_guest_auth.md) - Jak działa logowanie bez hasła?
+* [Redis Advanced Usage](docs/learning_redis_advanced.md) - Rola Redisa jako brokera i cache.
+
+---
+
+## 🛠 Tech Stack
+
+* **Backend:** Python 3.11, Django, FastAPI, Celery
+* **Frontend:** React 18, TypeScript, Tailwind, React Query, Framer Motion
+* **Infrastructure:** Docker Compose, Nginx (Reverse Proxy), PostgreSQL 15, Redis 7
+* **Tools:** Poetry, Ruff, Black, ESLint
+
+---
+
+## Autor
+Projekt stworzony jako portfolio inżynierskie.
+**Kontakt:** [Twoj Link LinkedIn / Email]
