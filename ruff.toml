@@ -1,0 +1,8 @@
+# Konfiguracja lintera Ruff
+
+# Zwiększ limit długości linii do 100 znaków
+line-length = 100
+
+[lint]
+# Ignoruj B008 (Function call in default argument) - standard w FastAPI (Depends)
+ignore = ["B008"]

@@ -24,9 +24,12 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-line-length = 88
-target-version = "py311"
-select = ["E", "F", "I", "B"] # Podstawowe zasady: błędy, formatowanie, importy
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["B008"]
+
 
 [tool.mypy]
 python_version = "3.11"

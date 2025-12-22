@@ -1,10 +1,10 @@
-from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks
-from pydantic import BaseModel, EmailStr
-from typing import Dict, Any
-import redis
-import time
-import httpx
 import datetime
+import time
+
+import httpx
+import redis
+from fastapi import BackgroundTasks, Depends, FastAPI
+from pydantic import BaseModel, EmailStr
 
 app = FastAPI(title="B2B Company Verifier")
 
@@ -41,10 +41,10 @@ async def send_contact_email(form: ContactSchema, background_tasks: BackgroundTa
     return {"message": "Wiadomość została wysłana!"}
 
 def log_email_to_console(form: ContactSchema):
-    print(f"--- NEW CONTACT MESSAGE ---")
+    print("--- NEW CONTACT MESSAGE ---")
     print(f"From: {form.name} <{form.email}>")
     print(f"Message: {form.message}")
-    print(f"---------------------------")
+    print("---------------------------")
 
 @app.get("/api/v1/companies/{nip}")
 async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
@@ -55,7 +55,8 @@ async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
     cached_data = r.get(f"company:{nip}")
     if cached_data:
         r.incr("stats:cache_hits")
-        return {"source": "cache", "data": eval(cached_data)} # eval is simple for demo dict string representation
+        # eval is simple for demo dict string representation
+        return {"source": "cache", "data": eval(cached_data)}
 
     # Jeśli tu jesteśmy, to mamy MISS
     r.incr("stats:cache_misses")
@@ -74,17 +75,22 @@ async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
                 subject = data.get('result', {}).get('subject')
                 
                 if subject:
+                    address = (
+                        subject.get('residenceAddress') or 
+                        subject.get('workingAddress') or 
+                        "Brak adresu w bazie"
+                    )
                     real_data = {
                         "nip": subject.get('nip'),
                         "name": subject.get('name'),
-                        "address": subject.get('residenceAddress') or subject.get('workingAddress') or "Brak adresu w bazie",
+                        "address": address,
                         "regon": subject.get('regon'),
                         "is_active": subject.get('statusVat') == 'Czynny',
                         "status": subject.get('statusVat')
                     }
                     
-                    # Zapisz do Cache
-                    r.setex(f"company:{nip}", 3600, str(real_data)) # 1h cache dla prawdziwych danych
+                    # Zapisz do Cache (1h cache dla prawdziwych danych)
+                    r.setex(f"company:{nip}", 3600, str(real_data))
                     return {"source": "live_gov_api", "data": real_data}
             
             print(f"MF API Response: {response.status_code} - Falling back to mock.")
@@ -134,7 +140,8 @@ async def get_system_status(r: redis.Redis = Depends(get_redis)):
         "monitor": {
             "bitcoin": r.get("crypto:bitcoin") or "0.00",
             "ethereum": r.get("crypto:ethereum") or "0.00",
-            "last_update": time.strftime("%H:%M:%S") # Real update time should come from Redis too
+            # Real update time should come from Redis too
+            "last_update": time.strftime("%H:%M:%S")
         },
         "services": {
             "b2b": "online",

@@ -2,7 +2,6 @@ import os
 import requests
 import redis
 from celery import Celery
-from celery.schedules import crontab
 
 # Pobieramy adres Redisa
 REDIS_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
@@ -32,10 +31,10 @@ def fetch_crypto_prices():
         redis_client.set("crypto:bitcoin", str(btc_pln))
         redis_client.set("crypto:ethereum", str(eth_pln))
         
-        print(f"--- CRYPTO UPDATE ---")
+        print("--- CRYPTO UPDATE ---")
         print(f"Bitcoin: {btc_pln} PLN")
         print(f"Ethereum: {eth_pln} PLN")
-        print(f"----------------------")
+        print("----------------------")
         
         return data
     except Exception as e:

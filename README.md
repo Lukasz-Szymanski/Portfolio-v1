@@ -30,6 +30,8 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 
 *   **🛡️ Architecture X-Ray Mode:** Przełącznik "DEV_MODE" w Dashboardzie dekonstruuje aplikację na techniczne komponenty, pokazując endpointy API i technologie użyte w każdym module.
 *   **📊 Data Visualization:** Interaktywne wykresy finansowe (Recharts) z algorytmem rekonstrukcji salda po stronie klienta oraz wizualizacja skuteczności cache'owania Redis.
+*   **🧪 Automated E2E Testing:** Kompletny zestaw testów regresyjnych (Playwright) pokrywający ścieżkę krytyczną: od logowania, przez nawigację, aż po weryfikację poprawności transakcji atomowych.
+*   **✨ Code Quality Assurance:** Kod utrzymywany w rygorze produkcyjnym. Python sprawdzany przez **Ruff**, Frontend przez **TypeScript Strict Mode**. Zero błędów, zero warningów.
 *   **🗺️ Interactive System Map:** Dynamiczny diagram (Mermaid.js) wizualizujący przepływ danych między Reactem, Nginxem a bazami danych.
 *   **💎 Neon Glass UI:** Nowoczesny interfejs oparty na Glassmorphismie, potężnej typografii i podejściu "Zero-Scroll" (One Screen Experience).
 *   **🚀 One-Click Demo:** System inicjalizacji gościa, który na żądanie tworzy unikalne środowisko testowe z wirtualnym saldem i historią transakcji.
@@ -39,6 +41,7 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 ## 📚 Baza Wiedzy (ADR & Learning)
 
 Szczegółowe opisy decyzji architektonicznych:
+* [E2E Testing with Playwright](docs/learning_e2e_testing.md)
 * [Data Visualization & Recharts](docs/learning_data_visualization.md)
 * [Architecture X-Ray Mode](docs/learning_architecture_xray.md)
 * [Neon Glass Design System](docs/learning_design_system.md)
@@ -49,11 +52,25 @@ Szczegółowe opisy decyzji architektonicznych:
 
 ## 🚀 Szybki Start
 
+### 1. Uruchomienie Systemu
 ```bash
 cd portfolio
 docker compose up --build
 ```
 Adres: **http://localhost**
+
+### 2. Weryfikacja Jakości (Quality Gates)
+Aby uruchomić testy E2E i sprawdzić jakość kodu:
+
+```bash
+# Testy End-to-End (wymaga uruchomionego Dockera)
+cd frontend-landing
+npm run test:e2e
+
+# Statyczna Analiza Kodu (Python)
+cd ..
+python -m ruff check .
+```
 
 ---
 

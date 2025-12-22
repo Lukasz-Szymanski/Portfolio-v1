@@ -1,6 +1,5 @@
 from typing import List
 from ninja import Router
-from ninja.errors import HttpError
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.http import HttpResponse
