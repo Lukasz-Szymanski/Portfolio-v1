@@ -3,6 +3,7 @@ import { b2bApi } from '../../api/b2b';
 import { fintechApi } from '../../api/fintech';
 import { Activity, Server, Users, Wallet, TrendingUp, Bitcoin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import B2BStats from './B2BStats';
 
 interface OverviewProps {
   userId: number;
@@ -20,7 +21,7 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } }
+  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 50 } }
 };
 
 const Overview = ({ userId }: OverviewProps) => {
@@ -74,10 +75,23 @@ const Overview = ({ userId }: OverviewProps) => {
             </div>
             <h3 className="font-bold font-display text-slate-200 tracking-tight">Companies Checked</h3>
         </div>
-        <p className="text-3xl font-mono font-bold text-white tracking-tighter">
-            {isStatusLoading ? '...' : systemStatus?.b2b.companies_checked || 0}
-        </p>
-        <p className="text-[10px] text-slate-500 mt-2 font-mono uppercase tracking-widest">B2B Proxy • Redis Cache</p>
+        
+        <div className="flex items-end justify-between gap-4">
+            <div>
+                <p className="text-3xl font-mono font-bold text-white tracking-tighter">
+                    {isStatusLoading ? '...' : systemStatus?.b2b.companies_checked || 0}
+                </p>
+                <p className="text-[10px] text-slate-500 mt-2 font-mono uppercase tracking-widest">B2B Proxy • Redis Cache</p>
+            </div>
+            <div className="w-24 h-24 -mb-4 -mr-4 opacity-80 group-hover:opacity-100 transition-opacity">
+                {!isStatusLoading && (
+                    <B2BStats 
+                        hits={systemStatus?.b2b.cache_hits || 0} 
+                        misses={systemStatus?.b2b.cache_misses || 0} 
+                    />
+                )}
+            </div>
+        </div>
       </motion.div>
 
       {/* KARTA 3: CRYPTO MONITOR */}

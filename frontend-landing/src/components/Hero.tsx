@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Github, Linkedin, ArrowRight } from 'lucide-react';
+import { Terminal, Github, ArrowRight } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (

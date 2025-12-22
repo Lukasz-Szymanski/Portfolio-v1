@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Linkedin, Github, Send, Loader2, CheckCircle, XCircle } from 'lucide-react';
+import { Mail, Linkedin, Github, Send, Loader2, CheckCircle } from 'lucide-react';
 import { b2bApi } from '../api/b2b';
 import { motion, AnimatePresence } from 'framer-motion';
 

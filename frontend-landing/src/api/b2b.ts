@@ -17,6 +17,7 @@ export interface SystemStatus {
   b2b: {
     companies_checked: number;
     cache_hits: number;
+    cache_misses: number;
   };
   monitor: {
     bitcoin: string;

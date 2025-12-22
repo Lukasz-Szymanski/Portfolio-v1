@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fintechApi } from '../api/fintech';
 import AccountList from '../components/dashboard/AccountList';
 import TransferForm from '../components/dashboard/TransferForm';
 import TransactionHistory from '../components/dashboard/TransactionHistory';
+import BalanceChart from '../components/dashboard/BalanceChart';
 import CompanyVerifier from '../components/dashboard/CompanyVerifier';
 import CryptoTicker from '../components/dashboard/CryptoTicker';
 import Overview from '../components/dashboard/Overview';
 import ArchitectureDiagram from '../components/dashboard/ArchitectureDiagram';
-import { AlertCircle, LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity, Glasses, Network, X, Loader2, Server } from 'lucide-react';
+import { LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity, Glasses, Network, X, Loader2, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
@@ -28,10 +29,16 @@ function DashboardPage() {
 
   const [isInitializing, setIsInitializing] = useState(false);
 
-  const { data: accounts, isLoading, isError } = useQuery({
+  const { data: accounts } = useQuery({
     queryKey: ['accounts', userId],
     queryFn: () => fintechApi.getAccounts(userId!),
     enabled: !!userId && currentView === 'fintech'
+  });
+
+  const { data: transactions } = useQuery({
+    queryKey: ['transactions', accounts?.[0]?.id],
+    queryFn: () => fintechApi.getTransactions(accounts![0].id),
+    enabled: !!accounts && accounts.length > 0 && currentView === 'fintech'
   });
 
   const handleLogin = async () => {
@@ -171,6 +178,17 @@ function DashboardPage() {
                     {currentView === 'fintech' && (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div className="lg:col-span-2 space-y-8">
+                                <section>
+                                    <h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3 uppercase tracking-tight font-display text-slate-200">Financial Growth</h2>
+                                    <div className="glass-card p-6 rounded-3xl border-white/5 bg-gradient-to-br from-blue-500/5 to-transparent">
+                                        <XRayWrapper label="Data Visualization" tech="Recharts" description="Dynamic balance reconstruction">
+                                            <BalanceChart 
+                                                transactions={transactions || []} 
+                                                currentBalance={parseFloat(accounts?.[0]?.balance || "0")} 
+                                            />
+                                        </XRayWrapper>
+                                    </div>
+                                </section>
                                 <section><h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3">Your Accounts</h2><XRayWrapper label="Relational Data" tech="Postgres"><AccountList accounts={accounts || []} /></XRayWrapper></section>
                                 <section><h3 className="text-xl font-semibold mb-6 border-l-4 border-slate-500 pl-3">Recent Activity</h3>{accounts && accounts.length > 0 ? <XRayWrapper label="Transaction Log" tech="Django"><TransactionHistory accountId={accounts[0].id} /></XRayWrapper> : <div className="text-slate-500">No account.</div>}</section>
                             </div>

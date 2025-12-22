@@ -48,13 +48,17 @@ def log_email_to_console(form: ContactSchema):
 
 @app.get("/api/v1/companies/{nip}")
 async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
-    # 0. Statystyki
+    # 0. Statystyki ogólne
     r.incr("stats:companies_checked")
 
     # 1. Sprawdź Cache
     cached_data = r.get(f"company:{nip}")
     if cached_data:
+        r.incr("stats:cache_hits")
         return {"source": "cache", "data": eval(cached_data)} # eval is simple for demo dict string representation
+
+    # Jeśli tu jesteśmy, to mamy MISS
+    r.incr("stats:cache_misses")
 
     # 2. Próba pobrania z Prawdziwego API (Ministerstwo Finansów)
     today = datetime.date.today().isoformat()
@@ -124,7 +128,8 @@ async def get_system_status(r: redis.Redis = Depends(get_redis)):
     return {
         "b2b": {
             "companies_checked": r.get("stats:companies_checked") or 0,
-            "cache_hits": 0 # TODO: Implement cache hit tracking
+            "cache_hits": r.get("stats:cache_hits") or 0,
+            "cache_misses": r.get("stats:cache_misses") or 0
         },
         "monitor": {
             "bitcoin": r.get("crypto:bitcoin") or "0.00",

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import mermaid from 'mermaid';
 
 const ArchitectureDiagram = () => {
-  const chartRef = useRef<HTMLDivElement>(null);
   const [svgContent, setSvgContent] = useState<string>('');
 
   useEffect(() => {

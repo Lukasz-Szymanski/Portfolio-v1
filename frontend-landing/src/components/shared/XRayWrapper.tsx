@@ -3,7 +3,7 @@ import { useDevMode } from '../../context/DevModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Server, Database, Globe } from 'lucide-react';
 
-export type TechType = 'React' | 'Django' | 'FastAPI' | 'Redis' | 'Postgres' | 'Celery' | 'Nginx';
+export type TechType = 'React' | 'Django' | 'FastAPI' | 'Redis' | 'Postgres' | 'Celery' | 'Nginx' | 'Recharts';
 
 interface XRayWrapperProps {
   children: React.ReactNode;
@@ -21,6 +21,7 @@ const techColors: Record<TechType, string> = {
   Postgres: 'border-blue-600 text-blue-600 bg-blue-600/10',
   Celery: 'border-yellow-500 text-yellow-500 bg-yellow-500/10',
   Nginx: 'border-green-400 text-green-400 bg-green-400/10',
+  Recharts: 'border-blue-400 text-blue-400 bg-blue-400/10',
 };
 
 const XRayWrapper: React.FC<XRayWrapperProps> = ({ children, label, tech, endpoint, description }) => {
