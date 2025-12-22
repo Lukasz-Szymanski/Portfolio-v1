@@ -1,17 +1,30 @@
-FROM python:3.11-slim
+# --- STAGE 1: Builder ---
+FROM python:3.11-slim AS builder
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN pip install poetry
+RUN apt-get update && apt-get install -y --no-install-recommends gcc
 
+RUN pip install poetry
 COPY pyproject.toml .
-RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root
+
+RUN poetry config virtualenvs.in-project true && \
+    poetry install --no-root --no-interaction --no-ansi
+
+# --- STAGE 2: Runtime (Production) ---
+FROM python:3.11-slim AS production
+
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Kopiujemy venv do /opt/venv
+COPY --from=builder /app/.venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 COPY . .
 
-# Uruchamiamy Celery Workera z poziomem logowania INFO
-# -A main: nazwa pliku/modułu, gdzie jest instancja 'app' Celery
 CMD ["celery", "-A", "main", "worker", "--loglevel=info"]

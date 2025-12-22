@@ -32,21 +32,17 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 *   **📊 Data Visualization:** Interaktywne wykresy finansowe (Recharts) z algorytmem rekonstrukcji salda po stronie klienta oraz wizualizacja skuteczności cache'owania Redis.
 *   **🧪 Automated E2E Testing:** Kompletny zestaw testów regresyjnych (Playwright) pokrywający ścieżkę krytyczną: od logowania, przez nawigację, aż po weryfikację poprawności transakcji atomowych.
 *   **✨ Code Quality Assurance:** Kod utrzymywany w rygorze produkcyjnym. Python sprawdzany przez **Ruff**, Frontend przez **TypeScript Strict Mode**. Zero błędów, zero warningów.
+*   **🐳 Production-Ready Docker:** Zastosowanie **Multi-Stage Builds** (obrazy <50MB) oraz separacja środowisk Dev/Prod w jednym pliku Compose.
 *   **🗺️ Interactive System Map:** Dynamiczny diagram (Mermaid.js) wizualizujący przepływ danych między Reactem, Nginxem a bazami danych.
-*   **💎 Neon Glass UI:** Nowoczesny interfejs oparty na Glassmorphismie, potężnej typografii i podejściu "Zero-Scroll" (One Screen Experience).
-*   **🚀 One-Click Demo:** System inicjalizacji gościa, który na żądanie tworzy unikalne środowisko testowe z wirtualnym saldem i historią transakcji.
 
 ---
 
 ## 📚 Baza Wiedzy (ADR & Learning)
 
 Szczegółowe opisy decyzji architektonicznych:
+* [Docker Optimization & Debugging](docs/learning_docker_optimization.md)
 * [E2E Testing with Playwright](docs/learning_e2e_testing.md)
 * [Data Visualization & Recharts](docs/learning_data_visualization.md)
-* [Architecture X-Ray Mode](docs/learning_architecture_xray.md)
-* [Neon Glass Design System](docs/learning_design_system.md)
-* [Hybrid Architecture (Django + FastAPI)](docs/learning_hybrid_architecture.md)
-* [Guest Session Management](docs/learning_guest_auth.md)
 
 ---
 

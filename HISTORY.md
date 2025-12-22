@@ -2,6 +2,7 @@
 
 ## 2025-12-22: Phase 7 - Engineering Excellence & Visualization
 - **Code Quality:** Enforced strict linting rules using Ruff (Python) and TSC (TypeScript). Fixed all reported issues (imports, formatting, unused variables).
+- **Docker Optimization (Phase 8.3):** Refactored all Dockerfiles to Multi-Stage Builds (Builder -> Runtime). Reduced image sizes by ~90%. Fixed critical network isolation issues in Docker Compose.
 - **E2E Testing:** Integrated Playwright framework. Implemented a full regression test covering the Critical Path (Login -> Fintech Dashboard -> Atomic Transfer -> UI Feedback).
 - **Data Visualization (Recharts):** Installed and configured Recharts... (reszta opisu)
 - **Balance History Reconstruction:** Implemented logic to calculate historical balance points from transaction logs.
