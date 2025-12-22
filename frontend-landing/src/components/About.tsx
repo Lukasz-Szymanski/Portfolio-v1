@@ -6,8 +6,8 @@ const About: React.FC = () => {
     <div className="max-w-6xl mx-auto py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
       <div className="flex flex-col mb-16">
-        <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4">Core_Intelligence</span>
-        <h2 className="text-5xl font-bold text-white font-display">System Engineer</h2>
+        <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4">The_Journey</span>
+        <h2 className="text-5xl font-bold text-white font-display">Self-Taught Developer</h2>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
@@ -15,16 +15,15 @@ const About: React.FC = () => {
         {/* Lewa kolumna: Tekstowa historia */}
         <div className="glass-card p-10 rounded-3xl space-y-8 flex flex-col justify-center text-left">
           <p className="text-3xl text-white font-display font-medium leading-tight text-left">
-            Projektuję systemy, które <span className="text-blue-500 text-left">wytrzymują próbę czasu</span> i obciążenia.
+            Moja droga do IT zaczęła się od <span className="text-blue-500 text-left">fascynacji wizualną stroną sieci.</span>
           </p>
           
           <div className="space-y-6 text-slate-400 leading-relaxed text-lg font-light text-left">
             <p className="text-left">
-              Moje podejście łączy czystą logikę Pythona z wydajnością infrastruktury opartej o Docker i Redis. 
-              Nie interesuje mnie tylko "działający kod" – szukam optymalnych rozwiązań architektonicznych.
+              Zaczynałem od fundamentów: HTML, CSS oraz podstaw JavaScriptu i Reacta. Zrozumienie, jak użytkownik wchodzi w interakcję z aplikacją, dało mi solidną bazę, ale szybko poczułem, że chcę wiedzieć, co dzieje się "pod maską".
             </p>
             <p className="text-left">
-              W portfolio demonstruję pełną integrację mikroserwisów, transakcyjność ACID oraz nowoczesne wzorce asynchroniczne.
+              Dziś skupiam się na budowaniu logiki, która zasila te interfejsy. W tym portfolio łączę frontendowe korzenie z backendową precyzją, dbając o transakcyjność i architekturę kontenerową.
             </p>
           </div>
 

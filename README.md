@@ -41,8 +41,13 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 
 Szczegółowe opisy decyzji architektonicznych:
 * [Docker Optimization & Debugging](docs/learning_docker_optimization.md)
+* [Authentic Content Strategy](docs/learning_content_strategy.md)
 * [E2E Testing with Playwright](docs/learning_e2e_testing.md)
 * [Data Visualization & Recharts](docs/learning_data_visualization.md)
+* [Architecture X-Ray Mode](docs/learning_architecture_xray.md)
+* [Neon Glass Design System](docs/learning_design_system.md)
+* [Hybrid Architecture (Django + FastAPI)](docs/learning_hybrid_architecture.md)
+* [Guest Session Management](docs/learning_guest_auth.md)
 
 ---
 
@@ -71,5 +76,6 @@ python -m ruff check .
 ---
 
 ## Autor
-Projekt stworzony jako demonstracja umiejętności Backend & Architecture.
-**Kontakt:** [Twój Link LinkedIn]
+**Łukasz Szymański** - Aspiring Backend Developer.
+Projekt stworzony jako demonstracja umiejętności łączenia logiki biznesowej (Django) z nowoczesną infrastrukturą (Docker, Redis).
+**Kontakt:** [LinkedIn](https://www.linkedin.com/in/lukasz-szymanski94/) | [GitHub](https://github.com/Lukasz-Szymanski)

@@ -7,13 +7,14 @@ const AiMentoring: React.FC = () => {
       
       <div className="flex flex-col items-center text-center mb-16">
         <span className="text-purple-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-6 flex items-center gap-2">
-          <Sparkles size={14} /> Neural_Co_Pilot
+          <Sparkles size={14} /> Accelerated_Growth
         </span>
         <h2 className="text-6xl font-bold text-white font-display mb-6 tracking-tight leading-tight">
-          Synergy with <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">Gemini 2.0</span>
+          AI-Augmented <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">Learning</span>
         </h2>
         <p className="text-slate-400 max-w-2xl text-lg leading-relaxed font-light">
-          Osiągnięcie 300% wyższej wydajności poprzez integrację <br className="hidden md:block"/> autonomicznych agentów AI z tradycyjnym cyklem developmentu.
+          Traktuję AI nie jako generator kodu, ale jako <span className="text-white font-medium">Mentora i Senior Developera</span>. <br className="hidden md:block"/> 
+          Ten projekt to efekt setek godzin dyskusji o architekturze, bezpieczeństwie i dobrych praktykach.
         </p>
       </div>
 

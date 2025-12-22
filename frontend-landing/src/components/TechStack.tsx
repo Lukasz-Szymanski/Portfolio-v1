@@ -1,22 +1,27 @@
 import React from 'react';
-import { Server, Database, Code2 } from 'lucide-react';
+import { Server, Database, Code2, ShieldCheck } from 'lucide-react';
 
 const TechStack: React.FC = () => {
   const stack = [
     {
-      category: "Backend Core",
+      category: "Backend Architecture",
       icon: <Server className="text-blue-400" size={24} />,
-      tools: ["Python 3.11", "Django 5.0", "FastAPI", "Celery"]
+      tools: ["Python 3.11", "Django 5.0", "FastAPI", "Celery Worker"]
     },
     {
-      category: "Infrastructure",
+      category: "Data & Infrastructure",
       icon: <Database className="text-emerald-400" size={24} />,
-      tools: ["Docker / Compose", "PostgreSQL", "Redis", "Nginx"]
+      tools: ["PostgreSQL (ACID)", "Redis (Broker)", "Docker Compose", "Nginx Proxy"]
     },
     {
-      category: "Frontend",
+      category: "Quality Assurance",
+      icon: <ShieldCheck className="text-red-400" size={24} />,
+      tools: ["Playwright (E2E)", "Ruff Linter", "GitHub Actions", "Type Safety"]
+    },
+    {
+      category: "Modern Frontend",
       icon: <Code2 className="text-purple-400" size={24} />,
-      tools: ["React 18", "TypeScript", "Tailwind CSS", "Framer Motion"]
+      tools: ["React 18", "TypeScript", "Recharts Data Viz", "Tailwind v4"]
     }
   ];
 
@@ -27,16 +32,16 @@ const TechStack: React.FC = () => {
         <h2 className="text-5xl font-bold text-white font-display text-left">Tech Stack</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stack.map((item, idx) => (
-          <div key={idx} className="glass-card p-10 rounded-[2rem] hover:border-blue-500/30 transition-all group text-left">
+          <div key={idx} className="glass-card p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group text-left">
             <div className="mb-8 p-4 bg-white/5 border border-white/10 rounded-2xl w-fit group-hover:bg-blue-500/10 group-hover:text-blue-400 transition-all">
               {item.icon}
             </div>
-            <h3 className="text-xl font-bold text-white font-display mb-6 tracking-tight text-left">{item.category}</h3>
+            <h3 className="text-lg font-bold text-white font-display mb-6 tracking-tight text-left h-12 flex items-center">{item.category}</h3>
             <div className="flex flex-col gap-3">
               {item.tools.map(tool => (
-                <div key={tool} className="flex items-center gap-3 text-slate-400 font-mono text-xs uppercase tracking-widest">
+                <div key={tool} className="flex items-center gap-3 text-slate-400 font-mono text-[10px] uppercase tracking-widest">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500/40"></div>
                   {tool}
                 </div>

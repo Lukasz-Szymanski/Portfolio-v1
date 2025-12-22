@@ -8,6 +8,7 @@ import Projects from '../components/Projects';
 import About from '../components/About';
 import Hobby from '../components/Hobby';
 import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
 function LandingPage() {
   const [activeSection, setActiveSection] = useState('home');
@@ -54,9 +55,10 @@ function LandingPage() {
       <div className="mesh-background" />
       <Navbar activeSection={activeSection} onNavigate={setActiveSection} />
       
-      <main className="pt-20 px-4 md:px-16 lg:px-24">
+      <main className="flex-grow flex flex-col justify-center px-4 md:px-16 lg:px-24">
         {renderSection()}
       </main>
+      <Footer />
     </div>
   );
 }

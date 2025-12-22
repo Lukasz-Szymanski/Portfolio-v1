@@ -4,22 +4,22 @@ import { Headphones, Film, Smartphone } from 'lucide-react';
 const Hobby: React.FC = () => {
   const hobbies = [
     {
-      title: "Muzyka",
+      title: "Kompozycja Filmowa",
       icon: <Headphones className="text-blue-400" size={32} />,
-      desc: "Od rocka po elektronikę. Muzyka to mój sposób na absolutne skupienie podczas debugowania skomplikowanych systemów.",
-      tags: ["Spotify", "Audiophile"]
+      desc: "Z zawodu jestem muzykiem. Tworzę ścieżki dźwiękowe do filmów, gdzie harmonia i struktura są tak samo ważne jak czysty kod w systemach backendowych.",
+      tags: ["Composition", "DAW", "Music Theory"]
     },
     {
-      title: "Video & Film",
+      title: "Montaż & Video",
       icon: <Film className="text-emerald-400" size={32} />,
-      desc: "Fascynuje mnie wizualna strona opowiadania historii. Cenię dobry kadr i montaż tak samo jak czysty, czytelny kod.",
-      tags: ["Cine", "Editing"]
+      desc: "Fascynuje mnie opowiadanie historii obrazem. Proces montażu video to dla mnie trening cierpliwości i dbałości o najdrobniejszy detal.",
+      tags: ["Post-production", "Editing", "Visuals"]
     },
     {
-      title: "Nowinki Tech",
+      title: "Technologia & Przyszłość",
       icon: <Smartphone className="text-purple-400" size={32} />,
-      desc: "Śledzę rozwój AI, hardware i systemów operacyjnych. Lubię wiedzieć, dokąd zmierza świat, zanim to nastąpi.",
-      tags: ["AI", "Future"]
+      desc: "Śledzę rozwój hardware i nowoczesnych systemów. Interesuje mnie wszystko, co przesuwa granice możliwości – od AI po architekturę procesorów.",
+      tags: ["Hardware", "Innovation", "Next-Gen"]
     }
   ];
 

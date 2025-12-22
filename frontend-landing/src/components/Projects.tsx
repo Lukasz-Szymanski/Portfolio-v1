@@ -7,23 +7,23 @@ const Projects: React.FC = () => {
     {
       id: 'fintech',
       title: 'Fintech Core',
-      description: 'System bankowy: transakcje ACID, Postgres i PDF.',
+      description: 'System transakcyjny zgodny z ACID. Obsługuje atomowe przelewy między kontami, generuje potwierdzenia PDF i rekonstruuje historię salda.',
       icon: <Shield size={20} />,
-      tags: ['Django', 'Postgres']
+      tags: ['Django', 'Postgres', 'ACID']
     },
     {
       id: 'b2b',
       title: 'B2B Verifier',
-      description: 'Proxy API: weryfikacja NIP i cache Redis.',
+      description: 'Inteligentne Proxy API do Ministerstwa Finansów. Implementuje wzorzec Circuit Breaker oraz wielopoziomowy cache w Redis.',
       icon: <Search size={20} />,
-      tags: ['FastAPI', 'Redis']
+      tags: ['FastAPI', 'Redis', 'Proxy']
     },
     {
       id: 'monitor',
       title: 'Price Monitor',
-      description: 'Background tasks: monitoring krypto w czasie rzeczywistym.',
+      description: 'Asynchroniczne workery Celery monitorujące rynki krypto. Aktualizują stan w czasie rzeczywistym bez blokowania głównego wątku.',
       icon: <BarChart3 size={20} />,
-      tags: ['Celery', 'Beat']
+      tags: ['Celery', 'WebSockets', 'Async']
     }
   ];
 

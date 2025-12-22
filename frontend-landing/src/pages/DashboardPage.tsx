@@ -14,6 +14,7 @@ import { LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, A
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
+import Footer from '../components/Footer';
 
 function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -258,6 +259,7 @@ function DashboardPage() {
             )}
         </AnimatePresence>
       </div>
+      <Footer />
     </div>
   );
 }
