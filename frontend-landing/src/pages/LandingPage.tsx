@@ -55,7 +55,7 @@ function LandingPage() {
       <div className="mesh-background" />
       <Navbar activeSection={activeSection} onNavigate={setActiveSection} />
       
-      <main className="flex-grow flex flex-col justify-center px-4 md:px-16 lg:px-24">
+      <main className="flex-grow flex flex-col justify-center px-4 md:px-16 lg:px-24 pt-20">
         {renderSection()}
       </main>
       <Footer />

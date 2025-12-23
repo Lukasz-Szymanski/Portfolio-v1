@@ -28,12 +28,12 @@ const Projects: React.FC = () => {
   ];
 
   return (
-    <div id="projects" className="max-w-7xl mx-auto py-10 animate-in fade-in zoom-in-95 duration-1000 flex flex-col h-[calc(100vh-160px)] justify-center">
+    <div id="projects" className="max-w-7xl mx-auto py-6 md:py-10 animate-in fade-in zoom-in-95 duration-1000 flex flex-col h-[calc(100vh-160px)] justify-center">
       
-      <div className="flex flex-col md:flex-row items-end justify-between mb-10 gap-4">
+      <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-8 md:mb-10 gap-4 text-center md:text-left px-4 md:px-0">
         <div>
             <span className="text-blue-500 font-mono text-[9px] uppercase tracking-[0.4em] mb-2 block">Architecture_Showcase</span>
-            <h2 className="text-4xl font-bold text-white font-display">Active Microservices</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white font-display">Active Microservices</h2>
         </div>
         
         <div className="hidden lg:flex items-center gap-4 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm">

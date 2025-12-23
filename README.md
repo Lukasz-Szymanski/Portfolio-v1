@@ -33,7 +33,7 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 *   **🧪 Automated E2E Testing:** Kompletny zestaw testów regresyjnych (Playwright) pokrywający ścieżkę krytyczną: od logowania, przez nawigację, aż po weryfikację poprawności transakcji atomowych.
 *   **✨ Code Quality Assurance:** Kod utrzymywany w rygorze produkcyjnym. Python sprawdzany przez **Ruff**, Frontend przez **TypeScript Strict Mode**. Zero błędów, zero warningów.
 *   **🐳 Production-Ready Docker:** Zastosowanie **Multi-Stage Builds** (obrazy <50MB) oraz separacja środowisk Dev/Prod w jednym pliku Compose.
-*   **🗺️ Interactive System Map:** Dynamiczny diagram (Mermaid.js) wizualizujący przepływ danych między Reactem, Nginxem a bazami danych.
+- **Premium UI/UX:** Styl "Neon Glass", tryb Zero-Scroll na desktopie oraz pełna responsywność (RWD) na urządzeniach mobilnych.
 
 ---
 

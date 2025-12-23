@@ -5,14 +5,14 @@ const AiMentoring: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto h-[calc(100vh-100px)] flex flex-col justify-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
       
-      <div className="flex flex-col items-center text-center mb-16">
-        <span className="text-purple-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-6 flex items-center gap-2">
+      <div className="flex flex-col items-center text-center mb-10 md:mb-16">
+        <span className="text-purple-500 font-mono text-[10px] uppercase tracking-[0.5em] mb-4 md:mb-6 flex items-center gap-2">
           <Sparkles size={14} /> Accelerated_Growth
         </span>
-        <h2 className="text-6xl font-bold text-white font-display mb-6 tracking-tight leading-tight">
+        <h2 className="text-3xl md:text-6xl font-bold text-white font-display mb-6 tracking-tight leading-tight">
           AI-Augmented <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">Learning</span>
         </h2>
-        <p className="text-slate-400 max-w-2xl text-lg leading-relaxed font-light">
+        <p className="text-slate-400 max-w-2xl text-base md:text-lg leading-relaxed font-light px-4 md:px-0">
           Traktuję AI nie jako generator kodu, ale jako <span className="text-white font-medium">Mentora i Senior Developera</span>. <br className="hidden md:block"/> 
           Ten projekt to efekt setek godzin dyskusji o architekturze, bezpieczeństwie i dobrych praktykach.
         </p>

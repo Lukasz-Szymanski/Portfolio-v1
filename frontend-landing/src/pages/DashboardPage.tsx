@@ -15,13 +15,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
 import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const currentView = searchParams.get('view') || 'overview';
   
   const { isDevMode, toggleDevMode } = useDevMode();
   const [showArchitecture, setShowArchitecture] = useState(false);
+
+  const handleGlobalNavigate = (section: string) => {
+    navigate(`/#${section}`);
+  };
 
   const [userId, setUserId] = useState<number | null>(() => {
     const saved = localStorage.getItem('demo_user_id');
@@ -136,9 +143,11 @@ function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050811] text-white p-8 font-sans transition-colors duration-500 selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#050811] text-white font-sans transition-colors duration-500 selection:bg-blue-500/30">
       <div className="mesh-background" />
-      <div className="max-w-6xl mx-auto flex flex-col min-h-[calc(100vh-4rem)]">
+      <Navbar activeSection="" onNavigate={handleGlobalNavigate} />
+      
+      <div className="max-w-6xl mx-auto flex flex-col pt-28 px-8 pb-16">
         
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-white/5 pb-8">

@@ -13,16 +13,16 @@ const Hero: React.FC = () => {
         Systems Architecture 2025
       </div>
 
-      <div className="space-y-10">
-        <h1 className="text-7xl md:text-9xl font-bold font-display tracking-tight leading-[0.85] text-white">
-          Building the <br />
+      <div className="space-y-10 text-center md:text-left">
+        <h1 className="text-4xl md:text-7xl lg:text-9xl font-bold font-display tracking-tight leading-tight md:leading-[0.85] text-white">
+          Building the <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-500 drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
             Future of Fintech
           </span>
         </h1>
 
-        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
-          <h2 className="text-2xl md:text-3xl text-slate-400 font-light flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-12 justify-center md:justify-start">
+          <h2 className="text-xl md:text-3xl text-slate-400 font-light flex items-center gap-4">
             <Terminal className="text-blue-500" size={32} />
             <span>
               Aspiring{" "}
@@ -30,13 +30,10 @@ const Hero: React.FC = () => {
             </span>
           </h2>
           <div className="h-px md:h-12 w-12 md:w-px bg-white/10 hidden md:block"></div>
-          {/* <p className="text-lg text-slate-500 max-w-xl leading-relaxed font-light">
-                To portfolio jest dowodem mojej determinacji i umiejętności technicznych. Buduję systemy rozproszone, ucząc się <span className="text-blue-400 font-mono">praktycznego rzemiosła IT</span>.
-            </p> */}
         </div>
 
         {/* Przyciski CTA */}
-        <div className="flex flex-wrap gap-6 pt-6">
+        <div className="flex flex-wrap justify-center md:justify-start gap-6 pt-6">
           <a
             href="#projects"
             className="group relative flex items-center gap-3 bg-white text-black px-10 py-5 rounded-full font-bold text-base transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.15)]">
