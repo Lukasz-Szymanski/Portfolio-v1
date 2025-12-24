@@ -23,7 +23,7 @@
   "crons": [
     {
       "path": "/api/b2b/cron/update-crypto",
-      "schedule": "* * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }
