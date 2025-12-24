@@ -14,7 +14,7 @@ def hello(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', api.urls),
+    path('api/fintech/', api.urls),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

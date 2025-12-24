@@ -1,4 +1,5 @@
 from typing import List
+import os
 from ninja import Router
 from django.shortcuts import get_object_or_404
 from django.db import transaction
@@ -12,7 +13,8 @@ import uuid
 from celery import Celery
 
 # Konfiguracja klienta do zlecania zadań
-celery_app = Celery("fintech_producer", broker="redis://redis:6379/0")
+REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379/0")
+celery_app = Celery("fintech_producer", broker=REDIS_URL)
 
 router = Router()
 

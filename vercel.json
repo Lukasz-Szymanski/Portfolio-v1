@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "builds": [
+    { 
+      "src": "frontend-landing/package.json", 
+      "use": "@vercel/static-build", 
+      "config": { "distDir": "dist" } 
+    },
+    { 
+      "src": "service-b2b-data/main.py", 
+      "use": "@vercel/python" 
+    },
+    { 
+      "src": "service-fintech/core/wsgi.py", 
+      "use": "@vercel/python" 
+    }
+  ],
+  "routes": [
+    { "src": "/api/b2b/(.*)", "dest": "/service-b2b-data/main.py" },
+    { "src": "/api/fintech/(.*)", "dest": "/service-fintech/core/wsgi.py" },
+    { "src": "/(.*)", "dest": "/frontend-landing/$1" }
+  ],
+  "crons": [
+    {
+      "path": "/api/b2b/cron/update-crypto",
+      "schedule": "* * * * *"
+    }
+  ]
+}

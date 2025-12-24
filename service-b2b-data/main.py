@@ -1,5 +1,6 @@
 import datetime
 import time
+import os
 
 import httpx
 import redis
@@ -16,8 +17,13 @@ class ContactSchema(BaseModel):
 
 # Funkcja (Dependency), która zwraca połączenie do Redisa
 def get_redis():
-    # 'redis' to nazwa kontenera w naszym docker-compose.yml
-    r = redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
+    redis_url = os.environ.get("REDIS_URL")
+    if redis_url:
+        r = redis.from_url(redis_url, decode_responses=True)
+    else:
+        # Fallback dla lokalnego Dockera (jeśli nie ma zmiennej REDIS_URL)
+        r = redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
+    
     try:
         yield r
     finally:
@@ -28,7 +34,7 @@ async def health_check():
     return {"status": "online", "service": "b2b-data"}
 
 # --- Contact Form ---
-@app.post("/api/v1/contact")
+@app.post("/api/b2b/contact")
 async def send_contact_email(form: ContactSchema, background_tasks: BackgroundTasks):
     """
     Odbiera wiadomość z formularza kontaktowego.
@@ -46,7 +52,7 @@ def log_email_to_console(form: ContactSchema):
     print(f"Message: {form.message}")
     print("---------------------------")
 
-@app.get("/api/v1/companies/{nip}")
+@app.get("/api/b2b/companies/{nip}")
 async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
     # 0. Statystyki ogólne
     r.incr("stats:companies_checked")
@@ -115,7 +121,7 @@ async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
 
     return {"source": "mock_fallback", "data": mock_data}
 
-@app.get("/api/v1/crypto")
+@app.get("/api/b2b/crypto")
 async def get_crypto_prices(r: redis.Redis = Depends(get_redis)):
     btc = r.get("crypto:bitcoin")
     eth = r.get("crypto:ethereum")
@@ -126,7 +132,32 @@ async def get_crypto_prices(r: redis.Redis = Depends(get_redis)):
         "currency": "PLN"
     }
 
-@app.get("/api/v1/system-status")
+@app.get("/api/b2b/cron/update-crypto")
+async def update_crypto_cron(r: redis.Redis = Depends(get_redis)):
+    """
+    Endpoint dla Vercel Cron.
+    Pobiera ceny krypto i zapisuje w Redis (zastępuje service-price-monitor w chmurze).
+    """
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,pln"
+    
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, timeout=10.0)
+            if response.status_code == 200:
+                data = response.json()
+                btc_pln = data['bitcoin']['pln']
+                eth_pln = data['ethereum']['pln']
+                
+                r.set("crypto:bitcoin", str(btc_pln))
+                r.set("crypto:ethereum", str(eth_pln))
+                
+                return {"status": "updated", "data": data}
+            else:
+                return {"status": "error", "code": response.status_code}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+@app.get("/api/b2b/system-status")
 async def get_system_status(r: redis.Redis = Depends(get_redis)):
     """
     Agreguje statystyki całego systemu dla Dashboardu.

@@ -59,23 +59,41 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# Pobieramy dane z env, z domyślnymi wartościami dla dev
-DB_NAME = os.environ.get('POSTGRES_DB', 'portfolio_main')
-DB_USER = os.environ.get('POSTGRES_USER', 'user')
-DB_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'password')
-DB_HOST = os.environ.get('POSTGRES_HOST', 'postgres') # Nazwa serwisu w docker-compose
-DB_PORT = os.environ.get('POSTGRES_PORT', '5432')
+from urllib.parse import urlparse
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Parsowanie URL (np. postgres://user:pass@host:port/db)
+    url = urlparse(DATABASE_URL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': url.path[1:],
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port,
+        }
     }
-}
+else:
+    # Fallback do zmiennych środowiskowych (Docker / Local)
+    DB_NAME = os.environ.get('POSTGRES_DB', 'portfolio_main')
+    DB_USER = os.environ.get('POSTGRES_USER', 'user')
+    DB_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'password')
+    DB_HOST = os.environ.get('POSTGRES_HOST', 'postgres') # Nazwa serwisu w docker-compose
+    DB_PORT = os.environ.get('POSTGRES_PORT', '5432')
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
