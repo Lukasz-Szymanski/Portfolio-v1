@@ -8,11 +8,13 @@
     },
     { 
       "src": "service-b2b-data/main.py", 
-      "use": "@vercel/python" 
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.9" }
     },
     { 
       "src": "service-fintech/core/wsgi.py", 
-      "use": "@vercel/python" 
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.9" }
     }
   ],
   "routes": [
