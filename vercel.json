@@ -1,14 +1,28 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/b2b/(.*)", "destination": "/service-b2b-data/main.py" },
-    { "source": "/api/fintech/(.*)", "destination": "/service-fintech/core/wsgi.py" },
-    { "source": "/(.*)", "destination": "/frontend-landing/dist/index.html" }
+  "builds": [
+    { 
+      "src": "frontend-landing/package.json", 
+      "use": "@vercel/static-build", 
+      "config": { "distDir": "dist" } 
+    },
+    { 
+      "src": "service-b2b-data/main.py", 
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.9" }
+    },
+    { 
+      "src": "service-fintech/core/wsgi.py", 
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.9" }
+    }
   ],
-  "functions": {
-    "service-b2b-data/main.py": { "runtime": "@vercel/python@3.9" },
-    "service-fintech/core/wsgi.py": { "runtime": "@vercel/python@3.9" }
-  },
+  "routes": [
+    { "src": "/api/b2b/(.*)", "dest": "/service-b2b-data/main.py" },
+    { "src": "/api/fintech/(.*)", "dest": "/service-fintech/core/wsgi.py" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/frontend-landing/index.html" }
+  ],
   "crons": [
     {
       "path": "/api/b2b/cron/update-crypto",
