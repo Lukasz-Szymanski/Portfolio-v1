@@ -59,29 +59,22 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-from urllib.parse import urlparse
+import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
-if DATABASE_URL:
-    # Parsowanie URL (np. postgres://user:pass@host:port/db)
-    url = urlparse(DATABASE_URL)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': url.path[1:],
-            'USER': url.username,
-            'PASSWORD': url.password,
-            'HOST': url.hostname,
-            'PORT': url.port,
-        }
-    }
-else:
-    # Fallback do zmiennych środowiskowych (Docker / Local)
+# Fallback dla lokalnego developmentu (jeśli DATABASE_URL nie jest ustawione lub puste)
+if not DATABASES['default']:
     DB_NAME = os.environ.get('POSTGRES_DB', 'portfolio_main')
     DB_USER = os.environ.get('POSTGRES_USER', 'user')
     DB_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'password')
-    DB_HOST = os.environ.get('POSTGRES_HOST', 'postgres') # Nazwa serwisu w docker-compose
+    DB_HOST = os.environ.get('POSTGRES_HOST', 'postgres')
     DB_PORT = os.environ.get('POSTGRES_PORT', '5432')
 
     DATABASES = {
