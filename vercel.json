@@ -21,6 +21,7 @@
     { "src": "/api/b2b/(.*)", "dest": "/service-b2b-data/main.py" },
     { "src": "/api/fintech/(.*)", "dest": "/service-fintech/core/wsgi.py" },
     { "handle": "filesystem" },
+    { "src": "/assets/(.*)", "dest": "/frontend-landing/assets/$1" },
     { "src": "/(.*)", "dest": "/frontend-landing/index.html" }
   ],
   "crons": [
