@@ -1,0 +1,8 @@
+django>=5.0
+django-ninja>=1.1
+psycopg2-binary
+celery>=5.3.6
+reportlab>=4.1.0
+redis>=5.0.1
+pydantic>=2.6.0
+dj-database-url
