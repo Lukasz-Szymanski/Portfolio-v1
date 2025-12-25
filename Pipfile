@@ -12,6 +12,11 @@ reportlab = "*"
 redis = "*"
 pydantic = "*"
 dj-database-url = "*"
+fastapi = "*"
+uvicorn = "*"
+httpx = "*"
+pydantic-settings = "*"
+email-validator = "*"
 
 [requires]
 python_version = "3.9"
