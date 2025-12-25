@@ -1,8 +1,8 @@
 django>=5.0
 django-ninja>=1.1
 psycopg2-binary
-uvicorn>=0.27.0
-pydantic>=2.6.0
 celery>=5.3.6
-redis>=5.0.1
 reportlab>=4.1.0
+redis>=5.0.1
+pydantic>=2.6.0
+dj-database-url
