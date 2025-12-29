@@ -262,6 +262,7 @@ function DashboardPage() {
         </AnimatePresence>
       </div>
       <Footer />
+      <AiChat />
     </div>
   );
 }

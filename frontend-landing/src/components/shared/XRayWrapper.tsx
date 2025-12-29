@@ -1,75 +1,63 @@
-import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDevMode } from '../../context/useDevMode';
-import { Code, Database, Server, Globe, Cpu } from 'lucide-react';
-
-export type TechType = 'React' | 'Django' | 'FastAPI' | 'Redis' | 'Postgres' | 'Celery' | 'Nginx' | 'Recharts';
+import { Database, Server, Globe } from 'lucide-react';
 
 interface XRayWrapperProps {
   children: React.ReactNode;
   label: string;
-  tech: TechType;
-  endpoint?: string; // Np. "POST /api/transfer"
-  description?: string; // Krótki opis co tu się dzieje
+  tech: string;
+  endpoint?: string;
+  description?: string;
 }
 
-const techColors: Record<TechType, string> = {
-  React: 'border-blue-400 text-blue-400 bg-blue-400/10',
-  Django: 'border-green-600 text-green-600 bg-green-600/10',
-  FastAPI: 'border-teal-400 text-teal-400 bg-teal-400/10',
-  Redis: 'border-red-500 text-red-500 bg-red-500/10',
-  Postgres: 'border-blue-600 text-blue-600 bg-blue-600/10',
-  Celery: 'border-yellow-500 text-yellow-500 bg-yellow-500/10',
-  Nginx: 'border-green-400 text-green-400 bg-green-400/10',
-  Recharts: 'border-blue-400 text-blue-400 bg-blue-400/10',
-};
-
-const XRayWrapper: React.FC<XRayWrapperProps> = ({ children, label, tech, endpoint, description }) => {
+const XRayWrapper = ({ children, label, tech, endpoint, description }: XRayWrapperProps) => {
   const { isDevMode } = useDevMode();
-  const colorClass = techColors[tech] || 'border-gray-500 text-gray-500';
-
-  // Ikona zależna od technologii
-  const getIcon = () => {
-      switch(tech) {
-          case 'React': return <Code2 size={12} />;
-          case 'Redis': case 'Postgres': return <Database size={12} />;
-          case 'Nginx': return <Globe size={12} />;
-          default: return <Server size={12} />;
-      }
-  };
 
   return (
-    <div className="relative group">
+    <div className="relative group/xray">
       <AnimatePresence>
         {isDevMode && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            className={`absolute -inset-6 border-2 border-dashed rounded-2xl pointer-events-none z-40 ${colorClass} opacity-60`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute -inset-2 z-40 pointer-events-none"
           >
-            {/* Etykieta Górna (Tech) - PRZESUNIĘTA WYŻEJ I Z TŁEM */}
-            <div className={`absolute -top-4 left-8 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest rounded-full flex items-center gap-2 bg-[#0f172a] border-2 shadow-[0_0_20px_rgba(0,0,0,0.5)] z-50 pointer-events-auto ${colorClass.replace('bg-', 'no-bg-')}`}>
-               {getIcon()}
-               <span className="text-white">{tech}</span>
-               <span className="opacity-40">|</span>
-               <span className="text-white/90">{label}</span>
+            {/* Holographic Border */}
+            <div className="absolute inset-0 border-2 border-purple-500/40 rounded-3xl border-dashed animate-[spin_20s_linear_infinite]" />
+            
+            {/* Tech Badge */}
+            <div className="absolute -top-3 -left-2 px-3 py-1 bg-purple-600 text-white text-[9px] font-bold font-mono rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.5)] flex items-center gap-2">
+              <Database size={10} /> {tech.toUpperCase()}
             </div>
 
-            {/* Etykieta Dolna (Endpoint & Desc) - Z TŁEM I WYRÓWNANIEM */}
-            {(endpoint || description) && (
-                <div className={`absolute -bottom-4 right-8 px-3 py-1 text-[10px] font-mono rounded-lg bg-[#0f172a] border-2 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex flex-col md:flex-row gap-x-4 items-start md:items-center z-50 pointer-events-auto ${colorClass.replace('bg-', 'no-bg-')}`}>
-                    {endpoint && <span className="font-bold text-white whitespace-nowrap">{endpoint}</span>}
-                    {endpoint && description && <span className="hidden md:inline opacity-30 text-white">|</span>}
-                    {description && <span className="text-white/70 italic">{description}</span>}
-                </div>
-            )}
+            {/* Label Badge */}
+            <div className="absolute -bottom-3 -right-2 px-3 py-1 bg-blue-600 text-white text-[9px] font-bold font-mono rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.5)] flex items-center gap-2">
+              <Server size={10} /> {label.toUpperCase()}
+            </div>
+
+            {/* Ghost Overlay */}
+            <div className="absolute inset-0 bg-purple-500/5 backdrop-invert-[0.05] rounded-2xl" />
           </motion.div>
         )}
       </AnimatePresence>
-      <div className={`${isDevMode ? 'relative z-10' : ''}`}>
+
+      <div className={`transition-all duration-500 ${isDevMode ? 'scale-[0.98] blur-[0.5px] grayscale-[0.5]' : ''}`}>
         {children}
       </div>
+
+      {/* Hover Info (only in Dev Mode) */}
+      <AnimatePresence>
+        {isDevMode && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover/xray:opacity-100 transition-opacity pointer-events-none">
+            <div className="bg-black/80 backdrop-blur-md border border-purple-500/50 p-4 rounded-xl max-w-[200px] text-center">
+              <div className="flex justify-center mb-2 text-purple-400"><Globe size={20} className="animate-pulse" /></div>
+              <p className="text-[10px] font-mono text-purple-300 font-bold mb-1">{endpoint || 'INTERNAL_LOGIC'}</p>
+              <p className="text-[9px] text-slate-400 leading-tight italic">{description || 'Data flow encapsulation'}</p>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

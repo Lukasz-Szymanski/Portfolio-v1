@@ -29,7 +29,7 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 
 ## 💡 Unikalne Funkcjonalności
 
-*   **🤖 AI Engineering (RAG):** Wbudowany Chatbot "Mentus AI" wykorzystujący Google Gemini i bazę wektorową (PGVector) do odpowiadania na pytania o kod i architekturę projektu.
+*   **🤖 AI Engineering (RAG):** Wbudowany Chatbot "Portfolio AI" wykorzystujący Google Gemini i bazę wektorową (PGVector) do odpowiadania na pytania o kod i architekturę projektu.
 *   **📡 Real-time WebSockets:** Streaming cen kryptowalut w czasie rzeczywistym (Push zamiast Pull) z wykorzystaniem Redis Pub/Sub i FastAPI.
 *   **🛡️ Architecture X-Ray Mode:** Przełącznik "DEV_MODE" w Dashboardzie dekonstruuje aplikację na techniczne komponenty, pokazując endpointy API i technologie użyte w każdym module.
 *   **📊 Data Visualization:** Interaktywne wykresy finansowe (Recharts) z algorytmem rekonstrukcji salda po stronie klienta oraz wizualizacja skuteczności cache'owania Redis.
