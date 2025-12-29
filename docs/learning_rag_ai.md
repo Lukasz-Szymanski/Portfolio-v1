@@ -21,22 +21,16 @@ Wybrano architekturę **RAG (Retrieval-Augmented Generation)** opartą o:
 3. **Fine-tuning**
    - *Wady:* Zbyt kosztowne i skomplikowane przy częstych zmianach w kodzie. RAG jest bardziej elastyczny.
 
-## Szczegóły Implementacji
-### 1. Baza Danych
-- Zmieniono obraz `postgres:15-alpine` na `pgvector/pgvector:pg15`.
-- LangChain automatycznie tworzy tabelę `langchain_pg_embedding` do przechowywania wektorów.
+## Hybrydowa Architektura (Aktualizacja 29.12.2025)
+W toku prac zdecydowano o przejściu na model **Hybrid AI**, który łączy zalety logiki lokalnej i chmurowej:
 
-### 2. Backend (Service B2B)
-- Dodano biblioteki `langchain`, `langchain-google-genai`.
-- Skrypt `ai_engine.py` odpowiada za:
-    - `ingest_docs()`: Wczytanie tekstów, podział na chunki, zamianę na wektory i zapis do DB.
-    - `ask_bot()`: Wyszukanie podobnych chunków (similarity search) i wygenerowanie odpowiedzi przez Gemini.
+1. **Lokalna Baza Wiedzy (Frontend):** 
+   - Najczęstsze pytania (FAQ) są obsługiwane bezpośrednio przez komponent React.
+   - *Zalety:* Zerowe opóźnienie (0ms), brak kosztów API, 100% niezawodności nawet przy braku internetu lub wyczerpaniu limitów Gemini.
+2. **LLM Fallback (Backend + Google Gemini):**
+   - Pytania niestandardowe są przesyłane do serwisu B2B i procesowane przez model Gemini 1.5 Flash.
+3. **Context Stuffing:** 
+   - Zamiast skomplikowanego RAG z bazą wektorową (który generował zbyt wiele zapytań o embeddingi), do każdego zapytania LLM dołączana jest "pigułka wiedzy" o projekcie.
 
-### 3. Frontend
-- Komponent `AiChat.tsx` to pływający widget (FAB).
-- Komunikuje się z endpointem `/api/b2b/ai/chat`.
-- Posiada animacje wejścia/wyjścia (Framer Motion) i wskaźnik ładowania.
-
-## Uruchomienie
-Wymagany jest klucz `GOOGLE_API_KEY` w zmiennych środowiskowych kontenera `service-b2b`.
-Proces "Ingestion" uruchamiany jest przez endpoint `/api/b2b/ai/ingest`.
+## Wnioski
+Takie podejście jest standardem w rozwiązaniach komercyjnych. Pozwala na błyskawiczną obsługę typowych zapytań rekrutacyjnych, jednocześnie zachowując "inteligencję" bota przy trudniejszych pytaniach.

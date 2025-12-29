@@ -1,11 +1,60 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, X, Bot, Loader2, Sparkles } from 'lucide-react';
+import { MessageSquare, Send, X, Bot, Loader2, Sparkles, Zap, Code, Shield, User as UserIcon, Glasses, CheckCircle, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+// --- LOKALNA BAZA WIEDZY (Natychmiastowe odpowiedzi) ---
+const PREDEFINED_QA = [
+  {
+    id: 'stack',
+    question: 'Jaki stos technologiczny?',
+    icon: <Code size={12} />,
+    answer: 'Backend to głównie Python (Django Ninja, FastAPI) oraz Celery. Frontend: React z TypeScript i TailwindCSS. Infrastruktura: Docker, Redis, PostgreSQL i Nginx.'
+  },
+  {
+    id: 'ecosystem',
+    question: 'Jak działa ten system?',
+    icon: <Zap size={12} />,
+    answer: 'To ekosystem mikroserwisów. Django obsługuje bankowość (ACID), FastAPI działa jako inteligentne proxy i silnik AI, a Celery monitoruje ceny krypto w tle. Wszystko połączone w sieci Docker.'
+  },
+  {
+    id: 'xray',
+    question: 'Co to jest tryb X-Ray?',
+    icon: <Glasses size={12} />,
+    answer: 'To autorska funkcja Dashboardu, która po włączeniu (ikona okularów) dekonstruuje interfejs, pokazując podpięte endpointy API oraz technologie użyte w konkretnych modułach. To dowód na transparentność mojej architektury.'
+  },
+  {
+    id: 'quality',
+    question: 'Czy dbasz o jakość kodu?',
+    icon: <CheckCircle size={12} />,
+    answer: 'Zdecydowanie. Projekt posiada pipeline CI/CD (GitHub Actions), testy E2E w Playwright oraz rygorystyczny linting (Ruff dla Pythona, ESLint dla TypeScript). Kod jest utrzymany w standardzie produkcyjnym.'
+  },
+  {
+    id: 'microservices',
+    question: 'Dlaczego mikroserwisy?',
+    icon: <Server size={12} />,
+    answer: 'Wybrałem mikroserwisy, aby zademonstrować umiejętność izolacji logiki. Dzięki Dockerowi każdy serwis (Fintech, B2B, Monitor) jest niezależny, co ułatwia skalowanie i pozwala na dobór najlepszego narzędzia do konkretnego problemu.'
+  },
+  {
+    id: 'gitsensei',
+    question: 'Co to jest Git-Sensei?',
+    icon: <Shield size={12} />,
+    answer: 'To moje autorskie narzędzie CLI w Pythonie. Wykorzystuje AI do analizy zmian w kodzie (git diff) i automatycznego generowania profesjonalnych wiadomości commit.'
+  },
+  {
+    id: 'hire',
+    question: 'Czy szukasz pracy?',
+    icon: <UserIcon size={12} />,
+    answer: 'Tak! Szukam wyzwań jako Python Backend lub Fullstack Developer. Moje dane kontaktowe znajdziesz w zakładce Kontakt lub na LinkedIn.'
+  }
+];
 
 const AiChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'bot'; text: string }[]>([
-    { role: 'bot', text: 'Cześć! Jestem asystentem AI Łukasza. Zapytaj mnie o technologię, architekturę lub doświadczenie autora tego projektu.' }
+    { 
+      role: 'bot', 
+      text: 'Cześć! Jestem asystentem AI Łukasza (w wersji Beta). Wybierz interesujący Cię temat lub zadaj własne pytanie. Pamiętaj, że pełna komunikacja z modelem AI jest jeszcze w fazie produkcji i może mieć ograniczenia.' 
+    }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -17,25 +66,46 @@ const AiChat: React.FC = () => {
     }
   }, [messages, isOpen]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  // Obsługa kliknięcia w sugerowane pytanie
+  const handleSuggestion = (qa: typeof PREDEFINED_QA[0]) => {
+    setMessages(prev => [
+      ...prev, 
+      { role: 'user', text: qa.question },
+      { role: 'bot', text: qa.answer }
+    ]);
+  };
 
-    const userMessage = input.trim();
+  const handleSend = async (customText?: string) => {
+    const textToSend = customText || input.trim();
+    if (!textToSend || isLoading) return;
+
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+    setMessages(prev => [...prev, { role: 'user', text: textToSend }]);
     setIsLoading(true);
 
+    // Sprawdź czy to pytanie jest w naszej lokalnej bazie (case insensitive)
+    const localMatch = PREDEFINED_QA.find(q => textToSend.toLowerCase().includes(q.question.toLowerCase()));
+    
+    if (localMatch) {
+        setTimeout(() => {
+            setMessages(prev => [...prev, { role: 'bot', text: localMatch.answer }]);
+            setIsLoading(false);
+        }, 500); // Małe opóźnienie dla realizmu
+        return;
+    }
+
+    // Jeśli nie ma w lokalnej bazie, uderzamy do API (Gemini)
     try {
       const response = await fetch('/api/b2b/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({ message: textToSend }),
       });
 
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'bot', text: data.response }]);
     } catch {
-      setMessages(prev => [...prev, { role: 'bot', text: 'Przepraszam, mam problem z połączeniem z moim mózgiem w chmurze.' }]);
+      setMessages(prev => [...prev, { role: 'bot', text: 'Obecnie mam utrudniony dostęp do moich procesorów w chmurze (Limit API). Skorzystaj z powyższych sugestii!' }]);
     } finally {
       setIsLoading(false);
     }
@@ -59,7 +129,7 @@ const AiChat: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed bottom-28 right-8 w-[400px] h-[550px] bg-[#0a0f1d] border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden z-[100] backdrop-blur-2xl"
+            className="fixed bottom-28 right-8 w-[400px] h-[600px] bg-[#0a0f1d] border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden z-[100] backdrop-blur-2xl"
           >
             {/* Header */}
             <div className="p-6 border-b border-white/5 bg-blue-600/10 flex items-center justify-between">
@@ -71,8 +141,8 @@ const AiChat: React.FC = () => {
                   <h3 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
                     Portfolio AI <Sparkles size={12} className="text-blue-400" />
                   </h3>
-                  <p className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ONLINE
+                  <p className="text-[10px] text-orange-400 font-mono flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span> BETA_TESTING
                   </p>
                 </div>
               </div>
@@ -90,9 +160,9 @@ const AiChat: React.FC = () => {
                   animate={{ opacity: 1, x: 0 }}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${
+                  <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed ${
                     msg.role === 'user' 
-                      ? 'bg-blue-600 text-white rounded-tr-none' 
+                      ? 'bg-blue-600 text-white rounded-tr-none shadow-[0_5px_15px_rgba(37,99,235,0.2)]' 
                       : 'bg-white/5 border border-white/10 text-slate-300 rounded-tl-none'
                   }`}>
                     {msg.text}
@@ -108,6 +178,19 @@ const AiChat: React.FC = () => {
               )}
             </div>
 
+            {/* Suggestions Chips */}
+            <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
+                {PREDEFINED_QA.map((qa) => (
+                    <button 
+                        key={qa.id}
+                        onClick={() => handleSuggestion(qa)}
+                        className="flex items-center gap-2 px-3 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-[10px] font-bold whitespace-nowrap hover:bg-blue-500/20 transition-all active:scale-95"
+                    >
+                        {qa.icon} {qa.question}
+                    </button>
+                ))}
+            </div>
+
             {/* Input */}
             <div className="p-4 bg-white/5 border-t border-white/5">
               <div className="relative">
@@ -116,11 +199,11 @@ const AiChat: React.FC = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Zadaj pytanie o projekt..."
+                  placeholder="Zadaj inne pytanie..."
                   className="w-full bg-[#050811] border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors"
                 />
                 <button
-                  onClick={handleSend}
+                  onClick={() => handleSend()}
                   disabled={isLoading}
                   className="absolute right-2 top-1.5 p-1.5 bg-blue-600 rounded-lg text-white hover:bg-blue-500 transition-colors disabled:opacity-50"
                 >
@@ -128,7 +211,7 @@ const AiChat: React.FC = () => {
                 </button>
               </div>
               <p className="text-[9px] text-slate-600 text-center mt-3 uppercase tracking-widest font-mono">
-                Powered by Gemini 1.5 & PGVector
+                AI Module: Production Phase & Testing
               </p>
             </div>
           </motion.div>
