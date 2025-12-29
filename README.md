@@ -3,7 +3,7 @@
 ![Status](https://img.shields.io/badge/Status-Premium_UI_Ready-success)
 ![UI](https://img.shields.io/badge/Design-Neon_Glass-blue)
 ![Stack](https://img.shields.io/badge/Stack-Python_|_React_|_Docker-blue)
-[![Portfolio CI](https://github.com/Lukasz-Szymanski/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Lukasz-Szymanski/Portfolio/actions/workflows/ci.yml)
+[![Portfolio CI](https://github.com/Lukasz-Szymanski/Portfolio-v1/actions/workflows/ci.yml/badge.svg)](https://github.com/Lukasz-Szymanski/Portfolio-v1/actions/workflows/ci.yml)
 
 Kompletny system mikroserwisów symulujący środowisko **Fintech** oraz **B2B**. Projekt demonstruje umiejętności z zakresu architektury systemów rozproszonych, asynchroniczności oraz nowoczesnego frontendu klasy Premium.
 
