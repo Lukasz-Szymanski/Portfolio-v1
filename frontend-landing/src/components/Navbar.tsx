@@ -17,6 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
     { id: 'ai-mentoring', label: 'AI Workflow' },
     { id: 'projects', label: 'Projekty' },
     { id: 'hobby', label: 'Hobby' },
+
   ];
 
   const handleNavClick = (id: string) => {
