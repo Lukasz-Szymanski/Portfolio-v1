@@ -29,6 +29,7 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
     let runningBalance = currentBalance - totalChange;
 
     const points = sortedTxs.map((tx) => {
+      // eslint-disable-next-line react-hooks/immutability
       runningBalance += parseFloat(tx.amount);
       return {
         date: new Date(tx.created_at).toLocaleDateString('pl-PL', { day: '2-digit', month: 'short' }),

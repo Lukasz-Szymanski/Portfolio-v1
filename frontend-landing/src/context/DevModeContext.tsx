@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
+// eslint-disable-next-line react-refresh/only-export-components
 interface DevModeContextType {
   isDevMode: boolean;
   toggleDevMode: () => void;

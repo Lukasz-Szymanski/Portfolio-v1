@@ -16,11 +16,9 @@ import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
 import Footer from '../components/Footer';
 import AiChat from '../components/AiChat';
-import { useNavigate } from 'react-router-dom';
 
 function DashboardPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const currentView = searchParams.get('view') || 'overview';
   
   const { isDevMode, toggleDevMode } = useDevMode();
