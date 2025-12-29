@@ -16,6 +16,7 @@ import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import AiChat from '../components/AiChat';
 import { useNavigate } from 'react-router-dom';
 
 function DashboardPage() {
@@ -268,6 +269,7 @@ function DashboardPage() {
         </AnimatePresence>
       </div>
       <Footer />
+      <AiChat />
     </div>
   );
 }

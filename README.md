@@ -16,9 +16,9 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 - **Technologia:** Django 5.0 + Django Ninja
 - **Rola:** System transakcyjny. Obsługuje konta użytkowników, historię operacji oraz bezpieczne przelewy (ACID). Generuje potwierdzenia PDF.
 
-### 2. Service B2B Data (Real-time Proxy)
-- **Technologia:** FastAPI + Redis
-- **Rola:** Integracja z prawdziwym API Ministerstwa Finansów (Biała Lista VAT) z inteligentnym cachingiem i fallbackiem do mocków.
+### 2. Service B2B Data (Real-time Proxy & AI)
+- **Technologia:** FastAPI + Redis + LangChain (PGVector)
+- **Rola:** Integracja z API rządowymi, obsługa WebSocketów do streamingu cen oraz silnik AI (RAG Chatbot).
 
 ### 3. Service Price Monitor (Background Worker)
 - **Technologia:** Celery + Redis (Broker)
@@ -28,6 +28,8 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 
 ## 💡 Unikalne Funkcjonalności
 
+*   **🤖 AI Engineering (RAG):** Wbudowany Chatbot "Mentus AI" wykorzystujący Google Gemini i bazę wektorową (PGVector) do odpowiadania na pytania o kod i architekturę projektu.
+*   **📡 Real-time WebSockets:** Streaming cen kryptowalut w czasie rzeczywistym (Push zamiast Pull) z wykorzystaniem Redis Pub/Sub i FastAPI.
 *   **🛡️ Architecture X-Ray Mode:** Przełącznik "DEV_MODE" w Dashboardzie dekonstruuje aplikację na techniczne komponenty, pokazując endpointy API i technologie użyte w każdym module.
 *   **📊 Data Visualization:** Interaktywne wykresy finansowe (Recharts) z algorytmem rekonstrukcji salda po stronie klienta oraz wizualizacja skuteczności cache'owania Redis.
 *   **🧪 Automated E2E Testing:** Kompletny zestaw testów regresyjnych (Playwright) pokrywający ścieżkę krytyczną: od logowania, przez nawigację, aż po weryfikację poprawności transakcji atomowych.
@@ -40,6 +42,8 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 ## 📚 Baza Wiedzy (ADR & Learning)
 
 Szczegółowe opisy decyzji architektonicznych:
+* [AI Integration (RAG & PGVector)](docs/learning_rag_ai.md)
+* [Real-time WebSockets](docs/learning_websockets.md)
 * [Docker Optimization & Debugging](docs/learning_docker_optimization.md)
 * [Authentic Content Strategy](docs/learning_content_strategy.md)
 * [E2E Testing with Playwright](docs/learning_e2e_testing.md)

@@ -9,8 +9,9 @@ import About from '../components/About';
 import Hobby from '../components/Hobby';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
+import AiChat from '../components/AiChat';
 
-function LandingPage() {
+const LandingPage = () => {
   const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
 
@@ -59,6 +60,7 @@ function LandingPage() {
         {renderSection()}
       </main>
       <Footer />
+      <AiChat />
     </div>
   );
 }

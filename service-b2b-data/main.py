@@ -8,7 +8,11 @@ import httpx
 import redis.asyncio as redis # Use async redis for websockets
 import redis as sync_redis # Keep sync redis for depends if needed, or switch all to async
 from fastapi import BackgroundTasks, Depends, FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, EmailStr
+
+# Import modułu AI
+import ai_engine
 
 app = FastAPI(title="B2B Company Verifier")
 
@@ -16,6 +20,9 @@ app = FastAPI(title="B2B Company Verifier")
 class ContactSchema(BaseModel):
     name: str
     email: EmailStr
+    message: str
+
+class ChatRequest(BaseModel):
     message: str
 
 # Redis Connection Dependency (Sync for HTTP endpoints)
@@ -42,17 +49,31 @@ async def get_async_redis():
 async def health_check():
     return {"status": "online", "service": "b2b-data"}
 
+# --- AI / RAG Endpoints ---
+@app.post("/api/b2b/ai/chat")
+async def chat_with_portfolio(request: ChatRequest):
+    """
+    Endpoint RAG: Odbiera pytanie, szuka w bazie wektorowej i generuje odpowiedź przez Gemini.
+    Używamy run_in_threadpool, aby operacje synchroniczne (LangChain) nie blokowały WebSocketów.
+    """
+    answer = await run_in_threadpool(ai_engine.ask_bot, request.message)
+    return {"response": answer}
+
+@app.post("/api/b2b/ai/ingest")
+async def ingest_knowledge(background_tasks: BackgroundTasks):
+    """
+    Admin trigger: Wczytaj dokumentację do bazy wektorowej.
+    """
+    background_tasks.add_task(ai_engine.ingest_docs)
+    return {"message": "Ingestion started in background."}
+
 # --- Contact Form ---
 @app.post("/api/b2b/contact")
 async def send_contact_email(form: ContactSchema, background_tasks: BackgroundTasks):
     """
     Odbiera wiadomość z formularza kontaktowego.
-    W wersji demo: Loguje wiadomość do konsoli (Docker Logs).
-    W produkcji: Wysyłałby email przez SMTP (Sendgrid/Gmail).
     """
-    # Symulacja wysyłki w tle (żeby nie blokować requestu)
     background_tasks.add_task(log_email_to_console, form)
-    
     return {"message": "Wiadomość została wysłana!"}
 
 def log_email_to_console(form: ContactSchema):
@@ -70,7 +91,6 @@ async def get_company(nip: str, r: sync_redis.Redis = Depends(get_redis)):
     cached_data = r.get(f"company:{nip}")
     if cached_data:
         r.incr("stats:cache_hits")
-        # eval is simple for demo dict string representation
         return {"source": "cache", "data": eval(cached_data)}
 
     # Jeśli tu jesteśmy, to mamy MISS
@@ -143,12 +163,7 @@ async def get_crypto_prices(r: sync_redis.Redis = Depends(get_redis)):
 
 @app.get("/api/b2b/cron/update-crypto")
 async def update_crypto_cron(r: sync_redis.Redis = Depends(get_redis)):
-    """
-    Endpoint dla Vercel Cron.
-    Pobiera ceny krypto i zapisuje w Redis (zastępuje service-price-monitor w chmurze).
-    """
     url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,pln"
-    
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(url, timeout=10.0)
@@ -156,13 +171,9 @@ async def update_crypto_cron(r: sync_redis.Redis = Depends(get_redis)):
                 data = response.json()
                 btc_pln = data['bitcoin']['pln']
                 eth_pln = data['ethereum']['pln']
-                
                 r.set("crypto:bitcoin", str(btc_pln))
                 r.set("crypto:ethereum", str(eth_pln))
-                
-                # Publish update for WebSockets
                 r.publish("crypto_updates", json.dumps(data))
-                
                 return {"status": "updated", "data": data}
             else:
                 return {"status": "error", "code": response.status_code}
@@ -175,9 +186,7 @@ async def websocket_crypto_endpoint(websocket: WebSocket):
     r = await get_async_redis()
     pubsub = r.pubsub()
     await pubsub.subscribe("crypto_updates")
-    
     try:
-        # Send initial state
         btc = await r.get("crypto:bitcoin")
         eth = await r.get("crypto:ethereum")
         initial_data = {
@@ -185,8 +194,6 @@ async def websocket_crypto_endpoint(websocket: WebSocket):
             "ethereum": {"pln": float(eth) if eth else 0}
         }
         await websocket.send_text(json.dumps(initial_data))
-
-        # Listen for updates
         async for message in pubsub.listen():
             if message["type"] == "message":
                 await websocket.send_text(message["data"])
@@ -200,9 +207,6 @@ async def websocket_crypto_endpoint(websocket: WebSocket):
 
 @app.get("/api/b2b/system-status")
 async def get_system_status(r: sync_redis.Redis = Depends(get_redis)):
-    """
-    Agreguje statystyki całego systemu dla Dashboardu.
-    """
     return {
         "b2b": {
             "companies_checked": r.get("stats:companies_checked") or 0,
@@ -212,12 +216,11 @@ async def get_system_status(r: sync_redis.Redis = Depends(get_redis)):
         "monitor": {
             "bitcoin": r.get("crypto:bitcoin") or "0.00",
             "ethereum": r.get("crypto:ethereum") or "0.00",
-            # Real update time should come from Redis too
             "last_update": time.strftime("%H:%M:%S")
         },
         "services": {
             "b2b": "online",
-            "fintech": "online", # We assume it is if frontend can call it
+            "fintech": "online",
             "monitor": "active"
         }
     }
