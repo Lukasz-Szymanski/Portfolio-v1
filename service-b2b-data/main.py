@@ -1,12 +1,11 @@
 import datetime
-import time
-import os
 import json
-import asyncio
+import os
+import time
 
 import httpx
-import redis.asyncio as redis # Use async redis for websockets
-import redis as sync_redis # Keep sync redis for depends if needed, or switch all to async
+import redis as sync_redis  # Keep sync redis for depends if needed, or switch all to async
+import redis.asyncio as redis  # Use async redis for websockets
 from fastapi import BackgroundTasks, Depends, FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, EmailStr
