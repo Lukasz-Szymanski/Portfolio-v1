@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, X, Bot, User, Loader2, Sparkles } from 'lucide-react';
+import { MessageSquare, Send, X, Bot, Loader2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AiChat: React.FC = () => {
@@ -34,7 +34,7 @@ const AiChat: React.FC = () => {
 
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'bot', text: data.response }]);
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, { role: 'bot', text: 'Przepraszam, mam problem z połączeniem z moim mózgiem w chmurze.' }]);
     } finally {
       setIsLoading(false);

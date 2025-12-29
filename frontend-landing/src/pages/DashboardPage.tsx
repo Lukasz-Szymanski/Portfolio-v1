@@ -15,7 +15,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useDevMode } from '../context/DevModeContext';
 import XRayWrapper from '../components/shared/XRayWrapper';
 import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
 import AiChat from '../components/AiChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,10 +25,6 @@ function DashboardPage() {
   
   const { isDevMode, toggleDevMode } = useDevMode();
   const [showArchitecture, setShowArchitecture] = useState(false);
-
-  const handleGlobalNavigate = (section: string) => {
-    navigate(`/#${section}`);
-  };
 
   const [userId, setUserId] = useState<number | null>(() => {
     const saved = localStorage.getItem('demo_user_id');

@@ -34,6 +34,7 @@ const TransferForm = ({ senderId }: { senderId: string }) => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setTimeout(() => setSuccessMsg(''), 3000);
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       const msg = error.response?.data?.message || 'Wystąpił błąd podczas przelewu.';
       setErrorMsg(msg);

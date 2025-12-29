@@ -12,14 +12,12 @@ import Footer from '../components/Footer';
 import AiChat from '../components/AiChat';
 
 const LandingPage = () => {
-  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
+  const [activeSection, setActiveSection] = useState(() => {
+     return location.hash === '#projects' ? 'projects' : 'home';
+  });
 
   useEffect(() => {
-    if (location.hash === '#projects') {
-      setActiveSection('projects');
-    }
-    
     if (location.hash) {
       const element = document.getElementById(location.hash.slice(1));
       if (element) {

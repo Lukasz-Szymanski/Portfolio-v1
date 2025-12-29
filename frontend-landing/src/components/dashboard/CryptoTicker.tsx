@@ -11,8 +11,6 @@ const CryptoTicker = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // Determine WS URL based on current location (or env)
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     // For local docker setup via Nginx on port 80:
     const wsUrl = `ws://localhost/ws/crypto`; 
     

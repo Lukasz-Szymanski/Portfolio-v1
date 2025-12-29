@@ -26,14 +26,14 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
 
     // Obliczamy saldo początkowe (cofając się od obecnego)
     const totalChange = transactions.reduce((acc, tx) => acc + parseFloat(tx.amount), 0);
-    let startBalance = currentBalance - totalChange;
+    let runningBalance = currentBalance - totalChange;
 
     const points = sortedTxs.map((tx) => {
-      startBalance += parseFloat(tx.amount);
+      runningBalance += parseFloat(tx.amount);
       return {
         date: new Date(tx.created_at).toLocaleDateString('pl-PL', { day: '2-digit', month: 'short' }),
         fullDate: new Date(tx.created_at).toLocaleString('pl-PL'),
-        balance: parseFloat(startBalance.toFixed(2)),
+        balance: parseFloat(runningBalance.toFixed(2)),
         amount: parseFloat(tx.amount),
         type: tx.transaction_type
       };
@@ -41,12 +41,13 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
 
     // Jeśli mamy mało punktów, dodajmy punkt startowy "0" dla estetyki
     if (points.length > 0) {
-        const firstDate = new Date(sortedTxs[0].created_at);
-        firstDate.setHours(firstDate.getHours() - 1);
+        // Obliczamy balans PRZED pierwszą transakcją
+        const firstBalance = points[0].balance - parseFloat(sortedTxs[0].amount);
+        
         points.unshift({
             date: '',
             fullDate: 'Initial State',
-            balance: parseFloat((points[0].balance - parseFloat(sortedTxs[0].amount)).toFixed(2)),
+            balance: parseFloat(firstBalance.toFixed(2)),
             amount: 0,
             type: 'START'
         });
@@ -55,6 +56,7 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
     return points;
   }, [transactions, currentBalance]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (

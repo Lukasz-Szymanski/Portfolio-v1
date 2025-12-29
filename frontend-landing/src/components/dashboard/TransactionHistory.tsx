@@ -28,7 +28,7 @@ const TransactionHistory = ({ accountId }: TransactionHistoryProps) => {
         document.body.appendChild(link);
         link.click();
         link.parentNode?.removeChild(link);
-    } catch (error) {
+    } catch {
         alert("Błąd pobierania PDF");
     } finally {
         setDownloadingId(null);
