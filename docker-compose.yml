@@ -55,6 +55,8 @@ services:
     volumes:
       - ./service-fintech:/app
     command: /opt/venv/bin/python -m uvicorn core.asgi:application --host 0.0.0.0 --port 8002 --reload
+    env_file:
+      - .env
     environment:
       - POSTGRES_DB=portfolio_main
       - POSTGRES_USER=user

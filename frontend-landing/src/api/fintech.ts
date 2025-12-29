@@ -60,5 +60,11 @@ export const fintechApi = {
   initDemoAccount: async (userId: number): Promise<Account> => {
     const response = await apiClient.post<Account>(`/fintech/accounts/init-demo/${userId}`);
     return response.data;
+  },
+
+  // Stripe Checkout
+  createStripeSession: async (accountId: string): Promise<{ url: string }> => {
+    const response = await apiClient.post<{ url: string }>(`/fintech/accounts/stripe/create-checkout-session/${accountId}`);
+    return response.data;
   }
 };

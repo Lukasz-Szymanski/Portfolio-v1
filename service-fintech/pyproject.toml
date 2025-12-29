@@ -7,14 +7,17 @@ authors = ["Dyzio <dyzio@example.com>"]
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0"
-django-ninja = "^1.1"
-psycopg = {extras = ["binary"], version = "^3.1.18"} # Nowoczesny sterownik Postgres z binarkami
+django-ninja = "^1.1.0"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.1"
+dj-database-url = "^2.1.0"
+django-cors-headers = "^4.3.1"
 uvicorn = "^0.27.0"
-pydantic = "^2.6.0"
+httpx = "^0.26.0"
 celery = "^5.3.6"
 redis = "^5.0.1"
-reportlab = "^4.1.0"
-dj-database-url = "^2.1.0"
+reportlab = "^4.0.9"
+stripe = "^11.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -10,13 +10,94 @@ from .pdf_generator import generate_pdf_confirmation
 import random
 import string
 import uuid
+import stripe
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 from celery import Celery
 
 # Konfiguracja klienta do zlecania zadań
 REDIS_URL = os.environ.get("REDIS_URL", "redis://redis:6379/0")
 celery_app = Celery("fintech_producer", broker=REDIS_URL)
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
 router = Router()
+
+@router.post("/stripe/create-checkout-session/{account_id}")
+def create_stripe_checkout_session(request, account_id: uuid.UUID):
+    """
+    Tworzy sesję Stripe Checkout dla doładowania konta.
+    """
+    account = get_object_or_404(Account, id=account_id)
+    
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'pln',
+                    'product_data': {
+                        'name': f'Doładowanie konta: {account.account_number[:6]}...',
+                    },
+                    'unit_amount': 5000, # Stała kwota 50.00 PLN dla demo
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            # Przekazujemy ID konta w metadata, aby wiedzieć kogo doładować w webhooku
+            metadata={
+                "account_id": str(account.id)
+            },
+            success_url=f"http://localhost/dashboard?view=fintech&status=success",
+            cancel_url=f"http://localhost/dashboard?view=fintech&status=cancel",
+        )
+        return {"url": checkout_session.url}
+    except Exception as e:
+        return 400, {"message": str(e)}
+
+@router.post("/webhooks/stripe")
+def stripe_webhook(request):
+    """
+    Endpoint dla Stripe Webhooks. 
+    Odbiera informację o udanej płatności i aktualizuje saldo.
+    """
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    event = None
+
+    try:
+        # WERYFIKACJA: Sprawdzamy czy to naprawdę pisało Stripe
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+    except ValueError as e:
+        # Invalid payload
+        return 400, {"message": "Invalid payload"}
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return 400, {"message": "Invalid signature"}
+
+    # OBSŁUGA ZDARZENIA
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        account_id = session.get('metadata', {}).get('account_id')
+        amount_total = session.get('amount_total') / 100 # Zamiana groszy na PLN
+
+        if account_id:
+            with transaction.atomic():
+                account = Account.objects.select_for_update().get(id=account_id)
+                account.balance += amount_total
+                account.save()
+
+                Transaction.objects.create(
+                    account=account,
+                    amount=amount_total,
+                    transaction_type='DEPOSIT',
+                    description=f"Stripe Top-up: Session {session.id[:10]}..."
+                )
+                print(f"--- STRIPE SUCCESS: Account {account_id} topped up with {amount_total} ---")
+
+    return 200, {"status": "success"}
 
 @router.get("/transactions/{transaction_id}/pdf")
 def get_transaction_pdf(request, transaction_id: uuid.UUID):
