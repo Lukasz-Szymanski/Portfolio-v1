@@ -16,7 +16,12 @@ Głównym celem jest prezentacja nowoczesnego podejścia do budowy aplikacji web
 - **B2B Data Verifier:** Narzędzie do integracji z danymi publicznymi.
 - **AI Assistant:** Inteligentny pomocnik oparty o modele LLM.
 
-Wszystkie te projekty są zintegrowane w ramach jednego Dashboardu, co pozwala na płynne przełączanie się między różnymi domenami biznesowymi.
+---
+
+## 🛠️ Inne Wybitne Projekty
+
+Poza systemem mikroserwisów, w ramach tego Hubu prezentuję:
+*   **Git-Sensei CLI:** Inteligentne narzędzie terminalowe (AI), które automatyzuje generowanie profesjonalnych wiadomości commit poprzez analizę `git diff`. Obsługuje modele Gemini, Claude oraz lokalne (Ollama).
 
 ---
 
@@ -64,6 +69,7 @@ Projekt zawiera obszerną dokumentację decyzji architektonicznych (Architecture
 * [Infrastructure & Docker Compose](docs/learning_infrastructure.md) – Orkiestracja lokalna.
 
 ### 🤖 AI i Nowoczesne Technologie
+* [Git-Sensei CLI Spotlight](docs/learning_git_sensei.md) – AI w służbie DevOps.
 * [AI Integration (RAG & Gemini)](docs/learning_rag_ai.md) – Chatbot z opisem fallbacku (Context Stuffing).
 * [Real-time WebSockets](docs/learning_websockets.md) – Streaming cen z wykorzystaniem Redis Pub/Sub.
 * [Advanced Redis Patterns](docs/learning_redis_advanced.md) – Cache, Broker i Pub/Sub.
