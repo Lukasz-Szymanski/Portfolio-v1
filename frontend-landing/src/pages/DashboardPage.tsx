@@ -12,7 +12,7 @@ import Overview from '../components/dashboard/Overview';
 import ArchitectureDiagram from '../components/dashboard/ArchitectureDiagram';
 import { LogOut, PlayCircle, ShieldCheck, LayoutDashboard, Landmark, Database, Activity, Glasses, Network, X, Loader2, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useDevMode } from '../context/DevModeContext';
+import { useDevMode } from '../context/useDevMode';
 import XRayWrapper from '../components/shared/XRayWrapper';
 import Footer from '../components/Footer';
 import AiChat from '../components/AiChat';
@@ -262,7 +262,6 @@ function DashboardPage() {
         </AnimatePresence>
       </div>
       <Footer />
-      <AiChat />
     </div>
   );
 }

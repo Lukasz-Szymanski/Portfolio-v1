@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDevMode } from '../../context/DevModeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Server, Database, Globe } from 'lucide-react';
+import { useDevMode } from '../../context/useDevMode';
+import { Code, Database, Server, Globe, Cpu } from 'lucide-react';
 
 export type TechType = 'React' | 'Django' | 'FastAPI' | 'Redis' | 'Postgres' | 'Celery' | 'Nginx' | 'Recharts';
 

@@ -1,12 +1,11 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useState, type ReactNode } from 'react';
 
-// eslint-disable-next-line react-refresh/only-export-components
-interface DevModeContextType {
+export interface DevModeContextType {
   isDevMode: boolean;
   toggleDevMode: () => void;
 }
 
-const DevModeContext = createContext<DevModeContextType | undefined>(undefined);
+export const DevModeContext = createContext<DevModeContextType | undefined>(undefined);
 
 export const DevModeProvider = ({ children }: { children: ReactNode }) => {
   const [isDevMode, setIsDevMode] = useState(false);
@@ -18,12 +17,4 @@ export const DevModeProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </DevModeContext.Provider>
   );
-};
-
-export const useDevMode = () => {
-  const context = useContext(DevModeContext);
-  if (context === undefined) {
-    throw new Error('useDevMode must be used within a DevModeProvider');
-  }
-  return context;
 };
