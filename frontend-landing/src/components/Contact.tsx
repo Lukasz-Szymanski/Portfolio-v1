@@ -26,10 +26,10 @@ const Contact: React.FC = () => {
     setStatus("sending");
     try {
       await b2bApi.sendContactMessage(formData);
-      setFormStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
     } catch {
-      setFormStatus('error');
+      setStatus("error");
     }
   };
 
