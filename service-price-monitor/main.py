@@ -1,6 +1,7 @@
 import os
 import requests
 import redis
+import json
 from celery import Celery
 
 # Pobieramy adres Redisa
@@ -30,6 +31,9 @@ def fetch_crypto_prices():
         # Zapisz do Redisa (żeby inne serwisy widziały)
         redis_client.set("crypto:bitcoin", str(btc_pln))
         redis_client.set("crypto:ethereum", str(eth_pln))
+        
+        # OPUBLIKUJ zmianę dla WebSocketów (FastAPI)
+        redis_client.publish("crypto_updates", json.dumps(data))
         
         print("--- CRYPTO UPDATE ---")
         print(f"Bitcoin: {btc_pln} PLN")

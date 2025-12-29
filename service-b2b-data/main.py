@@ -1,10 +1,13 @@
 import datetime
 import time
 import os
+import json
+import asyncio
 
 import httpx
-import redis
-from fastapi import BackgroundTasks, Depends, FastAPI
+import redis.asyncio as redis # Use async redis for websockets
+import redis as sync_redis # Keep sync redis for depends if needed, or switch all to async
+from fastapi import BackgroundTasks, Depends, FastAPI, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel, EmailStr
 
 app = FastAPI(title="B2B Company Verifier")
@@ -15,19 +18,25 @@ class ContactSchema(BaseModel):
     email: EmailStr
     message: str
 
-# Funkcja (Dependency), która zwraca połączenie do Redisa
+# Redis Connection Dependency (Sync for HTTP endpoints)
 def get_redis():
     redis_url = os.environ.get("REDIS_URL")
     if redis_url:
-        r = redis.from_url(redis_url, decode_responses=True)
+        r = sync_redis.from_url(redis_url, decode_responses=True)
     else:
-        # Fallback dla lokalnego Dockera (jeśli nie ma zmiennej REDIS_URL)
-        r = redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
+        r = sync_redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
     
     try:
         yield r
     finally:
         r.close()
+
+# Async Redis for WebSockets
+async def get_async_redis():
+    redis_url = os.environ.get("REDIS_URL")
+    if not redis_url:
+        redis_url = "redis://redis:6379/0"
+    return await redis.from_url(redis_url, decode_responses=True)
 
 @app.get("/")
 async def health_check():
@@ -53,7 +62,7 @@ def log_email_to_console(form: ContactSchema):
     print("---------------------------")
 
 @app.get("/api/b2b/companies/{nip}")
-async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
+async def get_company(nip: str, r: sync_redis.Redis = Depends(get_redis)):
     # 0. Statystyki ogólne
     r.incr("stats:companies_checked")
 
@@ -122,7 +131,7 @@ async def get_company(nip: str, r: redis.Redis = Depends(get_redis)):
     return {"source": "mock_fallback", "data": mock_data}
 
 @app.get("/api/b2b/crypto")
-async def get_crypto_prices(r: redis.Redis = Depends(get_redis)):
+async def get_crypto_prices(r: sync_redis.Redis = Depends(get_redis)):
     btc = r.get("crypto:bitcoin")
     eth = r.get("crypto:ethereum")
     
@@ -133,7 +142,7 @@ async def get_crypto_prices(r: redis.Redis = Depends(get_redis)):
     }
 
 @app.get("/api/b2b/cron/update-crypto")
-async def update_crypto_cron(r: redis.Redis = Depends(get_redis)):
+async def update_crypto_cron(r: sync_redis.Redis = Depends(get_redis)):
     """
     Endpoint dla Vercel Cron.
     Pobiera ceny krypto i zapisuje w Redis (zastępuje service-price-monitor w chmurze).
@@ -151,14 +160,46 @@ async def update_crypto_cron(r: redis.Redis = Depends(get_redis)):
                 r.set("crypto:bitcoin", str(btc_pln))
                 r.set("crypto:ethereum", str(eth_pln))
                 
+                # Publish update for WebSockets
+                r.publish("crypto_updates", json.dumps(data))
+                
                 return {"status": "updated", "data": data}
             else:
                 return {"status": "error", "code": response.status_code}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
+@app.websocket("/ws/crypto")
+async def websocket_crypto_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    r = await get_async_redis()
+    pubsub = r.pubsub()
+    await pubsub.subscribe("crypto_updates")
+    
+    try:
+        # Send initial state
+        btc = await r.get("crypto:bitcoin")
+        eth = await r.get("crypto:ethereum")
+        initial_data = {
+            "bitcoin": {"pln": float(btc) if btc else 0},
+            "ethereum": {"pln": float(eth) if eth else 0}
+        }
+        await websocket.send_text(json.dumps(initial_data))
+
+        # Listen for updates
+        async for message in pubsub.listen():
+            if message["type"] == "message":
+                await websocket.send_text(message["data"])
+    except WebSocketDisconnect:
+        print("Client disconnected")
+    except Exception as e:
+        print(f"WebSocket Error: {e}")
+    finally:
+        await pubsub.unsubscribe("crypto_updates")
+        await r.close()
+
 @app.get("/api/b2b/system-status")
-async def get_system_status(r: redis.Redis = Depends(get_redis)):
+async def get_system_status(r: sync_redis.Redis = Depends(get_redis)):
     """
     Agreguje statystyki całego systemu dla Dashboardu.
     """

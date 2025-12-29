@@ -145,9 +145,8 @@ function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#050811] text-white font-sans transition-colors duration-500 selection:bg-blue-500/30">
       <div className="mesh-background" />
-      <Navbar activeSection="" onNavigate={handleGlobalNavigate} />
       
-      <div className="max-w-6xl mx-auto flex flex-col pt-28 px-8 pb-16">
+      <div className="max-w-6xl mx-auto flex flex-col pt-12 px-8 pb-16">
         
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-white/5 pb-8">
