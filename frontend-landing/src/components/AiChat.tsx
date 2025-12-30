@@ -117,9 +117,11 @@ const AiChat: React.FC = () => {
       <button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-8 right-8 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-[0_0_30px_rgba(37,99,235,0.5)] hover:scale-110 transition-transform z-[100] group"
+        aria-label="Open AI assistant chat"
+        aria-expanded={isOpen}
       >
-        <MessageSquare size={28} className="group-hover:rotate-12 transition-transform" />
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-[#050811] animate-pulse"></span>
+        <MessageSquare size={28} className="group-hover:rotate-12 transition-transform" aria-hidden="true" />
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-[#050811] animate-pulse" aria-hidden="true"></span>
       </button>
 
       {/* Chat Window */}
@@ -146,8 +148,8 @@ const AiChat: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-white transition-colors">
-                <X size={20} />
+              <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-white transition-colors" aria-label="Close chat window">
+                <X size={20} aria-hidden="true" />
               </button>
             </div>
 
@@ -181,12 +183,13 @@ const AiChat: React.FC = () => {
             {/* Suggestions Chips */}
             <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
                 {PREDEFINED_QA.map((qa) => (
-                    <button 
+                    <button
                         key={qa.id}
                         onClick={() => handleSuggestion(qa)}
                         className="flex items-center gap-2 px-3 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-[10px] font-bold whitespace-nowrap hover:bg-blue-500/20 transition-all active:scale-95"
+                        aria-label={qa.question}
                     >
-                        {qa.icon} {qa.question}
+                        <span aria-hidden="true">{qa.icon}</span> {qa.question}
                     </button>
                 ))}
             </div>
@@ -206,8 +209,9 @@ const AiChat: React.FC = () => {
                   onClick={() => handleSend()}
                   disabled={isLoading}
                   className="absolute right-2 top-1.5 p-1.5 bg-blue-600 rounded-lg text-white hover:bg-blue-500 transition-colors disabled:opacity-50"
+                  aria-label="Send message"
                 >
-                  <Send size={18} />
+                  <Send size={18} aria-hidden="true" />
                 </button>
               </div>
               <p className="text-[9px] text-slate-600 text-center mt-3 uppercase tracking-widest font-mono">

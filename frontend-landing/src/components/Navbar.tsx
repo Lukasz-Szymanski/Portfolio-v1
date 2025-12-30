@@ -30,7 +30,11 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo / Brand */}
-        <button onClick={() => handleNavClick('home')} className="flex items-center gap-2 text-white font-display font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity cursor-pointer">
+        <button
+          onClick={() => handleNavClick('home')}
+          className="flex items-center gap-2 text-white font-display font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity cursor-pointer"
+          aria-label="Home - LUKASZ_DEV"
+        >
           <Terminal size={24} className="text-blue-500" />
           <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">LUKASZ_DEV</span>
         </button>
@@ -45,6 +49,8 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
                 className={`text-xs font-mono uppercase tracking-widest transition-colors relative group cursor-pointer ${
                   activeSection === link.id ? 'text-blue-400' : 'text-slate-400 hover:text-white'
                 }`}
+                aria-label={link.label}
+                aria-current={activeSection === link.id ? 'page' : undefined}
               >
                 {link.label}
                 <span className={`absolute -bottom-2 left-0 h-0.5 bg-blue-500 transition-all ${
@@ -55,13 +61,14 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
             
             <div className="h-6 w-px bg-white/10 mx-2"></div>
 
-            <button 
-               onClick={() => handleNavClick('contact')}
-               className={`text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-full transition-all cursor-pointer border ${
-                 activeSection === 'contact' 
-                  ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)]' 
+            <button
+              onClick={() => handleNavClick('contact')}
+              className={`text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded-full transition-all cursor-pointer border ${
+                activeSection === 'contact'
+                  ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)]'
                   : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-               }`}
+              }`}
+              aria-label="Contact section"
             >
               Kontakt
             </button>
@@ -70,9 +77,11 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
 
         {/* Mobile Toggle */}
         {showLinks && (
-          <button 
+          <button
             className="md:hidden text-gray-400 hover:text-white transition-colors cursor-pointer"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={isOpen}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -90,13 +99,16 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
                 className={`text-lg font-medium text-left cursor-pointer ${
                    activeSection === link.id ? 'text-blue-400' : 'text-gray-400'
                 }`}
+                aria-label={link.label}
+                aria-current={activeSection === link.id ? 'page' : undefined}
               >
                 {link.label}
               </button>
             ))}
-             <button 
+             <button
                 onClick={() => handleNavClick('contact')}
                 className="text-blue-400 font-bold mt-2 text-left cursor-pointer"
+                aria-label="Contact section"
               >
                 Kontakt
               </button>

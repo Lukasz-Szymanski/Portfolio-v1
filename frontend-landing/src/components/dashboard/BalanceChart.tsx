@@ -15,6 +15,22 @@ interface BalanceChartProps {
   currentBalance: number;
 }
 
+interface ChartDataPoint {
+  date: string;
+  fullDate: string;
+  balance: number;
+  amount: number;
+  type: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    value: number;
+    payload: ChartDataPoint;
+  }>;
+}
+
 const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
   const chartData = useMemo(() => {
     if (!transactions || transactions.length === 0) return [];
@@ -29,7 +45,6 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
     let runningBalance = currentBalance - totalChange;
 
     const points = sortedTxs.map((tx) => {
-      // eslint-disable-next-line react-hooks/immutability
       runningBalance += parseFloat(tx.amount);
       return {
         date: new Date(tx.created_at).toLocaleDateString('pl-PL', { day: '2-digit', month: 'short' }),
@@ -57,8 +72,7 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
     return points;
   }, [transactions, currentBalance]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-slate-900/90 border border-white/10 backdrop-blur-xl p-4 rounded-2xl shadow-2xl font-mono">

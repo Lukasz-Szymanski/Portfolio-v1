@@ -102,11 +102,15 @@ def stripe_webhook(request):
 @router.get("/transactions/{transaction_id}/pdf")
 def get_transaction_pdf(request, transaction_id: uuid.UUID):
     """Generuje PDF z potwierdzeniem transakcji"""
-    # W prawdziwym systemie: sprawdzić czy user jest właścicielem konta!
     tx = get_object_or_404(Transaction, id=transaction_id)
-    
+
+    # Authorization check: Verify user owns the account associated with the transaction
+    user_id = request.user.id if request.user and request.user.is_authenticated else None
+    if not user_id or tx.account.user_id != user_id:
+        return 403, {"message": "Unauthorized: You do not have access to this transaction"}
+
     pdf_content = generate_pdf_confirmation(tx)
-    
+
     response = HttpResponse(pdf_content, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="confirmation_{tx.id}.pdf"'
     return response

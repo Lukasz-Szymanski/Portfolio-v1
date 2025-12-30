@@ -3,7 +3,7 @@ import { Code2, Coffee, GraduationCap, MapPin, Calendar } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
-    <div className="max-w-6xl mx-auto py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-6xl mx-auto h-[calc(100vh-120px)] flex flex-col justify-center animate-in fade-in slide-in-from-bottom-4 duration-700">
       
       <div className="flex flex-col mb-16">
         <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4">The_Journey</span>

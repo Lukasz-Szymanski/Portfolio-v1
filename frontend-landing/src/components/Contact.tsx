@@ -69,8 +69,8 @@ const Contact: React.FC = () => {
                     </div>
                 </div>
 
-                <a href="https://www.linkedin.com/in/lukasz-szymanski94/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-all">
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 group-hover:text-[#0077b5] group-hover:border-[#0077b5]/30 transition-all">
+                <a href="https://www.linkedin.com/in/lukasz-szymanski94/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-all" aria-label="LinkedIn profile (opens in new tab)">
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 group-hover:text-[#0077b5] group-hover:border-[#0077b5]/30 transition-all" aria-hidden="true">
                         <Linkedin size={24} />
                     </div>
                     <div className="text-left">
@@ -79,8 +79,8 @@ const Contact: React.FC = () => {
                     </div>
                 </a>
 
-                <a href="https://github.com/Lukasz-Szymanski" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-all">
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 group-hover:text-white group-hover:border-white/30 transition-all">
+                <a href="https://github.com/Lukasz-Szymanski" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-all" aria-label="GitHub profile (opens in new tab)">
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 group-hover:text-white group-hover:border-white/30 transition-all" aria-hidden="true">
                         <Github size={24} />
                     </div>
                     <div className="text-left">
@@ -89,8 +89,8 @@ const Contact: React.FC = () => {
                     </div>
                 </a>
 
-                <a href="https://gitlab.com/Lukasz-Szymanski" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-all">
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 group-hover:text-[#fc6d26] group-hover:border-[#fc6d26]/30 transition-all">
+                <a href="https://gitlab.com/Lukasz-Szymanski" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-all" aria-label="GitLab profile (opens in new tab)">
+                    <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-slate-400 group-hover:text-[#fc6d26] group-hover:border-[#fc6d26]/30 transition-all" aria-hidden="true">
                         <Gitlab size={24} />
                     </div>
                     <div className="text-left">
@@ -171,14 +171,16 @@ const Contact: React.FC = () => {
               status === "sending"
                 ? "bg-slate-800 cursor-wait"
                 : "bg-blue-600 hover:bg-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:scale-[1.02]"
-            }`}>
+            }`}
+            aria-label={status === "sending" ? "Sending message" : "Send contact message"}
+          >
             {status === "sending" ? (
               <>
-                <Loader2 size={18} className="animate-spin" /> Sending...
+                <Loader2 size={18} className="animate-spin" aria-hidden="true" /> Sending...
               </>
             ) : (
               <>
-                Wyślij <Send size={18} />
+                Wyślij <Send size={18} aria-hidden="true" />
               </>
             )}
           </button>

@@ -52,7 +52,6 @@ function DashboardPage() {
         setUserId(newId);
         window.location.reload(); 
     } catch (e) {
-        console.error("Failed to init demo", e);
         alert("Błąd inicjalizacji demo. Sprawdź czy kontenery działają.");
     } finally {
         setIsInitializing(false);
@@ -159,7 +158,7 @@ function DashboardPage() {
              </button>
              <div className="h-6 w-px bg-white/5 mx-2"></div>
              <button onClick={handleLogout} className="p-2 text-slate-500 hover:text-red-400 transition-colors bg-white/5 rounded-full border border-white/5"><LogOut size={20} /></button>
-             <a href="/#projects" className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all text-sm font-medium border border-white/10 backdrop-blur-sm">&larr; Exit</a>
+             <a href="/" className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all text-sm font-medium border border-white/10 backdrop-blur-sm">&larr; Exit</a>
           </div>
         </header>
 

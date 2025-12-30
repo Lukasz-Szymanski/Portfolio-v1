@@ -58,6 +58,32 @@ The system consists of three independent microservices and an API Gateway, orche
 
 ---
 
+## 🔒 Security & Code Quality
+
+### 🛡️ Security Hardening
+*   **Authorization Checks on Protected Endpoints** - Transaction PDF access requires proper authentication and authorization validation.
+*   **Secure Data Parsing** - Uses `json.loads()` instead of `eval()` for safe data deserialization across all services.
+*   **Environment Variables Protection** - Sensitive credentials stored in `.env` files, excluded from version control via `.gitignore`.
+
+### ♿ Accessibility (WCAG)
+*   **ARIA Attributes on Interactive Elements** - All buttons, links, and form inputs have proper ARIA labels for screen readers.
+*   **Screen Reader Support** - Comprehensive use of `aria-label`, `aria-expanded`, and `aria-hidden` attributes throughout the UI.
+*   **Keyboard Navigation Support** - Full keyboard accessibility for all interactive components and navigation flows.
+
+### ⚡ Performance Optimization
+*   **Code Splitting with React.lazy() and Suspense** - Dynamic imports reduce initial bundle size and improve first contentful paint.
+*   **Lazy-Loaded Pages** - Pages are loaded on-demand, minimizing the download footprint for users.
+
+### 📘 TypeScript Strict Mode
+*   **Proper Type Interfaces** - Eliminates `any` types in favor of explicit, well-defined interfaces.
+*   **Full Type Safety** - Comprehensive type coverage across all React components and service layers prevents runtime type errors.
+
+### 🧹 Clean Code
+*   **Production-Ready Logging** - No `console.log()` statements in production builds; proper logging infrastructure in place.
+*   **SEO Meta Tags** - Implements Open Graph and Twitter Card meta tags for improved social media previews and search engine visibility.
+
+---
+
 ## 📚 Knowledge Base (ADR & Learning)
 
 The project includes extensive **Architecture Decision Records (ADR)**. Each file explains the "why" behind every technology choice.

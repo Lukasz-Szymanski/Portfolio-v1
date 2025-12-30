@@ -22,6 +22,22 @@ We opted for a pure SPA architecture because our business logic is heavily distr
 During development, the API resides in a separate Docker container. We configured Nginx to act as a **Reverse Proxy**.
 - **Result:** The frontend makes requests to `/api/...` regardless of the environment. This eliminates hardcoded URLs (`localhost:8000`) and resolves Cross-Origin Resource Sharing (CORS) issues before they reach the application code.
 
+### 4. Code Splitting with React.lazy()
+- **Lazy Loading:** Pages (LandingPage, DashboardPage) are lazy-loaded using `React.lazy()` to decouple route-based code bundles.
+- **Suspense Fallback:** `React.Suspense` provides a loading UI while chunks are being fetched over the network.
+- **Bundle Optimization:** Reduces initial bundle size significantly, allowing faster First Contentful Paint (FCP) and Time to Interactive (TTI) metrics.
+
+### 5. Accessibility (WCAG Compliance)
+- **ARIA Attributes:** All interactive elements include proper ARIA attributes to support assistive technologies.
+- **Icon Buttons:** `aria-label` provides meaningful labels for buttons that use icons only (e.g., close, menu toggle).
+- **Toggle States:** `aria-expanded` indicates the open/closed state of collapsible elements and modals.
+- **Decorative Icons:** `aria-hidden="true"` hides purely decorative icons from screen readers, reducing noise for users relying on assistive technology.
+
+### 6. SEO Optimization
+- **Meta Tags:** Meta description and keywords are dynamically injected for each page, improving search engine visibility.
+- **Open Graph Tags:** OG tags (og:title, og:description, og:image, og:url) enable rich previews when content is shared on social platforms.
+- **Twitter Card Support:** Twitter-specific meta tags ensure consistent branding and preview quality on Twitter/X.
+
 ## Consequences
 - **Developer Experience (DX):** Near-instant reloads during coding.
 - **Portability:** The same Nginx configuration handles routing in both local development and production VPS environments.

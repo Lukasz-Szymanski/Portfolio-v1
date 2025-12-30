@@ -12,13 +12,11 @@ const CryptoTicker = () => {
 
   useEffect(() => {
     // For local docker setup via Nginx on port 80:
-    const wsUrl = `ws://localhost/ws/crypto`; 
-    
-    console.log(`Connecting to WebSocket: ${wsUrl}`);
+    const wsUrl = `ws://localhost/ws/crypto`;
+
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      console.log('WebSocket Connected');
       setIsConnected(true);
     };
 
@@ -48,12 +46,11 @@ const CryptoTicker = () => {
           ethereum: eth
         });
       } catch (e) {
-        console.error('Error parsing WS message:', e);
+        // Error parsing websocket message
       }
     };
 
     ws.onclose = () => {
-      console.log('WebSocket Disconnected');
       setIsConnected(false);
     };
 

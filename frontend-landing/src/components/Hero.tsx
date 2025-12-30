@@ -36,11 +36,14 @@ const Hero: React.FC = () => {
         <div className="flex flex-wrap justify-center md:justify-start gap-6 pt-6">
           <a
             href="#projects"
-            className="group relative flex items-center gap-3 bg-white text-black px-10 py-5 rounded-full font-bold text-base transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+            className="group relative flex items-center gap-3 bg-white text-black px-10 py-5 rounded-full font-bold text-base transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+            aria-label="Explore technology stack"
+          >
             Explore Stack{" "}
             <ArrowRight
               size={20}
               className="group-hover:translate-x-1 transition-transform"
+              aria-hidden="true"
             />
           </a>
 
@@ -48,8 +51,10 @@ const Hero: React.FC = () => {
             href="https://github.com/Lukasz-Szymanski"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-10 py-5 rounded-full font-bold text-base transition-all backdrop-blur-md">
-            <Github size={20} /> Repository
+            className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-10 py-5 rounded-full font-bold text-base transition-all backdrop-blur-md"
+            aria-label="View GitHub repository (opens in new tab)"
+          >
+            <Github size={20} aria-hidden="true" /> Repository
           </a>
         </div>
       </div>

@@ -4,6 +4,14 @@ import { fintechApi } from '../../api/fintech';
 import type { TransferRequest } from '../../api/fintech';
 import { Send, CheckCircle, AlertOctagon, User, Store, Loader2 } from 'lucide-react';
 
+interface ErrorResponse {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 const TransferForm = ({ senderId }: { senderId: string }) => {
   const queryClient = useQueryClient();
   
@@ -29,13 +37,12 @@ const TransferForm = ({ senderId }: { senderId: string }) => {
     onSuccess: () => {
       setSuccessMsg('Przelew wysłany pomyślnie!');
       setErrorMsg('');
-      setFormData({ ...formData, amount: '' }); 
+      setFormData({ ...formData, amount: '' });
       queryClient.invalidateQueries({ queryKey: ['accounts'] });
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       setTimeout(() => setSuccessMsg(''), 3000);
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: (error: any) => {
+    onError: (error: ErrorResponse) => {
       const msg = error.response?.data?.message || 'Wystąpił błąd podczas przelewu.';
       setErrorMsg(msg);
       setSuccessMsg('');

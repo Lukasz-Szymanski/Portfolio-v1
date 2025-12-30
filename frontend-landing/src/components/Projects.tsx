@@ -54,11 +54,12 @@ const Projects: React.FC = () => {
             </div>
 
             <div className="mt-10 pt-6 border-t border-white/5">
-              <Link 
+              <Link
                 to="/dashboard"
                 className="w-full flex items-center justify-center gap-3 py-4 bg-white text-black rounded-2xl font-bold text-xs hover:bg-blue-50 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                aria-label="Launch system ecosystem dashboard"
               >
-                LAUNCH DASHBOARD <ExternalLink size={14} />
+                LAUNCH DASHBOARD <ExternalLink size={14} aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -98,13 +99,14 @@ const Projects: React.FC = () => {
             </div>
 
             <div className="mt-10 pt-6 border-t border-white/5">
-              <a 
+              <a
                 href="https://github.com/Lukasz-Szymanski/git_sensei"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-3 py-4 bg-transparent border border-white/10 text-white rounded-2xl font-bold text-xs hover:bg-white/5 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                aria-label="View Git-Sensei CLI source code on GitHub (opens in new tab)"
               >
-                VIEW SOURCE ON GITHUB <ExternalLink size={14} />
+                VIEW SOURCE ON GITHUB <ExternalLink size={14} aria-hidden="true" />
               </a>
             </div>
           </div>

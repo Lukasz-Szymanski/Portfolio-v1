@@ -90,7 +90,7 @@ async def get_company(nip: str, r: sync_redis.Redis = Depends(get_redis)):
     cached_data = r.get(f"company:{nip}")
     if cached_data:
         r.incr("stats:cache_hits")
-        return {"source": "cache", "data": eval(cached_data)}
+        return {"source": "cache", "data": json.loads(cached_data)}
 
     # Jeśli tu jesteśmy, to mamy MISS
     r.incr("stats:cache_misses")

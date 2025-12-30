@@ -26,7 +26,7 @@ const TechStack: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto py-24 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <div className="max-w-6xl mx-auto h-[calc(100vh-120px)] flex flex-col justify-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
       <div className="flex flex-col mb-16 items-start">
         <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4 text-left">Engineering_Arsenal</span>
         <h2 className="text-5xl font-bold text-white font-display text-left">Tech Stack</h2>

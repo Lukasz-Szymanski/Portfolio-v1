@@ -24,7 +24,6 @@ const AccountList = ({ accounts }: AccountListProps) => {
       const { url } = await fintechApi.createStripeSession(accountId, amount);
       window.location.href = url; // Przekierowanie do Stripe Checkout
     } catch (e) {
-      console.error("Stripe Session Error", e);
       alert("Nie udało się zainicjować płatności.");
     } finally {
       setLoadingId(null);

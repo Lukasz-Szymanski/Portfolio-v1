@@ -24,7 +24,7 @@ const Hobby: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto py-24 animate-in fade-in zoom-in-95 duration-1000">
+    <div className="max-w-6xl mx-auto h-[calc(100vh-120px)] flex flex-col justify-center animate-in fade-in zoom-in-95 duration-1000">
       <div className="flex flex-col mb-20 items-center text-center">
         <span className="text-blue-500 font-mono text-[10px] uppercase tracking-[0.4em] mb-4">Off_Duty_Mode</span>
         <h2 className="text-5xl font-bold text-white font-display">Po Godzinach</h2>
