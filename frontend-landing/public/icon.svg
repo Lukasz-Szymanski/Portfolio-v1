@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Neonowy Gradient (Cyan do Blue) -->
+    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:1" /> <!-- Cyan 400 -->
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" /> <!-- Blue 500 -->
+    </linearGradient>
+    
+    <!-- Efekt Poświaty (Glow) -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="20" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Tło: Ciemny "Szkło" (Slate 900) -->
+  <rect x="0" y="0" width="512" height="512" rx="128" fill="#0f172a" />
+
+  <!-- Główny Kształt: Stylizowane "L" -->
+  <path d="M170 140 V 372 H 362" 
+        stroke="url(#neonGrad)" 
+        stroke-width="50" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none" 
+        filter="url(#glow)" />
+        
+  <!-- Subtelny biały akcent dla ostrości -->
+  <path d="M170 140 V 372 H 362" 
+        stroke="white" 
+        stroke-width="8" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none" 
+        opacity="0.3" />
+</svg>
