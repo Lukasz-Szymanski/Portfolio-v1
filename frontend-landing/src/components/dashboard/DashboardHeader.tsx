@@ -28,7 +28,7 @@ function DashboardHeader({
           key={title}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`text-4xl font-bold font-display bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
+          className={`text-4xl font-bold font-display bg-linear-to-r ${gradient} bg-clip-text text-transparent`}
         >
           {title}
         </motion.h1>

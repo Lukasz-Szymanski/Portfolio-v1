@@ -10,7 +10,7 @@ const AiMentoring: React.FC = () => {
           <Sparkles size={14} /> Accelerated_Growth
         </span>
         <h2 className="text-3xl md:text-6xl font-bold text-white font-display mb-6 tracking-tight leading-tight">
-          AI-Augmented <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">Learning</span>
+          AI-Augmented <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]">Learning</span>
         </h2>
         <p className="text-slate-400 max-w-2xl text-base md:text-lg leading-relaxed font-light px-4 md:px-0">
           Traktuję AI nie jako generator kodu, ale jako <span className="text-white font-medium">Mentora i Senior Developera</span>. <br className="hidden md:block"/> 

@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
       <div className="space-y-10 text-center md:text-left">
         <h1 className="text-4xl md:text-7xl lg:text-9xl font-bold font-display tracking-tight leading-tight md:leading-[0.85] text-white">
           Building the <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-purple-500 drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-emerald-400 to-purple-500 drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
             Future of Fintech
           </span>
         </h1>

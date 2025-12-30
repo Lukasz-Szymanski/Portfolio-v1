@@ -22,7 +22,7 @@ const Projects: React.FC = () => {
         
         {/* CARD 1: MICROSERVICES ECOSYSTEM */}
         <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-[3rem] blur opacity-10 group-hover:opacity-30 transition duration-700"></div>
+          <div className="absolute -inset-1 bg-linear-to-r from-blue-600 to-cyan-600 rounded-[3rem] blur opacity-10 group-hover:opacity-30 transition duration-700"></div>
           <div className="relative glass-card p-8 md:p-10 rounded-[3rem] border-white/10 flex flex-col h-full">
             <div className="flex justify-between items-start mb-8">
               <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 text-blue-400">
@@ -67,7 +67,7 @@ const Projects: React.FC = () => {
 
         {/* CARD 2: GIT-SENSEI CLI */}
         <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-[3rem] blur opacity-10 group-hover:opacity-30 transition duration-700"></div>
+          <div className="absolute -inset-1 bg-linear-to-r from-purple-600 to-pink-600 rounded-[3rem] blur opacity-10 group-hover:opacity-30 transition duration-700"></div>
           <div className="relative glass-card p-8 md:p-10 rounded-[3rem] border-white/10 flex flex-col h-full">
             <div className="flex justify-between items-start mb-8">
               <div className="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center border border-purple-500/20 text-purple-400">

@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, showLinks = 
           aria-label="Home - LUKASZ_DEV"
         >
           <Terminal size={24} className="text-blue-500" />
-          <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">LUKASZ_DEV</span>
+          <span className="bg-linear-to-r from-white to-white/60 bg-clip-text text-transparent">LUKASZ_DEV</span>
         </button>
 
         {/* Desktop Menu */}

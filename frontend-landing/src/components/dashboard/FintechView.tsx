@@ -27,7 +27,7 @@ function FintechView({ accounts, transactions }: FintechViewProps) {
           <h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3 uppercase tracking-tight font-display text-slate-200">
             Financial Growth
           </h2>
-          <div className="glass-card p-6 rounded-3xl border-white/5 bg-gradient-to-br from-blue-500/5 to-transparent">
+          <div className="glass-card p-6 rounded-3xl border-white/5 bg-linear-to-br from-blue-500/5 to-transparent">
             <XRayWrapper label="Data Visualization" tech="Recharts" description="Dynamic balance reconstruction">
               <BalanceChart
                 transactions={transactions || []}
