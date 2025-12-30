@@ -45,7 +45,7 @@ const CryptoTicker = () => {
           bitcoin: btc,
           ethereum: eth
         });
-      } catch (e) {
+      } catch {
         // Error parsing websocket message
       }
     };

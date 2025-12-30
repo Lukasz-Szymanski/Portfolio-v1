@@ -1,11 +1,5 @@
-import { createContext, useState, type ReactNode } from 'react';
-
-export interface DevModeContextType {
-  isDevMode: boolean;
-  toggleDevMode: () => void;
-}
-
-export const DevModeContext = createContext<DevModeContextType | undefined>(undefined);
+import { useState, type ReactNode } from 'react';
+import { DevModeContext } from './DevModeContext';
 
 export const DevModeProvider = ({ children }: { children: ReactNode }) => {
   const [isDevMode, setIsDevMode] = useState(false);

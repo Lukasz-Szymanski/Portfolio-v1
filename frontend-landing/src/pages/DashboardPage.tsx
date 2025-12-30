@@ -51,7 +51,7 @@ function DashboardPage() {
         localStorage.setItem('demo_user_id', newId.toString());
         setUserId(newId);
         window.location.reload(); 
-    } catch (e) {
+    } catch {
         alert("Błąd inicjalizacji demo. Sprawdź czy kontenery działają.");
     } finally {
         setIsInitializing(false);

@@ -31,6 +31,24 @@ interface CustomTooltipProps {
   }>;
 }
 
+// CustomTooltip musi być zdefiniowany poza komponentem dla zgodności z react-hooks/static-components
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-900/90 border border-white/10 backdrop-blur-xl p-4 rounded-2xl shadow-2xl font-mono">
+        <p className="text-[10px] text-slate-500 mb-1">{payload[0].payload.fullDate}</p>
+        <p className="text-sm font-bold text-white">
+          {payload[0].value.toLocaleString()} <span className="text-[10px] opacity-50 text-blue-400">PLN</span>
+        </p>
+        <p className={`text-[10px] mt-1 ${payload[0].payload.amount >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          {payload[0].payload.amount > 0 ? '+' : ''}{payload[0].payload.amount} {payload[0].payload.type}
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
   const chartData = useMemo(() => {
     if (!transactions || transactions.length === 0) return [];
@@ -42,18 +60,21 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
 
     // Obliczamy saldo początkowe (cofając się od obecnego)
     const totalChange = transactions.reduce((acc, tx) => acc + parseFloat(tx.amount), 0);
-    let runningBalance = currentBalance - totalChange;
+    const startingBalance = currentBalance - totalChange;
 
-    const points = sortedTxs.map((tx) => {
-      runningBalance += parseFloat(tx.amount);
-      return {
+    // Używamy reduce zamiast map z mutacją dla zgodności z react-hooks/immutability
+    const points = sortedTxs.reduce<{ points: ChartDataPoint[], balance: number }>((acc, tx) => {
+      const newBalance = acc.balance + parseFloat(tx.amount);
+      acc.points.push({
         date: new Date(tx.created_at).toLocaleDateString('pl-PL', { day: '2-digit', month: 'short' }),
         fullDate: new Date(tx.created_at).toLocaleString('pl-PL'),
-        balance: parseFloat(runningBalance.toFixed(2)),
+        balance: parseFloat(newBalance.toFixed(2)),
         amount: parseFloat(tx.amount),
         type: tx.transaction_type
-      };
-    });
+      });
+      acc.balance = newBalance;
+      return acc;
+    }, { points: [], balance: startingBalance }).points;
 
     // Jeśli mamy mało punktów, dodajmy punkt startowy "0" dla estetyki
     if (points.length > 0) {
@@ -71,23 +92,6 @@ const BalanceChart = ({ transactions, currentBalance }: BalanceChartProps) => {
 
     return points;
   }, [transactions, currentBalance]);
-
-  const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-slate-900/90 border border-white/10 backdrop-blur-xl p-4 rounded-2xl shadow-2xl font-mono">
-          <p className="text-[10px] text-slate-500 mb-1">{payload[0].payload.fullDate}</p>
-          <p className="text-sm font-bold text-white">
-            {payload[0].value.toLocaleString()} <span className="text-[10px] opacity-50 text-blue-400">PLN</span>
-          </p>
-          <p className={`text-[10px] mt-1 ${payload[0].payload.amount >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-            {payload[0].payload.amount > 0 ? '+' : ''}{payload[0].payload.amount} {payload[0].payload.type}
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="h-[300px] w-full mt-6">

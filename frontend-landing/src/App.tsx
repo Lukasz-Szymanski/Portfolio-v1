@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { DevModeProvider } from './context/DevModeContext';
+import { DevModeProvider } from './context/DevModeProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy load page components

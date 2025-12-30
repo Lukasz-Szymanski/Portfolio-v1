@@ -1,20 +1,9 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import AccountList from './AccountList';
 import BalanceChart from './BalanceChart';
 import TransactionHistory from './TransactionHistory';
 import TransferForm from './TransferForm';
 import XRayWrapper from '../shared/XRayWrapper';
-
-interface Account {
-  id: number;
-  balance: string;
-  [key: string]: any;
-}
-
-interface Transaction {
-  id: number;
-  [key: string]: any;
-}
+import type { Account, Transaction } from '../../api/fintech';
 
 interface FintechViewProps {
   accounts: Account[] | undefined;
