@@ -12,7 +12,7 @@ const CryptoTicker = () => {
 
   useEffect(() => {
     // For local docker setup via Nginx on port 80:
-    const wsUrl = `ws://localhost/ws/crypto`;
+    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost/ws/crypto';
 
     const ws = new WebSocket(wsUrl);
 

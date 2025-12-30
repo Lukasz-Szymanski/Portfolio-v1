@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { DevModeProvider } from './context/DevModeContext';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy load page components
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -15,16 +16,18 @@ const LoadingFallback = () => (
 
 function App() {
   return (
-    <DevModeProvider>
-      <BrowserRouter>
-        <Suspense fallback={<LoadingFallback />}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </DevModeProvider>
+    <ErrorBoundary>
+      <DevModeProvider>
+        <BrowserRouter>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </DevModeProvider>
+    </ErrorBoundary>
   );
 }
 
