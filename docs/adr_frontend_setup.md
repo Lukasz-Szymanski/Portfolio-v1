@@ -14,6 +14,7 @@ We chose **Vite** as the build tool and **React (TS)** as the core framework.
 ### 1. Vite vs. Create React App (CRA)
 - **Vite:** Uses native ES Modules for lightning-fast server starts and Hot Module Replacement (HMR). Its build process (using Rollup) is significantly more optimized for production.
 - **CRA:** Now deprecated and relies on legacy Webpack architecture, resulting in slow build times and bloated bundles.
+- **Version Pinning:** We use Vite 6.x (LTS) instead of Vite 7.x due to a build regression in v7 causing EISDIR errors during HTML processing.
 
 ### 2. Single Page Application (SPA) vs. SSR
 We opted for a pure SPA architecture because our business logic is heavily distributed across Python-based microservices. This separation allows the frontend to act as a lightweight "Command Center" while the backends handle data processing.

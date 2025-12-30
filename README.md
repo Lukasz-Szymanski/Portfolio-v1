@@ -91,6 +91,7 @@ The system consists of three independent microservices and an API Gateway, orche
 ### 🧪 Testing Infrastructure
 *   **E2E Test Suite** - Comprehensive Playwright tests covering: Landing navigation, Fintech flow, B2B Verifier, Crypto Monitor, and Contact form.
 *   **ESLint Strict Mode** - Zero tolerance for unused variables, improper hooks usage, and type safety violations.
+*   **Vite 6.x LTS** - Pinned to stable version to avoid build regressions in newer releases.
 
 ---
 
