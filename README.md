@@ -63,38 +63,38 @@ The system consists of three independent microservices and an API Gateway, orche
 The project includes extensive **Architecture Decision Records (ADR)**. Each file explains the "why" behind every technology choice.
 
 ### 🏗️ Infrastructure & DevOps
-* [Automated CI/CD (GitHub Actions)](docs/learning_cicd.md)
-* [Docker Optimization & Network Debugging](docs/learning_docker_optimization.md)
-* [API Gateway Strategy (Nginx)](docs/learning_infrastructure_gateway.md)
-* [Infrastructure Orchestration](docs/learning_infrastructure.md)
-* [Hybrid Architecture (Django + FastAPI)](docs/learning_hybrid_architecture.md)
+* [Automated CI/CD (GitHub Actions)](docs/adr_cicd.md)
+* [Docker Optimization & Network Debugging](docs/adr_docker_optimization.md)
+* [API Gateway Strategy (Nginx)](docs/adr_infrastructure_gateway.md)
+* [Infrastructure Orchestration](docs/adr_infrastructure.md)
+* [Hybrid Architecture (Django + FastAPI)](docs/adr_hybrid_architecture.md)
 
 ### 🤖 AI & Modern Tech
-* [Git-Sensei CLI Spotlight](docs/learning_git_sensei.md)
-* [AI Integration (Hybrid RAG Model)](docs/learning_rag_ai.md)
-* [Stripe Payments Integration](docs/learning_stripe.md)
-* [Real-time WebSockets](docs/learning_websockets.md)
-* [Redis as a Shared State & Broker](docs/learning_redis_advanced.md)
+* [Git-Sensei CLI Spotlight](docs/adr_git_sensei.md)
+* [AI Integration (Hybrid RAG Model)](docs/adr_rag_ai.md)
+* [Stripe Payments Integration](docs/adr_stripe.md)
+* [Real-time WebSockets](docs/adr_websockets.md)
+* [Redis as a Shared State & Broker](docs/adr_redis_advanced.md)
 
 ### ⚙️ Backend (Fintech & B2B)
-* [Atomic Transactions & ACID Compliance](docs/learning_acid_transactions.md)
-* [Periodic Tasks (Celery & Beat)](docs/learning_background_jobs_beat.md)
-* [Fintech Core Stack (Django Ninja)](docs/learning_django_ninja_postgres.md)
-* [FastAPI & Redis Integration](docs/learning_fastapi_redis.md)
-* [Backend-side PDF Generation](docs/learning_pdf_generation.md)
-* [Financial Data Schema & Integrity](docs/learning_fintech_schema.md)
-* [Django Migrations & DB Management](docs/learning_django_migrations.md)
+* [Atomic Transactions & ACID Compliance](docs/adr_acid_transactions.md)
+* [Periodic Tasks (Celery & Beat)](docs/adr_background_jobs_beat.md)
+* [Fintech Core Stack (Django Ninja)](docs/adr_django_ninja_postgres.md)
+* [FastAPI & Redis Integration](docs/adr_fastapi_redis.md)
+* [Backend-side PDF Generation](docs/adr_pdf_generation.md)
+* [Financial Data Schema & Integrity](docs/adr_fintech_schema.md)
+* [Django Migrations & DB Management](docs/adr_django_migrations.md)
 
 ### 🎨 Frontend & UX
-* [Neon Glass Design System](docs/learning_design_system.md)
-* [Architecture X-Ray Mode](docs/learning_architecture_xray.md)
-* [Responsive UI/UX Strategy](docs/learning_responsive_ui_ux.md)
-* [Frontend State Management (TanStack Query)](docs/learning_frontend_state_management.md)
-* [Frontend Architecture & API Integration](docs/learning_frontend_routing_api.md)
+* [Neon Glass Design System](docs/adr_design_system.md)
+* [Architecture X-Ray Mode](docs/adr_architecture_xray.md)
+* [Responsive UI/UX Strategy](docs/adr_responsive_ui_ux.md)
+* [Frontend State Management (TanStack Query)](docs/adr_frontend_state_management.md)
+* [Frontend Architecture & API Integration](docs/adr_frontend_routing_api.md)
 
 ### 🧪 Testing & Validation
-* [E2E Testing with Playwright](docs/learning_e2e_testing.md)
-* [API Validation & Error Handling](docs/learning_validation_error_handling.md)
+* [E2E Testing with Playwright](docs/adr_e2e_testing.md)
+* [API Validation & Error Handling](docs/adr_validation_error_handling.md)
 
 ---
 
