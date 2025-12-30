@@ -13,7 +13,6 @@ import string
 import uuid
 import stripe
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
 from celery import Celery
 
 # Konfiguracja klienta do zlecania zadań
@@ -48,8 +47,8 @@ def create_stripe_checkout_session(request, account_id: uuid.UUID, amount: int =
             metadata={
                 "account_id": str(account.id)
             },
-            success_url=f"http://localhost/dashboard?view=fintech&status=success",
-            cancel_url=f"http://localhost/dashboard?view=fintech&status=cancel",
+            success_url="http://localhost/dashboard?view=fintech&status=success",
+            cancel_url="http://localhost/dashboard?view=fintech&status=cancel",
         )
         return {"url": checkout_session.url}
     except Exception as e:
@@ -70,10 +69,10 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
-    except ValueError as e:
+    except ValueError:
         # Invalid payload
         return 400, {"message": "Invalid payload"}
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError:
         # Invalid signature
         return 400, {"message": "Invalid signature"}
 
