@@ -114,6 +114,20 @@ services:
     networks:
       - portfolio_network
 
+  # --- UTILITIES ---
+  stripe-listener:
+    image: stripe/stripe-cli:latest
+    container_name: stripe_listener
+    # Przekierowujemy webhooki do Nginx (gateway), który skieruje je do Django.
+    # Używamy klucza API z pliku .env do autoryzacji CLI.
+    command: listen --forward-to http://nginx:80/api/fintech/accounts/webhooks/stripe --api-key ${STRIPE_SECRET_KEY} --log-level debug
+    env_file:
+      - .env
+    depends_on:
+      - nginx
+    networks:
+      - portfolio_network
+
 # Definicja sieci - wszystkie kontenery w tej sieci widzą się po nazwach (np. "postgres")
 networks:
   portfolio_network:

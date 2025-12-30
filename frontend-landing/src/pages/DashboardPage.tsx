@@ -180,6 +180,13 @@ function DashboardPage() {
                     {currentView === 'overview' && <XRayWrapper label="Data Aggregator" tech="Redis" endpoint="GET /api/b2b/system-status" description="Agregacja danych"><Overview userId={userId} /></XRayWrapper>}
                     {currentView === 'fintech' && (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <section className="lg:col-span-3">
+                                <h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3 uppercase tracking-tight font-display text-slate-200">Your Accounts</h2>
+                                <XRayWrapper label="Relational Data" tech="Postgres">
+                                    <AccountList accounts={accounts || []} />
+                                </XRayWrapper>
+                            </section>
+
                             <div className="lg:col-span-2 space-y-8">
                                 <section>
                                     <h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3 uppercase tracking-tight font-display text-slate-200">Financial Growth</h2>
@@ -192,10 +199,9 @@ function DashboardPage() {
                                         </XRayWrapper>
                                     </div>
                                 </section>
-                                <section><h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3">Your Accounts</h2><XRayWrapper label="Relational Data" tech="Postgres"><AccountList accounts={accounts || []} /></XRayWrapper></section>
-                                <section><h3 className="text-xl font-semibold mb-6 border-l-4 border-slate-500 pl-3">Recent Activity</h3>{accounts && accounts.length > 0 ? <XRayWrapper label="Transaction Log" tech="Django"><TransactionHistory accountId={accounts[0].id} /></XRayWrapper> : <div className="text-slate-500">No account.</div>}</section>
+                                <section><h3 className="text-xl font-semibold mb-6 border-l-4 border-slate-500 pl-3 uppercase tracking-tight font-display text-slate-200">Recent Activity</h3>{accounts && accounts.length > 0 ? <XRayWrapper label="Transaction Log" tech="Django"><TransactionHistory accountId={accounts[0].id} /></XRayWrapper> : <div className="text-slate-500">No account.</div>}</section>
                             </div>
-                            <section><h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3">Quick Transfer</h2>{accounts && accounts.length > 0 ? <XRayWrapper label="Atomic Action" tech="Django"><TransferForm senderId={accounts[0].id} /></XRayWrapper> : null}</section>
+                            <section><h2 className="text-xl font-semibold mb-6 border-l-4 border-blue-500 pl-3 uppercase tracking-tight font-display text-slate-200">Quick Transfer</h2>{accounts && accounts.length > 0 ? <XRayWrapper label="Atomic Action" tech="Django"><TransferForm senderId={accounts[0].id} /></XRayWrapper> : null}</section>
                         </div>
                     )}
                     {currentView === 'b2b' && <div className="max-w-2xl mx-auto py-8"><XRayWrapper label="Data Proxy" tech="FastAPI"><CompanyVerifier /></XRayWrapper></div>}

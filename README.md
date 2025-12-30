@@ -48,7 +48,7 @@ System składa się z trzech niezależnych mikroserwisów oraz bramy API (Gatewa
 *   **🤖 AI Engineering:** `Status: ✅ BETA` – Inteligentny chatbot "Portfolio AI" działający w modelu hybrydowym (Lokalna Baza Wiedzy + Google Gemini 1.5).
 *   **📡 Real-time WebSockets:** `Status: ✅ ZAKOŃCZONE` – Streaming cen kryptowalut w czasie rzeczywistym (Push zamiast Pull) z wykorzystaniem Redis Pub/Sub i FastAPI.
 *   **🚀 Automated CI/CD:** `Status: ✅ ZAKOŃCZONE` – Pełny rygor jakościowy dzięki GitHub Actions – automatyczne testy, lintery (Ruff, ESLint) i build-check przy każdym commicie.
-*   **💳 Stripe Payments:** `Status: 🚧 W PRODUKCJI` – Zintegrowany system doładowań wirtualnego konta z wykorzystaniem Stripe Checkout i bezpiecznych Webhooków.
+*   **💳 Stripe Payments:** `Status: ✅ ZAKOŃCZONE` – Pełny system doładowań konta (Checkout Session + Webhooks). Zintegrowany z Dockerem (Stripe Listener) dla bezpiecznej weryfikacji płatności w czasie rzeczywistym.
 *   **🛡️ Architecture X-Ray Mode:** `Status: ✅ ZAKOŃCZONE` – Przełącznik "DEV_MODE" dekonstruujący interfejs na komponenty techniczne.
 *   **📊 Data Visualization:** `Status: ✅ ZAKOŃCZONE` – Interaktywne wykresy finansowe (Recharts) z algorytmem rekonstrukcji salda.
 *   **🧪 Automated E2E Testing:** `Status: ✅ ZAKOŃCZONE` – Kompleksowe testy Playwright dla ścieżki krytycznej.

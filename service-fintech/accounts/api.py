@@ -1,5 +1,6 @@
 from typing import List
 import os
+from decimal import Decimal
 from ninja import Router
 from django.shortcuts import get_object_or_404
 from django.db import transaction
@@ -24,9 +25,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 router = Router()
 
 @router.post("/stripe/create-checkout-session/{account_id}")
-def create_stripe_checkout_session(request, account_id: uuid.UUID):
+def create_stripe_checkout_session(request, account_id: uuid.UUID, amount: int = 50):
     """
-    Tworzy sesję Stripe Checkout dla doładowania konta.
+    Tworzy sesję Stripe Checkout dla doładowania konta o wybraną kwotę.
     """
     account = get_object_or_404(Account, id=account_id)
     
@@ -39,12 +40,11 @@ def create_stripe_checkout_session(request, account_id: uuid.UUID):
                     'product_data': {
                         'name': f'Doładowanie konta: {account.account_number[:6]}...',
                     },
-                    'unit_amount': 5000, # Stała kwota 50.00 PLN dla demo
+                    'unit_amount': amount * 100, # Kwota w groszach
                 },
                 'quantity': 1,
             }],
             mode='payment',
-            # Przekazujemy ID konta w metadata, aby wiedzieć kogo doładować w webhooku
             metadata={
                 "account_id": str(account.id)
             },
@@ -81,7 +81,8 @@ def stripe_webhook(request):
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
         account_id = session.get('metadata', {}).get('account_id')
-        amount_total = session.get('amount_total') / 100 # Zamiana groszy na PLN
+        # Zamiana groszy na PLN i konwersja na Decimal (wymagane przez Django Models)
+        amount_total = Decimal(str(session.get('amount_total') / 100))
 
         if account_id:
             with transaction.atomic():

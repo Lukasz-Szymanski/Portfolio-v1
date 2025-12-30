@@ -63,8 +63,8 @@ export const fintechApi = {
   },
 
   // Stripe Checkout
-  createStripeSession: async (accountId: string): Promise<{ url: string }> => {
-    const response = await apiClient.post<{ url: string }>(`/fintech/accounts/stripe/create-checkout-session/${accountId}`);
+  createStripeSession: async (accountId: string, amount: number = 50): Promise<{ url: string }> => {
+    const response = await apiClient.post<{ url: string }>(`/fintech/accounts/stripe/create-checkout-session/${accountId}?amount=${amount}`);
     return response.data;
   }
 };
