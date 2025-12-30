@@ -1,46 +1,46 @@
 # Deployment Guide: Cloud Native (Vercel + Neon + Upstash)
 
-Ten dokument opisuje proces wdrażania projektu Portfolio do darmowej chmury w architekturze Serverless.
+This document describes the process of deploying the Portfolio project to a free-tier Serverless cloud architecture.
 
-## 1. Architektura
-Projekt został zmigrowany z lokalnego Docker Compose na usługi Cloud Native:
-- **Frontend:** React (Vite) -> Vercel Static Hosting.
-- **Backend (API):** FastAPI & Django Ninja -> Vercel Serverless Functions.
-- **Database:** PostgreSQL -> [Neon.tech](https://neon.tech) (Free Tier).
-- **Cache/Broker:** Redis -> [Upstash](https://upstash.com) (Free Tier).
-- **Background Jobs:** Celery Beat -> Vercel Cron Jobs (1 min interval).
+## 1. Architecture Overview
+The project has been migrated from local Docker Compose to Cloud Native services:
+- **Frontend:** React (Vite) hosted via Vercel Static Hosting.
+- **Backend (API):** FastAPI & Django Ninja deployed as Vercel Serverless Functions.
+- **Database:** PostgreSQL hosted on [Neon.tech](https://neon.tech) (Free Tier).
+- **Cache/Broker:** Redis hosted on [Upstash](https://upstash.com) (Free Tier).
+- **Background Jobs:** Celery Beat migrated to Vercel Cron Jobs (1-minute interval).
 
-## 2. Przygotowanie Infrastruktury
+## 2. Infrastructure Setup
 
 ### Neon.tech (Postgres)
-1. Załóż konto na Neon.tech.
-2. Stwórz nowy projekt i bazę danych.
-3. Skopiuj **Connection String** (np. `postgres://alex:password@ep-cool-darkness-123.us-east-2.aws.neon.tech/neondb`).
+1.  Create an account on Neon.tech.
+2.  Start a new project and create a database.
+3.  Copy the **Connection String** (e.g., `postgres://user:pass@ep-cool-darkness.aws.neon.tech/neondb`).
 
 ### Upstash (Redis)
-1. Załóż konto na Upstash.com.
-2. Stwórz bazę danych Redis (Global).
-3. Skopiuj **Redis URL** (np. `redis://default:password@cool-rat-345.upstash.io:6379`).
+1.  Create an account on Upstash.com.
+2.  Initialize a Global Redis database.
+3.  Copy the **Redis URL** (e.g., `redis://default:pass@cool-rat.upstash.io:6379`).
 
-## 3. Konfiguracja Vercel
+## 3. Vercel Configuration
 
-1. Połącz swoje repozytorium GitHub z Vercel.
-2. W ustawieniach projektu (**Project Settings > Environment Variables**) dodaj następujące zmienne:
-   - `DATABASE_URL`: Twój connection string z Neon.
-   - `REDIS_URL`: Twój URL z Upstash.
-   - `SECRET_KEY`: Dowolny długi, losowy ciąg znaków (dla Django).
-   - `DEBUG`: `False`
-   - `ALLOWED_HOSTS`: `*` lub Twoja domena Vercel.
+1.  Connect your GitHub repository to Vercel.
+2.  Navigate to **Project Settings > Environment Variables** and add the following keys:
+    -   `DATABASE_URL`: Your Neon connection string.
+    -   `REDIS_URL`: Your Upstash URL.
+    -   `SECRET_KEY`: A long, random string for Django security.
+    -   `DEBUG`: `False`
+    -   `ALLOWED_HOSTS`: `*` or your specific Vercel domain.
 
-## 4. Pierwszy Deployment
-Po każdym `git push` do gałęzi głównej, Vercel automatycznie zbuduje:
-- Statyczne pliki frontendu.
-- Funkcje Python dla B2B i Fintech.
-- Skonfiguruje Cron Joba dla cen kryptowalut.
+## 4. Deployment Workflow
+Upon every `git push` to the main branch, Vercel automatically:
+- Builds the static frontend assets.
+- Deploys Python functions for B2B and Fintech modules.
+- Configures Cron Jobs for real-time cryptocurrency price monitoring.
 
-## 5. Lokalne testowanie (Docker)
-Projekt nadal wspiera Docker Compose. Aby uruchomić go lokalnie:
+## 5. Local Development (Docker Fallback)
+The project maintains full support for Docker Compose. To run the system locally:
 ```bash
 docker compose up --build
 ```
-Backendy automatycznie wykryją brak zmiennych chmurowych i połączą się z kontenerami `postgres` i `redis`.
+The backend services are designed to automatically detect the environment and fallback to local `postgres` and `redis` containers if cloud variables are not present.

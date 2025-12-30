@@ -1,108 +1,70 @@
 # Implementation Plan: Python Microservices Portfolio
 
-Dokument ten definiuje harmonogram prac oparty na specyfikacji z `brief.md`. Celem jest zbudowanie działającego MVP w architekturze Monorepo.
+This document defines the development roadmap based on the specifications in `brief.md`. The goal is to build a functional MVP using a Monorepo architecture.
 
 ---
 
-## FAZA 0: Frontend Foundation & Design
-**Cel:** Stworzenie bazy pod główną stronę portfolio, która będzie hostować projekty.
+## PHASE 0: Frontend Foundation & Design ✅ COMPLETED
+**Objective:** Establish the foundation for the main portfolio site to host various demo projects.
 
-- [ ] **0.1. Inicjalizacja Vite + React (TS)**
-    - Setup Tailwind CSS i podstawowej struktury katalogów (`components`, `hooks`, `services`).
-- [ ] **0.2. Design System Setup**
-    - Konfiguracja motywu (Dark Mode) i fontów inżynierskich (np. Inter / JetBrains Mono).
-- [ ] **0.3. Layout & Navigation**
-    - Stworzenie Main Layout (Sidebar/Header) z miejscem na 3 mikroserwisy.
+- [x] **0.1. Initialize Vite + React (TS)**
+- [x] **0.2. Design System Setup (Neon Glass)**
+- [x] **0.3. Layout & Navigation (Zero-Scroll UX)**
 
 ---
 
-## FAZA 1: Infrastruktura i Scaffolding (Fundament)
-**Cel:** Przygotowanie środowiska, w którym usługi mogą się komunikować. Bez tego nie piszemy kodu biznesowego.
+## PHASE 1: Infrastructure & Scaffolding ✅ COMPLETED
+**Objective:** Prepare the environment where services can communicate.
 
-- [ ] **1.1. Inicjalizacja Monorepo**
-    - Utworzenie struktury katalogów (`service-fintech`, `service-b2b`, `service-monitor`, `frontend`).
-    - Konfiguracja Git (`.gitignore` dla Python/Node).
-- [ ] **1.2. Docker Orchestration**
-    - Stworzenie `docker-compose.yml` definiującego:
-        - `postgres` (Baza danych).
-        - `redis` (Cache & Broker).
-        - `nginx` (Gateway).
-- [ ] **1.3. API Gateway (Nginx)**
-    - Konfiguracja `nginx.conf` jako Reverse Proxy.
-    - Routing: `/api/fintech/` -> Service 1, `/api/company/` -> Service 2.
+- [x] **1.1. Initialize Monorepo Structure**
+- [x] **1.2. Docker Orchestration (Docker Compose)**
+- [x] **1.3. API Gateway (Nginx Reverse Proxy)**
 
 ---
 
-## FAZA 2: Service B2B Data (FastAPI + Redis)
-**Cel:** Najszybsze wdrożenie ("Quick Win"). Prosta logika, nacisk na wydajność.
+## PHASE 2: B2B Data Service (FastAPI + Redis) ✅ COMPLETED
+**Objective:** Rapid deployment of a high-performance proxy service with caching.
 
-- [ ] **2.1. Setup Projektu**
-    - Inicjalizacja `poetry`.
-    - Konfiguracja `pyproject.toml` (Ruff, Mypy).
-- [ ] **2.2. Połączenie z Redis**
-    - Implementacja wzorca Dependency Injection dla klienta Redis.
-    - Stworzenie helpera `CacheService`.
-- [ ] **2.3. Logika Biznesowa (GUS Mock)**
-    - Endpoint `/company/{nip}`.
-    - Logika: `Check Redis -> If Miss -> Fetch External -> Save Redis`.
-- [ ] **2.4. Testy**
-    - Testy integracyjne z `pytest` (mockowanie Redis i zewn. API).
+- [x] **2.1. Project Setup (FastAPI)**
+- [x] **2.2. Redis Integration**
+- [x] **2.3. Business Logic (Ministry of Finance API Integration)**
+- [x] **2.4. Integration Testing**
 
 ---
 
-## FAZA 3: Service Fintech (Django + Ninja)
-**Cel:** Złożona logika biznesowa, bezpieczeństwo, SQL.
+## PHASE 3: Fintech Service (Django + Ninja) ✅ COMPLETED
+**Objective:** Implement complex business logic, transactional security, and relational data.
 
-- [ ] **3.1. Setup Django**
-    - Start projektu Django.
-    - Konfiguracja `django-ninja` (Pydantic schemas).
-- [ ] **3.2. Modele Danych (PostgreSQL)**
-    - Tabele: `Merchant`, `PaymentIntent`, `Transaction`.
-    - Migracje.
-- [ ] **3.3. Logika Płatności (Core)**
-    - Endpoint `create_payment` (generowanie tokena).
-    - Endpoint `process_payment` (Atomic Transaction).
-- [ ] **3.4. Webhooks & Security**
-    - Implementacja HMAC Signature Service.
-    - Mechanizm wysyłania POST request do Merchanta po zmianie statusu.
+- [x] **3.1. Django Ninja Setup**
+- [x] **3.2. Data Models (PostgreSQL)**
+- [x] **3.3. Payment Core (Atomic Transactions & Stripe Integration)**
+- [x] **3.4. Webhooks & Security (Signature Verification)**
 
 ---
 
-## FAZA 4: Service Price Monitor (Celery + Async)
-**Cel:** Przetwarzanie w tle, oddzielenie Workera od API.
+## PHASE 4: Price Monitor Service (Celery + Async) ✅ COMPLETED
+**Objective:** Background data processing, separating workers from the API.
 
-- [ ] **4.1. Setup Workerów**
-    - Konfiguracja Celery z Redisem jako Brokerem.
-    - Definicja kontenera `worker` w Docker Compose.
-- [ ] **4.2. Scraper Logic**
-    - Zadanie Celery: `fetch_price_task(url)`.
-    - Parsowanie HTML (BeautifulSoup).
-- [ ] **4.3. Scheduling**
-    - Konfiguracja `Celery Beat` do cyklicznego sprawdzania cen.
-- [ ] **4.4. API**
-    - Endpointy do dodawania produktów i odczytu historii.
+- [x] **4.1. Worker & Broker Setup (Celery + Redis)**
+- [x] **4.2. Scraping Logic & API Fetching**
+- [x] **4.3. Scheduling (Celery Beat / Vercel Cron)**
+- [x] **4.4. Real-time API (WebSocket Live Feed)**
 
 ---
 
-## FAZA 5: Portfolio Landing Page (The Command Center)
-**Cel:** Integracja mikroserwisów w jeden spójny dashboard wizytówkowy.
+## PHASE 5: Portfolio Landing Page (The Command Center) ✅ COMPLETED
+**Objective:** Integrate all microservices into a unified, high-end dashboard.
 
-- [ ] **5.1. Hero Section & Skills**
-    - Implementacja interaktywnej sekcji z opisem profilu i stacku 2025.
-- [ ] **5.2. Microservices Connector**
-    - Stworzenie generycznego hooka `useServiceStatus` sprawdzającego dostępność API (Fintech, B2B, Monitor).
-- [ ] **5.3. Project Cards**
-    - Implementacja komponentów prezentujących 3 główne projekty z dynamicznymi danymi.
-- [ ] **5.4. Global Analytics View**
-    - Dashboard agregujący statystyki ze wszystkich serwisów (np. łączna liczba rekordów w DB).
-- [ ] **5.5. AI Mentoring Section**
-    - Sekcja opisująca rozwój pod okiem mentora i wykorzystanie AI w procesie (RAG/Prompt Engineering).
+- [x] **5.1. Hero Section & Professional Skills Showcase**
+- [x] **5.2. Microservices Connector (Status Monitoring)**
+- [x] **5.3. Project Showcase Cards**
+- [x] **5.4. Global Analytics View (Aggregated Metrics)**
+- [x] **5.5. AI Mentoring Section (Hybrid RAG + Gemini)**
 
 ---
 
-## FAZA 6: Finalizacja i Dokumentacja
-- [ ] **6.1. Code Quality Pass**
-    - Uruchomienie `ruff check` i `mypy` na wszystkim.
-- [ ] **6.2. README Update**
-    - Opisanie jak uruchomić każdy serwis.
-    - Zrzuty ekranu.
+## PHASE 6: Finalization & Documentation ✅ COMPLETED
+- [x] **6.1. Code Quality Pass (Ruff + ESLint)**
+- [x] **6.2. Comprehensive README Update**
+- [x] **6.3. Interactive Data Visualization (Recharts)**
+- [x] **6.4. Automated E2E Testing (Playwright)**

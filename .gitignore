@@ -30,6 +30,7 @@ build/
 
 # Project specific
 NEXT_STEPS.md
+docs/archive/
 # docs/ removed from ignore to be included in repo
 
 # Docker
