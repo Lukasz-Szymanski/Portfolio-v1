@@ -82,6 +82,16 @@ The system consists of three independent microservices and an API Gateway, orche
 *   **Production-Ready Logging** - No `console.log()` statements in production builds; proper logging infrastructure in place.
 *   **SEO Meta Tags** - Implements Open Graph and Twitter Card meta tags for improved social media previews and search engine visibility.
 
+### 🏗️ Code Architecture
+*   **React Error Boundary** - Graceful error handling with user-friendly fallback UI and dev-mode error details.
+*   **Modular Component Structure** - DashboardPage refactored into smaller, reusable components (LoginScreen, Header, Tabs, Modal, FintechView).
+*   **Global TypeScript Types** - Centralized type definitions in `src/types/` folder for consistent typing across the application.
+*   **Environment Variables** - WebSocket URLs and API endpoints configurable via `.env` files with sensible defaults.
+
+### 🧪 Testing Infrastructure
+*   **E2E Test Suite** - Comprehensive Playwright tests covering: Landing navigation, Fintech flow, B2B Verifier, Crypto Monitor, and Contact form.
+*   **ESLint Strict Mode** - Zero tolerance for unused variables, improper hooks usage, and type safety violations.
+
 ---
 
 ## 📚 Knowledge Base (ADR & Learning)

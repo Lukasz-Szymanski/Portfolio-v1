@@ -38,6 +38,31 @@ During development, the API resides in a separate Docker container. We configure
 - **Open Graph Tags:** OG tags (og:title, og:description, og:image, og:url) enable rich previews when content is shared on social platforms.
 - **Twitter Card Support:** Twitter-specific meta tags ensure consistent branding and preview quality on Twitter/X.
 
+### 7. Error Handling with React Error Boundary
+- **Graceful Degradation:** A class-based Error Boundary component wraps the entire application, preventing full-page crashes.
+- **User-Friendly Fallback:** Displays a styled error screen with a "Try Again" button when errors occur.
+- **Dev Mode Details:** In development mode, shows detailed error messages and component stack traces for debugging.
+
+### 8. Modular Component Architecture
+- **Component Extraction:** Large components (DashboardPage: 275 → 133 lines) were refactored into smaller, focused modules:
+  - `DashboardLoginScreen` - Guest authentication UI
+  - `DashboardHeader` - Navigation and controls
+  - `DashboardTabs` - Tab-based navigation
+  - `ArchitectureModal` - System diagram modal
+  - `FintechView` - Financial dashboard section
+- **Reusability:** Extracted components can be reused across different pages and contexts.
+- **Maintainability:** Smaller files are easier to test, review, and modify.
+
+### 9. Centralized Type Definitions
+- **Types Folder:** Global TypeScript interfaces are defined in `src/types/index.ts`.
+- **Consistent Typing:** Shared types (Account, Transaction, ApiResponse) are imported from a single source.
+- **Type Safety:** Eliminates `any` types and ensures compile-time type checking across the codebase.
+
+### 10. Environment Variable Configuration
+- **Configurable URLs:** WebSocket and API endpoints are configurable via `.env` files (`VITE_WS_URL`, `VITE_API_URL`).
+- **Sensible Defaults:** Fallback values ensure the app works out-of-the-box in local development.
+- **Environment Parity:** `.env.example` documents required variables for new developers.
+
 ## Consequences
 - **Developer Experience (DX):** Near-instant reloads during coding.
 - **Portability:** The same Nginx configuration handles routing in both local development and production VPS environments.
